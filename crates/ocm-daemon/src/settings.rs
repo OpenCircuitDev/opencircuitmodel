@@ -38,6 +38,9 @@ impl Settings {
         toml::from_str(&raw).context("parse settings.toml")
     }
 
+    /// Persist settings to disk. Currently called only from tests; will be
+    /// invoked by Tauri command handlers in Phase 5 when the settings UI lands.
+    #[allow(dead_code)]
     pub fn save(&self, path: &Path) -> Result<()> {
         let raw = toml::to_string_pretty(self).context("serialize settings")?;
         std::fs::write(path, raw).context("write settings.toml")?;
