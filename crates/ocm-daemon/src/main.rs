@@ -1,5 +1,6 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+mod paths;
 mod tray;
 
 use tauri::tray::TrayIconBuilder;
@@ -17,6 +18,15 @@ fn main() -> anyhow::Result<()> {
     tauri::Builder::default()
         .plugin(tauri_plugin_shell::init())
         .setup(|app| {
+            let app_paths = paths::AppPaths::resolve()?;
+            app_paths.ensure_all_exist()?;
+            info!(
+                config = %app_paths.config_dir.display(),
+                data = %app_paths.data_dir.display(),
+                "app paths resolved"
+            );
+            app.manage(app_paths);
+
             let menu = tray::build_tray_menu(app.handle())?;
             let _tray = TrayIconBuilder::new()
                 .menu(&menu)
