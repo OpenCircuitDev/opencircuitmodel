@@ -1,0 +1,15 @@
+services:
+  bench:
+    image: python:3.11-slim
+    volumes:
+      - ./:/work
+      - ../../../workloads:/workloads:ro
+    working_dir: /work
+    environment:
+      - FIXTURE_ROOT=/workloads/codebase-fixture-python
+    # Pure-stdlib repomap (Python ast module). tiktoken installs cleanly
+    # without build tools — same pattern as sandbox-e.
+    command:
+      - sh
+      - -c
+      - "pip install --quiet tiktoken && python bench.py"
