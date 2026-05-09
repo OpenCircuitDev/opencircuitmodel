@@ -100,7 +100,11 @@ pub async fn chat_completions(
     // Library-driven retrieval per spec row 9: pull relevant memories
     // before the model runs, inject as context. Skip if retrieval_top_k == 0.
     let retrieved = if state.retrieval_top_k > 0 {
-        match state.memory.search(&last.content, state.retrieval_top_k).await {
+        match state
+            .memory
+            .search(&last.content, state.retrieval_top_k)
+            .await
+        {
             Ok(results) => results,
             Err(e) => {
                 tracing::warn!(error = ?e, "memory search failed; proceeding without retrieval");
