@@ -12,8 +12,13 @@ impl AppPaths {
     pub fn resolve() -> Result<Self> {
         let dirs = directories::ProjectDirs::from("org", "opencircuitmodel", "OCM")
             .context("could not resolve platform-specific app directories")?;
-        let config_dir = dirs.config_dir().to_path_buf();
-        let data_dir = dirs.data_dir().to_path_buf();
+        // On macOS, ProjectDirs returns the same path for config_dir and data_dir
+        // (~/Library/Application Support/<id>/). Append distinct subdirectories so
+        // the two are guaranteed separate on every platform — important because
+        // settings.toml (user-edited) and the data store (daemon-managed) have
+        // different lifecycles and shouldn't share a directory tree.
+        let config_dir = dirs.config_dir().to_path_buf().join("config");
+        let data_dir = dirs.data_dir().to_path_buf().join("data");
         let models_dir = data_dir.join("models");
         let log_dir = data_dir.join("logs");
         Ok(Self {
