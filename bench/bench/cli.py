@@ -184,6 +184,126 @@ def dry_run_all(root: Path | None) -> None:
     )
 
 
+@main.command(name="run-all")
+@click.option("--hardware-class", required=True,
+              help="e.g. nvidia-rtx-4090-24gb, apple-m4-pro-32gb, cpu-only-32gb")
+@click.option("--repeats", type=int, default=3, show_default=True)
+@click.option("--out-dir", type=click.Path(path_type=Path), default=None,
+              help="Override results output dir (default: bench/results)")
+@click.option("--root", type=click.Path(exists=True, path_type=Path), default=None)
+@click.option("--continue-on-error", is_flag=True,
+              help="Keep running remaining sandboxes when one errors out (default: stop on first error).")
+def run_all(
+    hardware_class: str,
+    repeats: int,
+    out_dir: Path | None,
+    root: Path | None,
+    continue_on_error: bool,
+) -> None:
+    """Run every ACTIVE sandbox and produce a unified comparison table.
+
+    INACTIVE sandboxes are reported but skipped — slot stubs by design.
+    Exit code: 0 if no REFUTED verdicts, 1 if any sandbox REFUTED, 2 if
+    any sandbox errored (and --continue-on-error wasn't set).
+    """
+    bench_root = root or _bench_root()
+    out_dir = out_dir or (bench_root / "results")
+    sandboxes = (
+        list_all_sandboxes(bench_root / "isolation")
+        + list_all_sandboxes(bench_root / "combination")
+    )
+    if not sandboxes:
+        console.print("[yellow]No sandboxes found.[/yellow]")
+        return
+
+    summaries: list[tuple[Path, object]] = []
+    skipped_inactive: list[Path] = []
+    errored: list[tuple[Path, str]] = []
+
+    for sandbox in sandboxes:
+        rel = sandbox.relative_to(bench_root)
+        try:
+            expected = load_expected(sandbox)
+        except DryRunError as e:
+            errored.append((sandbox, f"load_expected: {e}"))
+            console.print(f"[red]ERROR[/red] {rel}: {e}")
+            if not continue_on_error:
+                break
+            continue
+
+        if expected.status != "ACTIVE":
+            skipped_inactive.append(sandbox)
+            console.print(f"[dim yellow]SKIP[/dim yellow]   {rel} (INACTIVE)")
+            continue
+
+        console.print(f"[cyan]RUN[/cyan]    {rel} ({expected.hypothesis_id})")
+        try:
+            summary = run_sandbox(
+                sandbox,
+                hardware_class=hardware_class,
+                repeats=repeats,
+                out_dir=out_dir,
+                dry_run=False,
+            )
+            summaries.append((sandbox, summary))
+            verdict_color = {
+                "CONFIRMED": "green",
+                "REFUTED": "red",
+                "INCONCLUSIVE": "yellow",
+            }[summary.verdict.value]
+            console.print(
+                f"  -> [{verdict_color}]{summary.verdict.value}[/{verdict_color}] "
+                f"primary={summary.primary_median:.3f}"
+            )
+        except Exception as e:  # noqa: BLE001
+            errored.append((sandbox, str(e)))
+            console.print(f"[red]ERROR[/red] {rel}: {e}")
+            if not continue_on_error:
+                break
+
+    # Comparison table
+    console.print()
+    table = Table(title=f"OCM Bench: comparison on {hardware_class}")
+    table.add_column("Sandbox", style="cyan")
+    table.add_column("Hypothesis", style="dim")
+    table.add_column("Verdict", style="bold")
+    table.add_column("Primary median", justify="right")
+    table.add_column("Secondary median", justify="right")
+    for sandbox, summary in summaries:
+        rel = str(sandbox.relative_to(bench_root))
+        verdict_color = {
+            "CONFIRMED": "green",
+            "REFUTED": "red",
+            "INCONCLUSIVE": "yellow",
+        }[summary.verdict.value]
+        table.add_row(
+            rel,
+            summary.hypothesis_id,
+            f"[{verdict_color}]{summary.verdict.value}[/{verdict_color}]",
+            f"{summary.primary_median:.3f}",
+            f"{summary.secondary_median:.3f}" if summary.secondary_median is not None else "—",
+        )
+    if summaries:
+        console.print(table)
+
+    # Summary
+    confirmed = sum(1 for _, s in summaries if s.verdict.value == "CONFIRMED")
+    refuted = sum(1 for _, s in summaries if s.verdict.value == "REFUTED")
+    inconclusive = sum(1 for _, s in summaries if s.verdict.value == "INCONCLUSIVE")
+    console.print(
+        f"[green]{confirmed} CONFIRMED[/green]  "
+        f"[red]{refuted} REFUTED[/red]  "
+        f"[yellow]{inconclusive} INCONCLUSIVE[/yellow]  "
+        f"[dim]{len(skipped_inactive)} INACTIVE skipped[/dim]  "
+        f"[red]{len(errored)} errored[/red]"
+    )
+
+    if errored and not continue_on_error:
+        sys.exit(2)
+    if refuted:
+        sys.exit(1)
+
+
 @main.command(name="list-inactive")
 @click.option("--root", type=click.Path(exists=True, path_type=Path), default=None)
 def list_inactive(root: Path | None) -> None:
