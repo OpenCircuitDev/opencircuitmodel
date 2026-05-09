@@ -91,12 +91,7 @@ impl Drop for Supervisor {
 }
 
 /// Build a Supervisor that runs `llama-server` from llama.cpp.
-pub fn spawn_llama_server(
-    binary: &Path,
-    model_path: &Path,
-    port: u16,
-    ctx_len: u32,
-) -> Supervisor {
+pub fn spawn_llama_server(binary: &Path, model_path: &Path, port: u16, ctx_len: u32) -> Supervisor {
     let binary = binary.to_path_buf();
     let model_path = model_path.to_path_buf();
     Supervisor::new("llama-server", move || {

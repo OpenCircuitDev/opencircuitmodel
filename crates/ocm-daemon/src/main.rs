@@ -2,6 +2,10 @@
 
 mod paths;
 mod settings;
+// Supervisor will be wired into the daemon's startup sequence in Phase 3
+// (when Mem0 + inference backend processes are spawned at boot). Until then,
+// its public API is exercised by unit tests but unreferenced from main.
+#[allow(dead_code)]
 mod supervisor;
 mod tray;
 

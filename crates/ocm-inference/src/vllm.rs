@@ -3,9 +3,7 @@
 //! vLLM exposes `/v1/models` always; older versions had `/health`, newer ones may not.
 //! Health check probes `/v1/models` for compatibility.
 
-use crate::{
-    llamacpp::LlamaCpp, BackendError, ChatRequest, InferenceBackend,
-};
+use crate::{llamacpp::LlamaCpp, BackendError, ChatRequest, InferenceBackend};
 use async_trait::async_trait;
 use futures::stream::BoxStream;
 use reqwest::Client;
