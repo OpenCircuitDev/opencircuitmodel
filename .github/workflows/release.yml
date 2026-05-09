@@ -65,6 +65,9 @@ jobs:
         with:
           key: release-${{ matrix.target }}
 
+      - name: Install Tauri CLI (v2.x)
+        run: cargo install tauri-cli --version "^2.0" --locked
+
       - name: Install frontend deps
         working-directory: frontend
         run: npm install --no-audit --no-fund
