@@ -1,10 +1,12 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+mod bootstrap;
 mod paths;
 mod settings;
-// Supervisor will be wired into the daemon's startup sequence in Phase 3
-// (when Mem0 + inference backend processes are spawned at boot). Until then,
-// its public API is exercised by unit tests but unreferenced from main.
+// Supervisor's process-spawning helpers (spawn_llama_server, spawn_vllm_server)
+// will be activated once OCM ships its own bundled binaries; for now the
+// daemon expects external llama-server / vLLM processes to be running and
+// connects to them via the URLs in settings (bootstrap.rs handles the connect).
 #[allow(dead_code)]
 mod supervisor;
 mod tray;
@@ -38,6 +40,15 @@ fn main() -> anyhow::Result<()> {
                 port = loaded_settings.api_port,
                 "settings loaded"
             );
+            // Spawn the bootstrap task — probes external dependencies and
+            // starts the OCM HTTP API server in the background. Tauri's
+            // setup() is sync so we hand off to a tokio task; the Tauri main
+            // event loop continues independently.
+            let settings_for_bootstrap = loaded_settings.clone();
+            tauri::async_runtime::spawn(async move {
+                bootstrap::bootstrap(settings_for_bootstrap).await;
+            });
+
             app.manage(app_paths);
             app.manage(loaded_settings);
 
