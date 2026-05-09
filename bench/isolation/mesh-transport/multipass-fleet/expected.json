@@ -1,0 +1,26 @@
+{
+  "hypothesis_id": "multipass-fleet-mesh-discovery-and-2hop-routing",
+  "claim": "Five OCM daemon instances on five Multipass VMs (Ubuntu 24.04, 2 vCPU / 2GB each) on a single host machine successfully discover each other within 30 seconds of last-node startup AND route a chat request through a 2-hop path (client -> peer A -> peer B -> inference -> response) with end-to-end latency under 500ms median across 20 trials.",
+  "metric": "discovery_seconds_p50_AND_2hop_chat_latency_seconds_p50",
+  "thresholds": {
+    "confirm_discovery_seconds_at_most": 30.0,
+    "refute_discovery_seconds_above": 60.0,
+    "confirm_2hop_latency_seconds_at_most": 0.5,
+    "refute_2hop_latency_seconds_above": 1.5
+  },
+  "secondary_metric": "discovery_success_rate_across_trials",
+  "secondary_thresholds": {
+    "confirm_at_least": 1.0,
+    "refute_below": 0.95
+  },
+  "workload": "mesh-discovery-and-2hop.jsonl",
+  "source_for_claim": "Internal hypothesis. iroh QUIC NAT-traversal residential success rate is reported ~90% (vendor) / ~80%+ (independent estimates); on a single-host VM fleet (no NAT, all on the same hypervisor bridge) success rate should be effectively 100% and discovery should be sub-30s on libp2p mDNS / iroh bootstrap.",
+  "comparison_anchor": "single-process-noop-routing-baseline (in-process call without going over the loopback bridge — should be sub-millisecond; gap quantifies VM/transport overhead)",
+  "decision_rule": "If CONFIRMED, the mesh transport (Phase 7+) is correctly tuned for residential / single-host conditions. If REFUTED on discovery, audit bootstrap configuration. If REFUTED on 2-hop latency, audit per-hop overhead (TCP stack, encryption, queue depth). If INCONCLUSIVE, expand from 5 to 10 nodes for variance reduction.",
+  "timeout_seconds": 600,
+  "status": "INACTIVE",
+  "blocked_on": [
+    "Phase 7+ mesh transport (libp2p/iroh) not yet implemented",
+    "Multipass harness wrapper not yet written (planned: bench/harness/multipass_fleet.py)"
+  ]
+}
