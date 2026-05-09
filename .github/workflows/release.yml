@@ -1,0 +1,118 @@
+name: Release
+
+# Triggers:
+# - tag push matching v* (e.g. v0.1.0): full release with GitHub Release entry
+# - workflow_dispatch: manual test build, uploads artifacts but doesn't publish
+#
+# Per spec v0.4 row 12: Tauri bundles for macOS .dmg, Windows .msi, Linux .deb
+# (and .AppImage). Codesigning is deferred to v4 ("Public Bootnet + Codesigned
+# Daemon" — until then OS warnings are documented in the install README).
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Build artifacts but skip GitHub Release publish'
+        type: boolean
+        default: true
+
+jobs:
+  build:
+    name: Build on ${{ matrix.os }} (${{ matrix.target }})
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            target: aarch64-apple-darwin
+            artifact_glob: 'crates/ocm-daemon/target/*/release/bundle/dmg/*.dmg'
+          - os: macos-13
+            target: x86_64-apple-darwin
+            artifact_glob: 'crates/ocm-daemon/target/*/release/bundle/dmg/*.dmg'
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+            artifact_glob: 'crates/ocm-daemon/target/*/release/bundle/{deb,appimage}/*'
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+            artifact_glob: 'crates/ocm-daemon/target/*/release/bundle/msi/*.msi'
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - name: Install Linux deps for Tauri
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libssl-dev libgtk-3-dev \
+            libayatana-appindicator3-dev librsvg2-dev
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: release-${{ matrix.target }}
+
+      - name: Install frontend deps
+        working-directory: frontend
+        run: npm install --no-audit --no-fund
+
+      - name: Build frontend
+        working-directory: frontend
+        run: npm run build
+
+      - name: Build Tauri bundle
+        working-directory: crates/ocm-daemon
+        run: cargo tauri build --target ${{ matrix.target }}
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ocm-${{ matrix.target }}
+          path: ${{ matrix.artifact_glob }}
+          if-no-files-found: error
+          retention-days: 14
+
+  release:
+    name: Publish GitHub Release
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/**/*
+          draft: true
+          generate_release_notes: true
+          body: |
+            OpenCircuitModel — v1 release artifacts. **Unsigned in v1; codesigning lands in v4.**
+
+            ## Install
+            - **macOS**: download the `.dmg`, drag OCM to Applications. First launch will warn about an unidentified developer; right-click → Open to bypass once.
+            - **Windows**: download the `.msi`, run installer. SmartScreen may warn; click "More info" → "Run anyway".
+            - **Linux**: download the `.deb` (Debian/Ubuntu) or `.AppImage` (any distro). `sudo dpkg -i ocm_*.deb` or `chmod +x` the AppImage.
+
+            ## After install
+            - The daemon listens on http://127.0.0.1:7300 (configurable in Settings)
+            - Point any OpenAI-compatible client (Cline, Continue.dev, ChatGPT desktop) at the localhost URL
+            - For chat memory, install Mem0's OpenMemory MCP locally (optional but recommended)
