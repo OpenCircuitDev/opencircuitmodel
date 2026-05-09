@@ -104,3 +104,35 @@ def test_run_sandbox_dry_run_returns_summary(tmp_path: Path):
     assert summary.hypothesis_id == "test-h"
     assert summary.verdict.value == "INCONCLUSIVE"
     assert "DRY_RUN" in summary.verdict_reason
+
+
+def write_inactive_sandbox(root: Path, *, hypothesis_id: str = "inactive-h") -> Path:
+    """Write a slot-stub INACTIVE sandbox with only expected.json + README.md."""
+    expected = {
+        "hypothesis_id": hypothesis_id,
+        "claim": "A claim describing a hypothesis blocked on future work.",
+        "metric": "primary_pct",
+        "thresholds": {"confirm_at_least": 80.0, "refute_below": 60.0},
+        "workload": "test.jsonl",
+        "status": "INACTIVE",
+        "blocked_on": ["upstream tech not ready"],
+    }
+    (root / "expected.json").write_text(json.dumps(expected))
+    (root / "README.md").write_text("# Inactive sandbox\nWaiting on upstream.\n")
+    return root
+
+
+def test_dry_run_passes_on_inactive_sandbox_without_compose_or_bench(tmp_path: Path):
+    """INACTIVE sandboxes ship with only expected.json + README.md."""
+    sandbox = write_inactive_sandbox(tmp_path)
+    expected = dry_run_sandbox(sandbox)
+    assert expected.hypothesis_id == "inactive-h"
+    assert expected.status == "INACTIVE"
+
+
+def test_inactive_sandbox_still_requires_readme(tmp_path: Path):
+    sandbox = write_inactive_sandbox(tmp_path)
+    (sandbox / "README.md").unlink()
+    with pytest.raises(DryRunError) as exc:
+        dry_run_sandbox(sandbox)
+    assert "readme" in str(exc.value).lower()
