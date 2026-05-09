@@ -1,0 +1,36 @@
+# Force LF line endings on text files. Repository was developed on Windows,
+# which means git auto-converted between LF and CRLF — fmt-check and svelte-check
+# treated the divergence as real changes. This file fixes that at the source:
+# everything checks out as LF, regardless of OS.
+
+* text=auto eol=lf
+
+# Explicitly LF for source files (defensive — `* text=auto eol=lf` already covers,
+# but being explicit makes intent obvious to contributors)
+*.rs       text eol=lf
+*.toml     text eol=lf
+*.json     text eol=lf
+*.md       text eol=lf
+*.svelte   text eol=lf
+*.ts       text eol=lf
+*.js       text eol=lf
+*.html     text eol=lf
+*.css      text eol=lf
+*.yml      text eol=lf
+*.yaml     text eol=lf
+*.sh       text eol=lf
+*.py       text eol=lf
+Cargo.lock text eol=lf
+
+# Binary files
+*.png      binary
+*.jpg      binary
+*.jpeg     binary
+*.gif      binary
+*.ico      binary
+*.icns     binary
+*.gguf     binary
+*.dmg      binary
+*.msi      binary
+*.deb      binary
+*.AppImage binary
