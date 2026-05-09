@@ -1,0 +1,26 @@
+{
+  "hypothesis_id": "memory-palace-effective-corpus-vs-frontier-1m",
+  "claim": "OCM's full memory stack (Mem0 + Memory Palace at 5GB scale) answers a 50-prompt long-horizon QA suite with >=92% accuracy at <=8000 tokens-per-query injected — comparable to or better than a frontier 1M-token-context model that pays 200x more tokens per query for the same accuracy.",
+  "metric": "long_horizon_qa_accuracy_at_token_budget",
+  "thresholds": {
+    "confirm_at_least": 92.0,
+    "refute_below": 75.0
+  },
+  "secondary_metric": "tokens_injected_p50",
+  "secondary_thresholds": {
+    "confirm_at_most": 8000,
+    "refute_above": 20000
+  },
+  "workload": "long-horizon-qa-50.jsonl",
+  "source_for_claim": "Spec v0.4 row 27 (Effective-Context Triad) + research note 2026-05-09-effective-context-triad-expansion-stratification-lookup.md. The triad's load-bearing measurement.",
+  "comparison_anchor": "frontier-1m-context-baseline (e.g. Gemini 1.5 Pro 1M-token, Claude 3.5 Sonnet 200K, GPT-4 Turbo 128K with full corpus stuffed)",
+  "decision_rule": "If CONFIRMED at the token budget, OCM's Effective-Context Triad story holds — knowledge axis (palace) compounds with retrieval axis (Mem0) to beat raw window expansion. If REFUTED, either (a) palace federation isn't load-bearing yet, (b) retrieval policies need tuning, or (c) the triad's claim needs revising. The most consequential bench in the v0.4+ stack.",
+  "timeout_seconds": 7200,
+  "status": "INACTIVE",
+  "blocked_on": [
+    "Memory Palace federation (v3.5+) not yet implemented",
+    "Frontier-1M baseline harness needs API keys + cost budget",
+    "Long-horizon QA workload (50 prompts spanning multi-week retrieval) not yet curated",
+    "5GB-scale palace fixture not yet generated (would seed from a real curated knowledge corpus)"
+  ]
+}

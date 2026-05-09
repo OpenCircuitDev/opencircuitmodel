@@ -1,0 +1,25 @@
+{
+  "hypothesis_id": "wire-compression-zstd6-bandwidth-reduction",
+  "claim": "zstd-6 wire compression on mesh payloads (chat-relay, palace-gossip, skill-fetch) achieves 60-80% bandwidth reduction across a representative trace of OCM v2 mesh traffic, with <=2ms median compress+decompress overhead per payload on consumer hardware (M-series Mac / Ryzen 7).",
+  "metric": "bandwidth_reduction_pct",
+  "thresholds": {
+    "confirm_at_least": 60.0,
+    "refute_below": 40.0
+  },
+  "secondary_metric": "compress_decompress_overhead_ms_p50",
+  "secondary_thresholds": {
+    "confirm_at_most": 2.0,
+    "refute_above": 10.0
+  },
+  "workload": "mesh-traffic-trace-1k.jsonl",
+  "source_for_claim": "Spec v0.4 row 28 (Compression pipeline contract). zstd-6 / brotli for wire-level mesh payloads, ~60-80% bandwidth reduction.",
+  "comparison_anchor": "uncompressed-mesh-baseline (same trace, no compression layer)",
+  "decision_rule": "If CONFIRMED on bandwidth + secondary stays under 2ms, row 28 wire-compression lock holds. If REFUTED on bandwidth, payload structure may not be compressible enough at zstd-6 — try zstd-19 (higher CPU cost, better ratio) or brotli. If REFUTED on overhead, the latency budget violates the Effective-Context Triad's quick-look-up constraint.",
+  "timeout_seconds": 1800,
+  "status": "INACTIVE",
+  "blocked_on": [
+    "Phase 7+ mesh transport (libp2p/iroh) not yet implemented",
+    "Mesh traffic trace fixture not yet curated (need representative chat-relay + palace-gossip + skill-fetch sample)",
+    "zstd-6 compression layer not yet wired into the mesh transport"
+  ]
+}
