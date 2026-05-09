@@ -8,6 +8,16 @@ pub struct Settings {
     pub api_port: u16,
     pub mcp_enabled: bool,
     pub theme: Theme,
+    /// Override the default inference backend URL (default: http://127.0.0.1:8080).
+    /// Set to a vLLM URL (typically http://127.0.0.1:8000) on NVIDIA hosts.
+    #[serde(default)]
+    pub inference_base_url: Option<String>,
+    /// Override the default Mem0 OpenMemory MCP URL (default: http://127.0.0.1:8765).
+    #[serde(default)]
+    pub mem0_base_url: Option<String>,
+    /// Number of memories to retrieve per chat turn. Default 5. Set to 0 to disable.
+    #[serde(default)]
+    pub retrieval_top_k: Option<u32>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Copy)]
@@ -25,6 +35,9 @@ impl Default for Settings {
             api_port: 7300,
             mcp_enabled: true,
             theme: Theme::System,
+            inference_base_url: None,
+            mem0_base_url: None,
+            retrieval_top_k: None,
         }
     }
 }
