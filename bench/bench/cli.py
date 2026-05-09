@@ -10,7 +10,7 @@ from rich.console import Console
 from rich.table import Table
 
 from .compare import retro_sync_report
-from .runner import DryRunError, list_all_sandboxes, run_sandbox
+from .runner import DryRunError, list_all_sandboxes, load_expected, run_sandbox
 
 console = Console()
 
@@ -126,7 +126,12 @@ def report(
 @main.command(name="dry-run-all")
 @click.option("--root", type=click.Path(exists=True, path_type=Path), default=None)
 def dry_run_all(root: Path | None) -> None:
-    """Validate every sandbox's structure. Used in CI."""
+    """Validate every sandbox's structure. Used in CI.
+
+    Reports ACTIVE and INACTIVE sandboxes separately. INACTIVE sandboxes
+    surface their `blocked_on` reasons so a CI log makes it obvious which
+    sandboxes are slot stubs vs running validations.
+    """
     bench_root = root or _bench_root()
     sandboxes = (
         list_all_sandboxes(bench_root / "isolation")
@@ -137,24 +142,82 @@ def dry_run_all(root: Path | None) -> None:
         return
 
     failed = 0
+    active_count = 0
+    inactive_count = 0
     for sandbox in sandboxes:
+        rel = sandbox.relative_to(bench_root)
         try:
-            run_sandbox(
+            expected = run_sandbox(
                 sandbox,
                 hardware_class="ci-validation",
                 repeats=1,
                 out_dir=bench_root / "results",
                 dry_run=True,
-            )
-            console.print(f"[green]PASS[/green] {sandbox.relative_to(bench_root)}")
+            ).expected
+            if expected.status == "ACTIVE":
+                console.print(f"[green]PASS[/green]    [cyan]ACTIVE  [/cyan] {rel}")
+                active_count += 1
+            else:
+                inactive_count += 1
+                blockers = expected.blocked_on or []
+                blocker_str = (
+                    " · ".join(blockers) if blockers else "no blocked_on listed"
+                )
+                console.print(
+                    f"[green]PASS[/green]    [yellow]INACTIVE[/yellow] {rel}  "
+                    f"[dim]blocked: {blocker_str}[/dim]"
+                )
         except DryRunError as e:
-            console.print(f"[red]FAIL[/red] {sandbox.relative_to(bench_root)}: {e}")
+            console.print(f"[red]FAIL[/red]    [cyan]?       [/cyan] {rel}: {e}")
             failed += 1
 
+    console.print()
     if failed:
-        console.print(f"\n[red]{failed} sandbox(es) failed dry-run validation.[/red]")
+        console.print(
+            f"[red]{failed} sandbox(es) failed dry-run validation.[/red]"
+        )
         sys.exit(1)
-    console.print(f"\n[green]All {len(sandboxes)} sandboxes passed dry-run validation.[/green]")
+    console.print(
+        f"[green]All {len(sandboxes)} sandboxes passed[/green] "
+        f"([cyan]{active_count} ACTIVE[/cyan], "
+        f"[yellow]{inactive_count} INACTIVE slot stubs[/yellow])."
+    )
+
+
+@main.command(name="list-inactive")
+@click.option("--root", type=click.Path(exists=True, path_type=Path), default=None)
+def list_inactive(root: Path | None) -> None:
+    """List INACTIVE sandboxes (slot stubs) with their blocked_on reasons.
+
+    Useful for picking up scoped work — pick a sandbox, resolve its blockers,
+    flip its status to ACTIVE.
+    """
+    bench_root = root or _bench_root()
+    sandboxes = (
+        list_all_sandboxes(bench_root / "isolation")
+        + list_all_sandboxes(bench_root / "combination")
+    )
+    rows: list[tuple[Path, list[str]]] = []
+    for sandbox in sandboxes:
+        try:
+            expected = load_expected(sandbox)
+        except DryRunError:
+            continue
+        if expected.status == "INACTIVE":
+            rows.append((sandbox, expected.blocked_on or []))
+
+    if not rows:
+        console.print("[green]No INACTIVE sandboxes — all slots active.[/green]")
+        return
+
+    table = Table(title=f"OCM Bench: {len(rows)} INACTIVE slot stubs")
+    table.add_column("Sandbox", style="yellow")
+    table.add_column("Blocked on", style="dim")
+    for sandbox, blockers in rows:
+        rel = str(sandbox.relative_to(bench_root))
+        blocker_str = "\n".join(f"• {b}" for b in blockers) if blockers else "(none listed)"
+        table.add_row(rel, blocker_str)
+    console.print(table)
 
 
 if __name__ == "__main__":
