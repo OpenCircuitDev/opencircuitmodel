@@ -31,12 +31,9 @@ pub const DEFAULT_RETRIEVAL_TOP_K: u32 = 5;
 /// Soft-attempt to verify external services are reachable. Returns Ok even
 /// when they aren't — the daemon's job is to stay up and report status, not
 /// to refuse to launch.
-pub async fn probe_dependencies(
-    inference_url: &str,
-    mem0_url: &str,
-) -> DependencyStatus {
-    let inference_ok = probe_url(inference_url, "/v1/models").await
-        || probe_url(inference_url, "/health").await;
+pub async fn probe_dependencies(inference_url: &str, mem0_url: &str) -> DependencyStatus {
+    let inference_ok =
+        probe_url(inference_url, "/v1/models").await || probe_url(inference_url, "/health").await;
     let mem0_ok = probe_url(mem0_url, "/v1/health").await || probe_url(mem0_url, "/health").await;
 
     DependencyStatus {
@@ -177,8 +174,7 @@ mod tests {
 
     #[tokio::test]
     async fn probe_dependencies_reports_both_unreachable_when_neither_is_running() {
-        let status =
-            probe_dependencies("http://127.0.0.1:1", "http://127.0.0.1:2").await;
+        let status = probe_dependencies("http://127.0.0.1:1", "http://127.0.0.1:2").await;
         assert!(!status.inference_reachable);
         assert!(!status.memory_reachable);
     }
