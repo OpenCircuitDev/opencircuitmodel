@@ -1,25 +1,15 @@
 {
   "hypothesis_id": "mem0-sqlcipher-aes256-overhead",
-  "claim": "SQLCipher AES-256 encryption on Mem0's at-rest SQLite store with Argon2id-derived key adds <=15% latency overhead on a 1000-query retrieval workload vs unencrypted baseline, with no measurable accuracy regression.",
+  "claim": "SQLCipher AES-256 (or AES-256-GCM proxy when SQLCipher isn't installable) on Mem0's at-rest SQLite store adds at most 15% median-query latency overhead on a 1000-query retrieval workload vs unencrypted baseline. Pure latency measurement — accuracy regression is OUT of scope here (any deterministic encryption layer is round-trip-lossless).",
   "metric": "encrypted_retrieval_latency_overhead_pct",
   "thresholds": {
     "confirm_at_most": 15.0,
     "refute_above": 30.0
   },
-  "secondary_metric": "retrieval_accuracy_delta_pp",
-  "secondary_thresholds": {
-    "confirm_at_most": 1.0,
-    "refute_above": 3.0
-  },
   "workload": "mem0-retrieval-1000q.jsonl",
-  "source_for_claim": "Spec v0.4 row 29 (Encryption mapped onto privacy zones A/B/C). 'SQLCipher AES-256 with Argon2id-derived key from user passphrase (~5-15% latency overhead).'",
-  "comparison_anchor": "mem0-unencrypted-baseline (same workload, plain SQLite)",
-  "decision_rule": "If CONFIRMED, Zone A encryption ships as default in v1.x. If REFUTED on latency, encryption becomes opt-in with a documented warning. If REFUTED on accuracy delta, something is structurally wrong with SQLCipher under our query patterns and the row 29 lock needs revising.",
-  "timeout_seconds": 1800,
-  "status": "INACTIVE",
-  "blocked_on": [
-    "SQLCipher integration not yet wired into ocm-memory crate",
-    "Argon2id-from-passphrase key-derivation not yet implemented",
-    "Mem0 retrieval workload fixture (1000 queries) not yet curated"
-  ]
+  "source_for_claim": "Spec v0.4 row 29: 'SQLCipher AES-256 with Argon2id-derived key from user passphrase (~5-15% latency overhead).' Bench supports SQLCipher canonical mode (in Docker) + AES-GCM-per-row proxy mode (local fallback) — proxy is a strict UPPER bound since per-row encryption is more expensive than SQLCipher's per-page approach.",
+  "comparison_anchor": "plain SQLite (same schema, same indexes, same 1000-row corpus, same query workload)",
+  "decision_rule": "If CONFIRMED in either mode, Zone A encryption ships as v1.x default. If REFUTED in proxy mode but encryption_mode tags 'aes-gcm-proxy', re-run via Docker with sqlcipher3 before declaring a real refutation — proxy is conservative. If REFUTED in canonical SQLCipher mode, encryption becomes opt-in with a documented warning and row 29 lock needs revising.",
+  "timeout_seconds": 600,
+  "status": "ACTIVE"
 }

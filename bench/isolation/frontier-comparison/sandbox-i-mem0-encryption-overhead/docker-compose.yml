@@ -1,0 +1,21 @@
+services:
+  bench:
+    image: python:3.11
+    volumes:
+      - ./:/work
+      - ../../../workloads:/workloads:ro
+    working_dir: /work
+    environment:
+      - WORKLOAD_PATH=/workloads/mem0-retrieval-1000q.jsonl
+    # SQLCipher canonical path: apt installs the dev headers, pip builds
+    # pysqlcipher3 against them. python:3.11 (full image, NOT slim) is
+    # used because the slim image lacks gcc/make required by the build.
+    # If pysqlcipher3 install fails (e.g., behind a strict proxy), bench.py
+    # auto-falls back to AES-GCM proxy mode and tags the output accordingly.
+    command:
+      - sh
+      - -c
+      - |
+        apt-get update -qq && apt-get install -qq -y libsqlcipher-dev
+        pip install --quiet pysqlcipher3 cryptography || pip install --quiet cryptography
+        python bench.py
