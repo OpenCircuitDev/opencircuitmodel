@@ -12,7 +12,9 @@
 //! `retrieval_top_k`, `api_port`, `mcp_enabled`. The frontend surfaces
 //! "restart required to apply" so the user isn't surprised.
 
+use crate::paths::AppPaths;
 use crate::settings::Settings;
+use ocm_models::{downloader::download_model, Registry};
 use std::path::PathBuf;
 use std::sync::Mutex;
 use tauri::State;
@@ -47,6 +49,34 @@ pub fn save_settings(
     *current = new_settings;
     tracing::info!(path = %state.path.display(), "settings saved");
     Ok(())
+}
+
+/// Read the bundled registry at request time. Cheap (KB-scale JSON parse).
+/// The HTTP equivalent is GET /v1/registry/models — Tauri command exists for
+/// frontends that prefer the in-process call over an HTTP roundtrip.
+#[tauri::command]
+pub fn list_registry_models() -> Result<Registry, String> {
+    Registry::load_bundled().map_err(|e| format!("load bundled registry: {e}"))
+}
+
+/// Download a model by registry id into the app data dir under "models/".
+/// Returns the absolute path on success. Refuses entries with empty sha256
+/// (registry guards unverified weights).
+#[tauri::command]
+pub async fn download_model_cmd(
+    model_id: String,
+    paths: State<'_, AppPaths>,
+) -> Result<String, String> {
+    let registry = Registry::load_bundled().map_err(|e| format!("load registry: {e}"))?;
+    let entry = registry
+        .find(&model_id)
+        .ok_or_else(|| format!("unknown model id: {model_id}"))?
+        .clone();
+    let dest_dir = paths.models_dir.clone();
+    let path = download_model(&entry, &dest_dir, None)
+        .await
+        .map_err(|e| format!("download {model_id}: {e}"))?;
+    Ok(path.display().to_string())
 }
 
 #[cfg(test)]

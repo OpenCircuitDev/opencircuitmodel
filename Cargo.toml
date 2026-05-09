@@ -6,6 +6,7 @@ members = [
     "crates/ocm-inference",
     "crates/ocm-mcp",
     "crates/ocm-memory",
+    "crates/ocm-models",
 ]
 
 [workspace.package]

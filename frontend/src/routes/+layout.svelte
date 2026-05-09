@@ -6,6 +6,7 @@
 
 	const navLinks = [
 		{ href: '/', label: 'chat' },
+		{ href: '/models/', label: 'models' },
 		{ href: '/settings/', label: 'settings' }
 	];
 </script>

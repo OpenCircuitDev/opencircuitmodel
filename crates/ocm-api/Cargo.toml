@@ -7,6 +7,7 @@ license.workspace = true
 [dependencies]
 ocm-inference = { path = "../ocm-inference" }
 ocm-memory = { path = "../ocm-memory" }
+ocm-models = { path = "../ocm-models" }
 axum.workspace = true
 tokio.workspace = true
 tower = "0.5"

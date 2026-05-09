@@ -19,6 +19,7 @@ use tracing::info;
 
 pub mod auth;
 pub mod openai;
+pub mod registry;
 pub mod streaming;
 
 /// Shared state passed to every handler.
@@ -37,8 +38,9 @@ pub struct AppState {
 /// in case the bind address ever broadens (mesh exposure is a v2+ concern with
 /// its own auth layer).
 pub fn router(state: AppState) -> Router {
+    let v1 = openai::router().nest("/registry", registry::router());
     Router::new()
-        .nest("/v1", openai::router())
+        .nest("/v1", v1)
         .with_state(state)
         .layer(axum::middleware::from_fn(auth::require_localhost))
         .layer(tower_http::trace::TraceLayer::new_for_http())
