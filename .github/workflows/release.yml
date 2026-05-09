@@ -30,8 +30,13 @@ jobs:
         include:
           - os: macos-latest
             target: aarch64-apple-darwin
-          - os: macos-13
-            target: x86_64-apple-darwin
+          # macos-13 (x86_64-apple-darwin) deferred to v0.1.1 — GitHub Actions
+          # Intel macOS runners were stuck queued >27 min during the v0.1.0
+          # release attempt, blocking the release publish job. Apple Silicon
+          # macOS covers the M1+ segment that's the dominant Mac install base
+          # since 2020-2022. Re-add the macos-13 entry once runner availability
+          # stabilizes (or migrate Intel macOS coverage to the v4 codesigning
+          # work, which will need a paid Apple Developer cert anyway).
           - os: ubuntu-latest
             target: x86_64-unknown-linux-gnu
           - os: windows-latest
