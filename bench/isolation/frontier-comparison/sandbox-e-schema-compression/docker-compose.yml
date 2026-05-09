@@ -1,0 +1,16 @@
+services:
+  bench:
+    image: python:3.11-slim
+    volumes:
+      - ./:/work
+      - ../../../workloads:/workloads:ro
+    working_dir: /work
+    environment:
+      - WORKLOAD_PATH=/workloads/mcp-tool-defs-30.jsonl
+    # tiktoken gives the cl100k_base tokenizer (matches GPT-4 / Claude family).
+    # The bench falls back to a deterministic char-div-4 heuristic if pip
+    # install fails — relative comparisons stay valid.
+    command:
+      - sh
+      - -c
+      - "pip install --quiet tiktoken && python bench.py"

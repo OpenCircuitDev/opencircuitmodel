@@ -1,25 +1,15 @@
 {
   "hypothesis_id": "schema-compression-token-impact",
-  "claim": "Schema compression on MCP tool definitions (strip descriptions, shorten param names, hide optional params) reduces per-request input tokens by 30-60% on a representative tool-rich workload (10+ tools, multi-turn chat) with no measurable accuracy loss on tool-call selection.",
-  "metric": "input_tokens_pct_reduction",
+  "claim": "Schema compression on MCP tool definitions (strip descriptions, shorten param names, hide optional params) reduces serialized-token count by at least 30% (median across 30 representative tools spanning filesystem, web, code, calendar, email, system categories). Pure measurement — secondary metric (tool-call accuracy delta) is OUT of scope and tracked separately.",
+  "metric": "input_tokens_pct_reduction_median",
   "thresholds": {
     "confirm_at_least": 30.0,
     "refute_below": 15.0
   },
-  "secondary_metric": "tool_call_accuracy_delta_pp",
-  "secondary_thresholds": {
-    "confirm_at_most": 2.0,
-    "refute_above": 5.0
-  },
-  "workload": "mcp-tool-rich-multiturn.jsonl",
+  "workload": "mcp-tool-defs-30.jsonl",
   "source_for_claim": "Spec v0.2 row 21: schema compression default-on for MCP tool schemas. Cited 30-60% token reduction.",
-  "comparison_anchor": "frontier-comparison/sandbox-a-raw-vllm-baseline",
-  "decision_rule": "If CONFIRMED on tokens AND secondary stays under +2pp accuracy hit, schema compression stays the v1 default. If REFUTED on tokens, compression algorithm needs revisit. If REFUTED on accuracy delta (>5pp loss), the algorithm is too aggressive and needs the reverse — preserve more.",
-  "timeout_seconds": 1800,
-  "status": "INACTIVE",
-  "blocked_on": [
-    "MCP tool-rich workload not yet curated (need 10+ tools, multi-turn chat fixtures)",
-    "Tool-call accuracy harness not yet wired into bench/bench/metrics.py",
-    "Sandbox-A baseline must run first to provide comparison anchor"
-  ]
+  "comparison_anchor": "raw-tool-defs-uncompressed (the same 30 tools serialized verbatim)",
+  "decision_rule": "If CONFIRMED, schema compression stays the v1 default. If REFUTED on tokens, the recipe needs revisiting (e.g. more aggressive name shortening or schema flattening). Accuracy-impact verification happens in a separate model-dependent sandbox; if THAT later REFUTES on accuracy regression, the recipe pulls back even if token reduction is fine.",
+  "timeout_seconds": 300,
+  "status": "ACTIVE"
 }
