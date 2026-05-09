@@ -77,12 +77,12 @@ def run(
             dry_run=dry_run,
         )
     except DryRunError as e:
-        console.print(f"[red]✗ DRY-RUN FAILED:[/red] {e}")
+        console.print(f"[red]DRY-RUN FAILED:[/red] {e}")
         sys.exit(2)
 
     if dry_run:
         console.print(
-            f"[green]✓ DRY-RUN PASSED:[/green] {summary.hypothesis_id} "
+            f"[green]DRY-RUN PASSED:[/green] {summary.hypothesis_id} "
             f"(structure valid; would run {repeats} repeats)"
         )
         return
@@ -146,9 +146,9 @@ def dry_run_all(root: Path | None) -> None:
                 out_dir=bench_root / "results",
                 dry_run=True,
             )
-            console.print(f"[green]✓[/green] {sandbox.relative_to(bench_root)}")
+            console.print(f"[green]PASS[/green] {sandbox.relative_to(bench_root)}")
         except DryRunError as e:
-            console.print(f"[red]✗[/red] {sandbox.relative_to(bench_root)}: {e}")
+            console.print(f"[red]FAIL[/red] {sandbox.relative_to(bench_root)}: {e}")
             failed += 1
 
     if failed:
