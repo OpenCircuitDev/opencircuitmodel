@@ -30,16 +30,12 @@ jobs:
         include:
           - os: macos-latest
             target: aarch64-apple-darwin
-            artifact_glob: 'crates/ocm-daemon/target/*/release/bundle/dmg/*.dmg'
           - os: macos-13
             target: x86_64-apple-darwin
-            artifact_glob: 'crates/ocm-daemon/target/*/release/bundle/dmg/*.dmg'
           - os: ubuntu-latest
             target: x86_64-unknown-linux-gnu
-            artifact_glob: 'crates/ocm-daemon/target/*/release/bundle/{deb,appimage}/*'
           - os: windows-latest
             target: x86_64-pc-windows-msvc
-            artifact_glob: 'crates/ocm-daemon/target/*/release/bundle/msi/*.msi'
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -80,12 +76,19 @@ jobs:
         working-directory: crates/ocm-daemon
         run: cargo tauri build --target ${{ matrix.target }}
 
+      # Cargo workspace places target/ at the repo root, NOT crates/ocm-daemon/target/.
+      # The glob picks up only the artifact types each platform produces; if-no-files-found
+      # is `warn` (not `error`) because each runner only matches one platform's set.
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: ocm-${{ matrix.target }}
-          path: ${{ matrix.artifact_glob }}
-          if-no-files-found: error
+          path: |
+            target/${{ matrix.target }}/release/bundle/dmg/*.dmg
+            target/${{ matrix.target }}/release/bundle/deb/*.deb
+            target/${{ matrix.target }}/release/bundle/appimage/*.AppImage
+            target/${{ matrix.target }}/release/bundle/msi/*.msi
+          if-no-files-found: warn
           retention-days: 14
 
   release:
