@@ -13,12 +13,10 @@ pub fn router() -> Router<AppState> {
 }
 
 pub async fn list_registry_models() -> Result<Json<Registry>, axum::http::StatusCode> {
-    Registry::load_bundled()
-        .map(Json)
-        .map_err(|e| {
-            tracing::error!(error = ?e, "bundled registry failed to parse — corrupted build artifact?");
-            axum::http::StatusCode::INTERNAL_SERVER_ERROR
-        })
+    Registry::load_bundled().map(Json).map_err(|e| {
+        tracing::error!(error = ?e, "bundled registry failed to parse — corrupted build artifact?");
+        axum::http::StatusCode::INTERNAL_SERVER_ERROR
+    })
 }
 
 #[cfg(test)]
