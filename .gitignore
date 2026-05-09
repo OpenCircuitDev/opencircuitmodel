@@ -1,0 +1,36 @@
+# Rust
+target/
+**/*.rs.bk
+Cargo.lock.bak
+
+# Node
+node_modules/
+.svelte-kit/
+build/
+dist/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# OCM runtime artifacts (do NOT commit user data, models, or local memory)
+~/.ocm/
+ocm-data/
+*.gguf
+!tests/fixtures/tiny-model.gguf
+
+# Local override / secrets
+.env
+.env.*
+!.env.example
