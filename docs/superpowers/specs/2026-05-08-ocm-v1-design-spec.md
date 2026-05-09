@@ -1,10 +1,19 @@
-# OpenCircuitModel (OCM) — Design Spec v0.2
+# OpenCircuitModel (OCM) — Design Spec v0.3
 
-> **Status:** brainstorming complete + research-driven revision (2026-05-08); implementation plan in `../plans/2026-05-08-ocm-v1-implementation-plan.md`
-> **Date:** 2026-05-08 (revised same day after 4-stream subagent research — see `../research/2026-05-08-tool-landscape-synthesis.md`)
+> **Status:** brainstorming complete + two research-driven revisions (2026-05-08, 2026-05-09); implementation plan in `../plans/2026-05-08-ocm-v1-implementation-plan.md`
+> **Date:** 2026-05-08 (v0.2) → revised 2026-05-09 (v0.3) after memory + sub-context retrieval deep dive — see `../research/2026-05-09-memory-context-retrieval-deep-dive.md`
 > **Project lead:** Brand (solo founder)
 > **Repo:** `github.com/OpenCircuitDev/opencircuitmodel` (Apache 2.0)
 > **Website:** ocm.shortcircuit.bot (subdomain under shortcircuit.bot ecosystem)
+
+## v0.3 revisions (2026-05-09)
+
+Three changes from the memory + sub-context retrieval deep-dive research:
+
+1. **Mem0 pick reaffirmed with stronger evidence.** Mem0 v3 hits 91.6 LoCoMo / 93.4 LongMemEval at ~7000 tokens/retrieval; library-driven retrieval (no agent decision required) is the directly-aligned pattern for the small-model thesis; OpenMemory MCP gives us local-first Ollama support out of the box. See decision row 9 below.
+2. **DSPy GEPA upgraded from "opt-in extension" to "v2+ network-effect lever."** DSPy programs are first-class saveable artifacts (`program.save()/program.load()`). Signed compiled skills distributed across the OCM mesh are the directly-architected network-effect mechanism — every contributor's optimization improves every user's agent layer, with zero user-data privacy surface. This is OCM's actual federation play; **federated memory is deferred to v3+ research**, federated skills ship in v2. See decision row 23.
+3. **MemoryArena added to verification plan.** Stanford's MemoryArena (2026) shows agents at near-100% on LoCoMo plummet to 40-60% on multi-session interdependent tasks. **OCM benchmarks both LoCoMo (recall) and MemoryArena (agentic utility), not just LoCoMo.** See verification plan.
+4. **Sub-context retrieval techniques added to v1 stack** (new decisions): Aider-style repomap pattern as a generic compressed-view tool; Continue.dev's hybrid retrieval (LanceDB + ripgrep + LLM rerank) as the production blueprint for code context. See new decision rows 24-25.
 
 ## Research-driven revisions in this version (v0.2)
 
@@ -44,7 +53,7 @@ Why now:
 | 6b | Inference engine — RTX 5090 / Blackwell | **TensorRT-LLM with FP4** | Only engine fully exploiting Blackwell FP4; ~2× over FP16 |
 | 7 | Sharded inference (v6+) | **Exo (LAN ergonomics) + Prima.cpp (heterogeneous-cluster reference) + Hivemind DHT primitives** | Petals is functionally dead (transformers tombstone, no commits since Sept 2023); Exo is alive but LAN-only; Prima.cpp arxiv 2504.08791 is closest open prior art for OCM v6 |
 | 8 | Mesh transport (v2+) | **iroh primary, libp2p as escape hatch via libp2p-iroh bridge** | libp2p residential NAT success 70% (measured 4.4M attempts); iroh ~90% (vendor-claimed, plausibly 80%+); iroh single-vendor risk mitigated by libp2p-iroh bridge keeping app protocols transport-agnostic |
-| 9 | Agent memory + virtual context | **Mem0** (was Letta in v0.1) | Letta's own engineering admits Llama 8B can't reliably drive its tool-calling memory paradigm; Mem0's decoupled retrieval works with small models; v3 (April 2026) +20pp LoCoMo +26pp LongMemEval; 55k stars vs Letta's 22k |
+| 9 | Agent memory + virtual context | **Mem0 v3 + OpenMemory MCP local mode** (was Letta in v0.1) | v0.3 reaffirmation with stronger evidence: Mem0 v3 hits **91.6 LoCoMo / 93.4 LongMemEval at ~7000 tokens/retrieval**; **library-driven retrieval** (no agent decision required) is structurally aligned with the small-model thesis (Letta's own engineering admits Llama 8B can't drive their tool-calling memory paradigm); **OpenMemory MCP** gives local-first Ollama support out of the box; 55.2k stars vs Letta's 22.5k |
 | 10 | Agent runtime | **Lightweight ReAct loop default + Smolagents CodeAct opt-in** | LangGraph over-engineered for single-agent personal AI; CodeAct = 30% fewer steps, 30% fewer LLM calls, 50% lower latency on representative workloads |
 | 11 | Client-facing API | **OpenAI-compat HTTP + MCP SDK** | Covers ~95% of existing clients (Claude Code, Cursor, Windsurf, Zed, Cline, Continue.dev, JetBrains, ChatGPT, Gemini, etc. — May 2026); MCP is now table-stakes |
 | 12 | Daemon / cross-platform UI | **Tauri** (Rust + web) | Smaller binaries, better security, easier codesigning than Electron |
@@ -58,7 +67,9 @@ Why now:
 | 20 | **Tool-call format** | **Hermes XML+JSON for small models (auto-detected); OpenAI JSON for everything else** | Hermes-trained 8B models hit ~91% tool-call format accuracy vs Llama 3.1 native ~79%, Mistral 7B ~72% |
 | 21 | **Schema compression** | **Default-on for MCP tool schemas** | 30-60% per-request token reduction with no model change; strip descriptions, shorten param names, hide optional params |
 | 22 | **Structured generation** | **Instructor (user API) + engine-native (XGrammar / SGLang / llama.cpp grammar) + Outlines fallback for hard schemas** | 2-5× faster than Outlines as separate wrapper; Outlines kept for Kubernetes-grade complex schemas |
-| 23 | **Optimization layer (v2+)** | **DSPy GEPA as opt-in `dspy.optimize_skill()` extension** | +10pp AIME, +17pp entity extraction; per-skill compile = power-user feature, compiled artifacts could redistribute via OCM mesh |
+| 23 | **DSPy GEPA + signed skill artifacts (v2+ network-effect lever)** | **DSPy GEPA-compiled skills distributed across the OCM mesh as signed, deterministic artifacts** (upgraded from "opt-in extension" in v0.2) | v0.3 strategic upgrade: `program.save()/program.load()` is first-class; compiled skills are deterministic, redistributable, privacy-clean (no user data leaks). **This is OCM's actual network-effect lever** — every contributor's optimization improves every user's agent layer. Federated memory is deferred to v3+ research; federated skills ship in v2. +10pp AIME, +17pp entity extraction with GEPA on small models |
+| 24 | **Compressed-view tool (v1, new in v0.3)** | **Aider-style repomap pattern: NetworkX PageRank + tree-sitter compressed view** | Deterministic, no LLM call at retrieval time, fits any structured corpus (code / docs / conversation logs) into a configurable token budget; ideal for small models that lack the planning chops to navigate corpora. Repomix `--compress` (tree-sitter) cuts tokens ~70% while preserving structure |
+| 25 | **Code-context retrieval (v1, new in v0.3)** | **Continue.dev's hybrid stack: LanceDB + ripgrep + LLM rerank, all local** | Production blueprint to lift wholesale; outperforms pure vector RAG; 100% local; privacy-clean. Adopt as the OCM code-context pattern when v1's MCP layer exposes code-aware tools |
 
 ## v1 scope — "Single-Node OCM"
 
@@ -160,7 +171,9 @@ End-to-end manual smoke test (all on one machine):
 4. **Memory persistence** — quit OCM, restart, chat references prior conversation
 5. **OpenAI-compat client** — point Cline / Continue.dev at `localhost:7300/v1`, see it work as a drop-in for OpenAI
 6. **MCP client** — connect Claude Code via MCP, agent's memory and tools are accessible
-7. **Long-context test** — 100K-token conversation that exceeds raw model context — Letta paging keeps it coherent
+7. **Long-context test** — 100K-token conversation that exceeds raw model context — Mem0 paging keeps it coherent
+7b. **Memory recall benchmark — LoCoMo** — Mem0 v3 + Llama 3.1 8B Q4 hits ≥85% accuracy with avg ≤8000 tokens/retrieval (sandbox `mem0-v3-llama8b-locomo` per [bench sandbox additions plan](../plans/2026-05-09-bench-sandbox-additions-from-research.md))
+7c. **Agentic memory utility — MemoryArena (Stanford 2026)** — Mem0 v3 + Llama 3.1 8B Q4 maintains ≥60% on multi-session interdependent tasks. **CRITICAL:** LoCoMo near-saturation does NOT prove the memory layer delivers useful agentic capability. MemoryArena is the honesty check that catches the LoCoMo→production gap (Stanford paper shows 40-60% drop on real interdependent tasks)
 8. **Idle behavior** — daemon at idle uses < 50 MB RAM and 0% GPU; no leaks over 24 hours
 9. **Uninstall** — clean uninstall removes daemon, models, memory at user's choice
 
