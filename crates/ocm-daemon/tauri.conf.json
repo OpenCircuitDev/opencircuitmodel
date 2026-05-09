@@ -23,6 +23,25 @@
   "bundle": {
     "active": true,
     "targets": "all",
-    "icon": ["icons/icon.png", "icons/icon.ico"]
+    "icon": ["icons/icon.png", "icons/icon.ico"],
+    "publisher": "OpenCircuitDev",
+    "copyright": "Copyright (C) 2026 OpenCircuit Dev. Apache-2.0 licensed.",
+    "category": "DeveloperTool",
+    "shortDescription": "Free personal AI agent — local, persistent, mesh-ready.",
+    "longDescription": "OpenCircuitModel (OCM) runs a personal AI agent on your own hardware. Persistent memory across sessions via Mem0, OpenAI-compatible HTTP and MCP server APIs, and zero mesh dependencies in v1. Connects to llama.cpp on Apple Silicon or vLLM on NVIDIA out of the box.",
+    "homepage": "https://ocm.shortcircuit.bot",
+    "linux": {
+      "deb": {
+        "depends": []
+      }
+    },
+    "macOS": {
+      "minimumSystemVersion": "12.0"
+    },
+    "windows": {
+      "wix": {
+        "language": "en-US"
+      }
+    }
   }
 }

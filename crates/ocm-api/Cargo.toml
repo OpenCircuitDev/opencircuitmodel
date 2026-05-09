@@ -1,0 +1,25 @@
+[package]
+name = "ocm-api"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+ocm-inference = { path = "../ocm-inference" }
+ocm-memory = { path = "../ocm-memory" }
+ocm-models = { path = "../ocm-models" }
+axum.workspace = true
+tokio.workspace = true
+tower = "0.5"
+tower-http = { version = "0.6", features = ["cors", "trace"] }
+serde.workspace = true
+serde_json.workspace = true
+futures = "0.3"
+async-stream = "0.3"
+tracing.workspace = true
+anyhow.workspace = true
+thiserror.workspace = true
+uuid = { version = "1", features = ["v4"] }
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["full", "test-util"] }

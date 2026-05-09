@@ -1,7 +1,13 @@
 [workspace]
 resolver = "2"
 members = [
+    "crates/ocm-api",
     "crates/ocm-daemon",
+    "crates/ocm-inference",
+    "crates/ocm-mcp",
+    "crates/ocm-memory",
+    "crates/ocm-mesh",
+    "crates/ocm-models",
 ]
 
 [workspace.package]
