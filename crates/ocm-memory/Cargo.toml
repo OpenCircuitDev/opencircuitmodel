@@ -1,0 +1,15 @@
+[package]
+name = "ocm-memory"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+async-trait = "0.1"
+serde.workspace = true
+serde_json.workspace = true
+tokio = { workspace = true, features = ["full"] }
+reqwest.workspace = true
+tracing.workspace = true
+anyhow.workspace = true
+thiserror.workspace = true

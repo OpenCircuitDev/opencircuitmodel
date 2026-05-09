@@ -3,6 +3,7 @@ resolver = "2"
 members = [
     "crates/ocm-daemon",
     "crates/ocm-inference",
+    "crates/ocm-memory",
 ]
 
 [workspace.package]
