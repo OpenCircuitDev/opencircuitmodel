@@ -1,10 +1,44 @@
-# OpenCircuitModel (OCM) — Design Spec v0.5
+# OpenCircuitModel (OCM) — Design Spec v0.6
 
-> **Status:** brainstorming complete + four research-driven revisions; implementation plan in `../plans/2026-05-08-ocm-v1-implementation-plan.md`
-> **Date:** 2026-05-08 (v0.2) → 2026-05-09 (v0.3) after memory + sub-context retrieval deep dive → 2026-05-09 (v0.4) after Memory Palace pattern analysis → 2026-05-09 (v0.5) after VM/cloud deployment policy review — see `../research/2026-05-09-remote-node-deployment.md`
+> **Status:** v1 implementation mostly built (Phases 1-8 on main as of 2026-05-09); five research-driven revisions; implementation plan in `../plans/2026-05-08-ocm-v1-implementation-plan.md`
+> **Date:** 2026-05-08 (v0.2) → 2026-05-09 (v0.3) memory deep dive → 2026-05-09 (v0.4) Memory Palace → 2026-05-09 (v0.5) VM/cloud policy → 2026-05-09 (v0.6) post-build hygiene + bench INACTIVE convention
 > **Project lead:** Brand (solo founder)
 > **Repo:** `github.com/OpenCircuitDev/opencircuitmodel` (Apache 2.0)
 > **Website:** ocm.shortcircuit.bot (subdomain under shortcircuit.bot ecosystem)
+
+## Build status (2026-05-09)
+
+| Phase | What | Status |
+|---|---|---|
+| Phase 1 | Tauri shell, paths, settings, CI | ✅ on main (PR #1) |
+| Phase 0 | Bench framework + first sandbox | ✅ on main (PR #2) |
+| Phase 2 | Inference backends (llama.cpp + vLLM + supervisor) | ✅ on main (PR #17 megamerge) |
+| Phase 3 | Mem0 client + library-driven retrieval | ✅ on main (PR #17) |
+| Phase 4 | OpenAI-compat HTTP /v1/* + SSE streaming | ✅ on main (PR #17) |
+| Phase 4.7 | Bootstrap module wiring | ✅ on main (PR #17) |
+| Phase 4.6 | MCP stdio JSON-RPC bridge | ✅ on main (PR #17) |
+| Phase 5a | SvelteKit chat UI + model picker | ✅ on main (PR #17) |
+| Phase 5b | Localhost auth middleware | ✅ on main (PR #17) |
+| Phase 5c | Settings panel + Tauri commands | ✅ on main (PR #17) |
+| Phase 6 | Model registry + downloader + /models route | ✅ on main (PR #17) |
+| Phase 7 | Cross-platform installers + release workflow | ✅ on main (PR #17) |
+| Phase 8 | ocm-mesh crate scaffold (v2 prep) | ✅ on main (PR #17) |
+| v2 | Real iroh / libp2p mesh transport | ⚠️ trait scaffold only |
+| v3 | Reciprocity ledger | ❌ not started |
+| v4 | Codesigning + auto-update | ❌ not started |
+| v5 | Sandboxing + Sybil resistance | ❌ not started |
+| v6 | Sharded inference | ❌ not started |
+
+**Pre-release blockers before v0.1.0 tag:**
+1. Populate `crates/ocm-models/registry.json` SHA256 hashes against canonical HF mirrors (downloader refuses empty-hash entries today; see `scripts/populate-registry-hashes.sh`)
+2. Smoke test the daemon end-to-end on each platform (macOS aarch64 + x86_64, Windows, Linux)
+3. Decision: ship without codesigning (v1) or wait for Apple Dev cert + Windows Authenticode (v4 per spec row 12)
+
+## v0.6 revisions (2026-05-09)
+
+One change (row 32):
+
+1. **Bench-sandbox INACTIVE convention locked** (decision row 32 below). Sandboxes that test future-tech hypotheses (mesh transport, model registry hashes, real iroh impl) ship as slot-stubs containing only `expected.json` + `README.md`. The bench runner (`bench/bench/runner.py`) recognizes `status: "INACTIVE"` in `expected.json` and skips the docker-compose.yml + bench.py file requirement. ACTIVE sandboxes keep strict 4-file validation. The slot-stub pattern lets the harness commit early bets — the contract is fixed, the implementation lands when the underlying tech matures. Validates against the criticism that "bench-driven design" is over-engineered for a solo project: the slot-stub commits cost ~30 minutes each and pre-load the verification surface for whoever picks up Phase 7+ (mesh) or Phase 9+ (Memory Palace) work.
 
 ## v0.5 revisions (2026-05-09)
 
@@ -98,6 +132,7 @@ Why now:
 | 29 | **Encryption mapped onto privacy zones A/B/C (new in v0.4)** | **Zone A (local Mem0): SQLCipher AES-256 with Argon2id-derived key from user passphrase (~5-15% latency overhead). Zone B (personal palace): age symmetric encryption + Ed25519 signing for at-rest; user identity keypair stored encrypted in OS secrets store (Keychain/DPAPI/libsecret). Zone C (mesh-published): Ed25519 signatures always; age recipient encryption when private group share (`mesh: group@<id>` frontmatter). Transport encryption already provided by iroh QUIC TLS 1.3. Honest limit: v6+ sharded inference is NOT privacy-preserving against malicious borrowed-machine operator (TEE hardware-gated; FHE decade-out)** | Sandbox I measures Mem0 encryption overhead. age chosen over GPG (5K LOC vs 250K, vastly easier to audit). Ed25519 signatures = ~50-100µs/op; age = ~50 MB/s; cryptographic overhead is sub-millisecond on KB-MB nodes — doesn't violate quick-look-up budgets. Full mapping in encryption-compression research note |
 | 30 | **Compress-then-encrypt order mandatory (new in v0.4)** | **Pipeline contract: serialize → compress → encrypt → sign → transport. Reverse order is INVALID — encrypted bytes are random by design and post-encryption compression saves nothing. Length-leak padding (power-of-2 buckets: 128B/256B/512B/1KB/.../64KB) required for Zone C private group shares. Signatures over the wire-format bytes (compressed-encrypted), not the plaintext** | Standard cryptographic wisdom but explicitly locked because the order is load-bearing. Mitigates CRIME / BREACH-class attacks via padding. Simplifies skill-artifact verification (sign compressed bytes; if compression algorithm changes, re-sign) |
 | 31 | **VM / cloud deployment policy (new in v0.5)** | **OCM v1 daemon runs on user-owned hardware by default. TWO supported remote-VM shapes: (a) bench/test fleets (now — Multipass single-host + cloud WAN fleets via Hetzner / DigitalOcean / Fly.io); (b) Phase 7+ relay/seed nodes (community-run, no user memory, like IPFS bootstrap). EXPLICITLY NOT SUPPORTED in v1: "OCM on a VPS for inference" as a sanctioned path. "Local-first" is redefined as "this user's compute" not "this user's physical machine"; users who deploy on a remote VM anyway must understand Zone A encryption stops being defense-in-depth and becomes load-bearing, and key custody requires an OS-keyring substitute (age + passphrase recommended). Sybil resistance (v5+) is a hard precondition for encouraging remote-VM peers in inference sharing or palace federation** | Names the policy that was implicit but unstated through v0.4. Bench fleet sandbox slot committed at `bench/isolation/mesh-transport/multipass-fleet/` (status INACTIVE until Phase 7 mesh transport). Honest non-recommendations also locked: don't optimize for VPS-as-primary-host (existing GPU-VPS providers do that better), don't run a public bootnet without v5 anti-abuse infrastructure, don't promise privacy guarantees that don't survive on a remote VM. Full reasoning in `../research/2026-05-09-remote-node-deployment.md` |
+| 32 | **Bench-sandbox INACTIVE convention (new in v0.6)** | **Sandboxes that test future-tech hypotheses ship as slot-stubs with only `expected.json` (containing `"status": "INACTIVE"` plus `"blocked_on"` reasons) and `README.md`. The bench runner (`bench/bench/runner.py`) skips the docker-compose.yml + bench.py file requirement for INACTIVE sandboxes; ACTIVE sandboxes keep strict 4-file validation. Slot stubs commit the hypothesis contract early so when the underlying tech matures, the harness has a target without a fresh design pass.** | Locks the pattern after the multipass-fleet sandbox (PR #10) + 7 research-derived sandboxes (PR #20) shipped as INACTIVE. Closes the loophole that strict 4-file validation creates a "must implement everything before scaffolding anything" trap — disastrous for a solo project that needs to commit forward-looking bets cheaply. Counterargument considered: "but doesn't this dilute the bench's signal?" — no, because INACTIVE sandboxes don't pollute results (dry-run-all reports them separately); they only commit the hypothesis. Ten INACTIVE stubs cost ~30 minutes each and pre-load the verification surface for whoever picks up Phase 7+ (mesh), Phase 9+ (Memory Palace), or v6 (sharded inference) work |
 
 ## v1 scope — "Single-Node OCM"
 
