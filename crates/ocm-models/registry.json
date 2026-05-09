@@ -11,15 +11,6 @@
       "tier": "tiny"
     },
     {
-      "id": "qwen3-8b-q4",
-      "display_name": "Qwen 3 8B Instruct (Q4_K_M)",
-      "size_mb": 4900,
-      "min_ram_gb": 8,
-      "url": "https://huggingface.co/Qwen/Qwen3-8B-Instruct-GGUF/resolve/main/qwen3-8b-instruct-q4_k_m.gguf",
-      "sha256": "",
-      "tier": "default"
-    },
-    {
       "id": "llama-3.1-8b-q4",
       "display_name": "Llama 3.1 8B Instruct (Q4_K_M)",
       "size_mb": 4920,
@@ -36,15 +27,6 @@
       "url": "https://huggingface.co/MaziyarPanahi/Mistral-7B-Instruct-v0.3-GGUF/resolve/main/Mistral-7B-Instruct-v0.3.Q4_K_M.gguf",
       "sha256": "14850c84ff9f06e9b51d505d64815d5cc0cea0257380353ac0b3d21b21f6e024",
       "tier": "default"
-    },
-    {
-      "id": "qwen3-30b-a3b-q4",
-      "display_name": "Qwen 3 30B-A3B MoE (Q4_K_M)",
-      "size_mb": 18800,
-      "min_ram_gb": 32,
-      "url": "https://huggingface.co/Qwen/Qwen3-30B-A3B-GGUF/resolve/main/qwen3-30b-a3b-q4_k_m.gguf",
-      "sha256": "",
-      "tier": "canonical"
     }
   ]
 }
