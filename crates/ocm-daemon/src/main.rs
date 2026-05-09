@@ -1,6 +1,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 mod paths;
+mod settings;
 mod tray;
 
 use tauri::tray::TrayIconBuilder;
@@ -25,7 +26,15 @@ fn main() -> anyhow::Result<()> {
                 data = %app_paths.data_dir.display(),
                 "app paths resolved"
             );
+            let settings_path = app_paths.config_dir.join("settings.toml");
+            let loaded_settings = settings::Settings::load_or_default(&settings_path)?;
+            info!(
+                model = ?loaded_settings.model_id,
+                port = loaded_settings.api_port,
+                "settings loaded"
+            );
             app.manage(app_paths);
+            app.manage(loaded_settings);
 
             let menu = tray::build_tray_menu(app.handle())?;
             let _tray = TrayIconBuilder::new()
