@@ -1,0 +1,80 @@
+# Dependabot config — keeps the dependency surface fresh without overwhelming
+# review with daily PRs. Weekly cadence per ecosystem; security updates always
+# bypass the schedule.
+#
+# Reference: https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  # Rust workspace
+  - package-ecosystem: cargo
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - rust
+    commit-message:
+      prefix: "deps(rust)"
+    groups:
+      # Group axum + tower + hyper updates so they land together
+      axum-stack:
+        patterns:
+          - "axum*"
+          - "tower*"
+          - "hyper*"
+      # Group tokio + futures
+      async-stack:
+        patterns:
+          - "tokio*"
+          - "futures*"
+
+  # Frontend
+  - package-ecosystem: npm
+    directory: "/frontend"
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - frontend
+    commit-message:
+      prefix: "deps(frontend)"
+    groups:
+      svelte-stack:
+        patterns:
+          - "@sveltejs/*"
+          - "svelte*"
+      tailwind-stack:
+        patterns:
+          - "@tailwindcss/*"
+          - "tailwindcss"
+
+  # GitHub Actions
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - github-actions
+    commit-message:
+      prefix: "deps(actions)"
+
+  # Bench framework (Python)
+  - package-ecosystem: pip
+    directory: "/bench"
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 3
+    labels:
+      - dependencies
+      - bench
+    commit-message:
+      prefix: "deps(bench)"
