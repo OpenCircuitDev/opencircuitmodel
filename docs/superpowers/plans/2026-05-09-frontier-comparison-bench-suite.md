@@ -352,6 +352,53 @@ If all three suite-level metrics confirm, the load-bearing strong claim ("mesh-a
 
 ---
 
+## 7b. Sandbox F — Effective-corpus advantage on multi-domain palace queries (added v0.4)
+
+**Purpose:** Tests OCM's structural advantage that frontier closed AI cannot match: cross-user federated knowledge palace gives each agent access to a multi-GB curated corpus the frontier model has no equivalent access to. This is the load-bearing measurement for the **expansion + stratification + quick look-up** triad that defines OCM's effective-context architecture.
+
+**Path:** `bench/combination/effective-corpus-advantage-multi-domain/`
+
+**`expected.json`:**
+```json
+{
+  "hypothesis_id": "effective-corpus-advantage-multi-domain",
+  "claim": "OCM agent with Llama 3.1 8B Q4 + local Mem0 + own palace + 4 subscribed mesh palaces (cumulative ~5GB curated knowledge) outperforms Claude Opus 4.7 (1M context, no special prep) by >=20pp on a 50-question multi-domain knowledge benchmark drawn from the cumulative palace corpus, with median retrieval latency <=2s",
+  "metric": "multi_domain_recall_accuracy_pct_delta",
+  "thresholds": {"confirm_at_least": 20.0, "refute_below": 5.0},
+  "comparison_anchor": "claude-opus-4-7-via-anthropic-api-1m-context-no-rag",
+  "secondary_metric": "citation_accuracy_pct",
+  "secondary_thresholds": {"confirm_at_least": 80.0, "refute_below": 50.0},
+  "tertiary_metric": "retrieval_latency_p50_ms",
+  "tertiary_thresholds": {"confirm_at_most": 2000, "refute_above": 5000},
+  "workload": "multi-domain-palace-recall-50q.jsonl",
+  "timeout_seconds": 14400,
+  "decision_rule": "If CONFIRMED on all three (quality delta + citation accuracy + retrieval latency), OCM has measurable structural advantage on the dimension it was built to win. Update website hero copy + research synthesis to cite the numbers. If REFUTED on quality delta, palace federation thesis fails; v3.5+ scope rethought. If quality CONFIRMED but latency REFUTED, the architecture is right but search/index pipeline needs optimization."
+}
+```
+
+**Mechanism under test:**
+- Anchor: Claude Opus 4.7 receives the 50 questions raw, no special prep, full 1M context budget but no RAG layer
+- OCM agent: own Mem0 + own palace + 4 subscribed mesh palaces (each from a different domain expert: code, math, writing, ops, design); ~5GB cumulative
+- Both score on the same questions — answers are evaluated for correctness, citation accuracy, AND retrieval latency
+
+**Workload:** 50 questions where the answer requires knowledge curated across multiple users' palaces. Examples:
+- "What's the OCM-spec-locked decision for canonical model on 24GB VRAM, and what's the rationale citation?"
+- "When was the spec revised to add Memory Palace, and what triggered the change?"
+- "What's the verdict-decision rule for the bench framework's hypothesis where the cross-mesh skill artifact accuracy delta is between 2pp and 5pp?"
+
+These questions cannot be answered from training data (they're OCM-specific). Frontier models will say "I don't have access to that information." OCM agents with palace subscriptions will retrieve, cite, and answer correctly within 2s p50.
+
+**Why this is the load-bearing measurement:** Sandboxes A-E test compute efficiency and quality on *general* tasks where frontier has structural advantages (raw context window, training data). Sandbox F tests the dimension where OCM has structural advantages (cross-user curated corpus, persistence, citation provenance). **Both directions deserve measurement.** OCM doesn't win every fight; it wins specific fights structurally.
+
+The triad this sandbox validates:
+- **Expansion** — accessible corpus is ~5GB, dramatically more than 1M tokens fits
+- **Stratification** — agent navigates working ctx → Mem0 → own palace → subscribed palaces in priority order
+- **Quick look up** — median retrieval latency ≤2s across 5GB of indexed knowledge
+
+If all three confirm, OCM has *empirical proof* of the architectural triad working at scale.
+
+---
+
 ## 8. The mesh-only-possible quality lift metric
 
 The five sandboxes also report a unified "mesh advantage" metric: the delta between mesh-augmented OCM and pure single-machine OCM (no test-time scaling, no tiered routing, no skill federation, no mesh retrieval). This isolates the question: **how much of the win comes from the mesh specifically, vs. just having good local components?**
