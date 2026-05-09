@@ -1,0 +1,19 @@
+{
+  "hypothesis_id": "letta-tool-memory-on-llama-8b",
+  "claim": "Letta's tool-call-driven memory paradigm produces <=70% LoCoMo recall on Llama 3.1 8B Q4 — significantly worse than Mem0's library-driven retrieval (target: ~88+ in mem0-v3-locomo sandbox). Letta's own engineering admits Llama 8B can't reliably drive their tool-calling memory.",
+  "metric": "locomo_recall_score",
+  "thresholds": {
+    "confirm_at_most": 70.0,
+    "refute_above": 80.0
+  },
+  "workload": "locomo-conversations.jsonl",
+  "source_for_claim": "Letta engineering blog, cited in spec v0.2 row 9 rationale: Letta admits Llama 8B-Instruct cannot reliably drive their tool-calling memory paradigm.",
+  "comparison_anchor": "memory/mem0-v3-locomo (same workload, library-driven retrieval instead)",
+  "decision_rule": "CONFIRMED is the EXPECTED outcome — vindicates the v0.2 decision to swap Letta for Mem0 on small-model setups. REFUTED would be a surprise that prompts revisiting the row 9 lock.",
+  "timeout_seconds": 1800,
+  "status": "INACTIVE",
+  "blocked_on": [
+    "Letta server packaging on Llama 8B not yet wired",
+    "LoCoMo workload not yet packaged"
+  ]
+}

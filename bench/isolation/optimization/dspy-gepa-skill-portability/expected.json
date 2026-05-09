@@ -1,0 +1,25 @@
+{
+  "hypothesis_id": "dspy-gepa-skill-portability-cross-node",
+  "claim": "A DSPy GEPA-compiled program saved on Node A (Llama 3.1 8B Q4 + RTX 4090) and loaded on Node B (Qwen3 8B Q4 + Apple Silicon M4) preserves >=95% of its accuracy on the AIME math task. This is the structural foundation for OCM's v2+ skill federation network-effect lever per spec v0.3 row 23.",
+  "metric": "aime_accuracy_preservation_ratio",
+  "thresholds": {
+    "confirm_at_least": 0.95,
+    "refute_below": 0.80
+  },
+  "secondary_metric": "load_time_seconds",
+  "secondary_thresholds": {
+    "confirm_at_most": 5.0,
+    "refute_above": 30.0
+  },
+  "workload": "aime-math-2026.jsonl",
+  "source_for_claim": "DSPy GEPA paper: +10pp AIME, +17pp entity extraction. program.save()/program.load() is first-class. Spec v0.3 row 23 upgrade: federation lever.",
+  "comparison_anchor": "optimization/dspy-gepa-same-node-baseline (compile + run on Node A, no transfer)",
+  "decision_rule": "If CONFIRMED, signed compiled-skill artifacts are a viable v2+ federation primitive — proceed with mesh-distribution design. If REFUTED, GEPA programs are model-specific and federation-as-skill-sharing falls apart, forcing a different network-effect strategy.",
+  "timeout_seconds": 7200,
+  "status": "INACTIVE",
+  "blocked_on": [
+    "DSPy GEPA optimizer not yet integrated into OCM",
+    "AIME 2026 workload not yet packaged",
+    "Two-node bench harness (presumes mesh transport from Phase 7+)"
+  ]
+}
