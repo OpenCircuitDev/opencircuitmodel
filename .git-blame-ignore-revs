@@ -1,0 +1,12 @@
+# Revisions to skip when running `git blame`.
+#
+# Add formatting-only commits here (rustfmt churn, prettier sweeps,
+# line-ending normalization) so blame surfaces the actual author of
+# each line, not the bot that reformatted them.
+#
+# Enable locally with:
+#   git config blame.ignoreRevsFile .git-blame-ignore-revs
+#
+# GitHub respects this file automatically in the web blame view.
+
+# (No commits to ignore yet — add formatting-sweep SHAs here as they happen.)
