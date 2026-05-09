@@ -31,10 +31,16 @@ pub struct AppState {
 }
 
 /// Construct the full router with /v1/* OpenAI-compat routes.
+///
+/// `serve()` binds to 127.0.0.1 by default, so the OS kernel already rejects
+/// non-loopback traffic. The `require_localhost` middleware is defense-in-depth
+/// in case the bind address ever broadens (mesh exposure is a v2+ concern with
+/// its own auth layer).
 pub fn router(state: AppState) -> Router {
     Router::new()
         .nest("/v1", openai::router())
         .with_state(state)
+        .layer(axum::middleware::from_fn(auth::require_localhost))
         .layer(tower_http::trace::TraceLayer::new_for_http())
 }
 
