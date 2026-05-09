@@ -1,10 +1,18 @@
-# OpenCircuitModel (OCM) — Design Spec v0.3
+# OpenCircuitModel (OCM) — Design Spec v0.4
 
-> **Status:** brainstorming complete + two research-driven revisions (2026-05-08, 2026-05-09); implementation plan in `../plans/2026-05-08-ocm-v1-implementation-plan.md`
-> **Date:** 2026-05-08 (v0.2) → revised 2026-05-09 (v0.3) after memory + sub-context retrieval deep dive — see `../research/2026-05-09-memory-context-retrieval-deep-dive.md`
+> **Status:** brainstorming complete + three research-driven revisions; implementation plan in `../plans/2026-05-08-ocm-v1-implementation-plan.md`
+> **Date:** 2026-05-08 (v0.2) → 2026-05-09 (v0.3) after memory + sub-context retrieval deep dive → 2026-05-09 (v0.4) after Memory Palace pattern analysis — see `../research/2026-05-09-decentralized-memory-palace-pattern.md`
 > **Project lead:** Brand (solo founder)
 > **Repo:** `github.com/OpenCircuitDev/opencircuitmodel` (Apache 2.0)
 > **Website:** ocm.shortcircuit.bot (subdomain under shortcircuit.bot ecosystem)
+
+## v0.4 revisions (2026-05-09)
+
+One change — the addition of OCM's third network-effect lever:
+
+1. **Decentralized Memory Palace locked as v3.5+ feature** (decision row 26 below). A per-user git-backed structured knowledge store, selectively published over the OCM mesh with cryptographic signatures. Operates on the *human-readable knowledge artifact* axis — orthogonal to skill federation (compiled programs) and inference compute sharing (raw FLOPS). Reference implementation: Brand's existing OCR Memory Palace pattern, generalized from single-user to mesh-distributed with privacy controls. See [`../research/2026-05-09-decentralized-memory-palace-pattern.md`](../research/2026-05-09-decentralized-memory-palace-pattern.md) for the full architecture.
+
+OCM now has three structurally-aligned network-effect levers (v2+ inference sharing → v2+ skill federation → v3.5+ memory palace federation). Each operates on a different layer (hardware → programs → knowledge); each is something no closed-cloud system can match structurally.
 
 ## v0.3 revisions (2026-05-09)
 
@@ -70,6 +78,7 @@ Why now:
 | 23 | **DSPy GEPA + signed skill artifacts (v2+ network-effect lever)** | **DSPy GEPA-compiled skills distributed across the OCM mesh as signed, deterministic artifacts** (upgraded from "opt-in extension" in v0.2) | v0.3 strategic upgrade: `program.save()/program.load()` is first-class; compiled skills are deterministic, redistributable, privacy-clean (no user data leaks). **This is OCM's actual network-effect lever** — every contributor's optimization improves every user's agent layer. Federated memory is deferred to v3+ research; federated skills ship in v2. +10pp AIME, +17pp entity extraction with GEPA on small models |
 | 24 | **Compressed-view tool (v1, new in v0.3)** | **Aider-style repomap pattern: NetworkX PageRank + tree-sitter compressed view** | Deterministic, no LLM call at retrieval time, fits any structured corpus (code / docs / conversation logs) into a configurable token budget; ideal for small models that lack the planning chops to navigate corpora. Repomix `--compress` (tree-sitter) cuts tokens ~70% while preserving structure |
 | 25 | **Code-context retrieval (v1, new in v0.3)** | **Continue.dev's hybrid stack: LanceDB + ripgrep + LLM rerank, all local** | Production blueprint to lift wholesale; outperforms pure vector RAG; 100% local; privacy-clean. Adopt as the OCM code-context pattern when v1's MCP layer exposes code-aware tools |
+| 26 | **Decentralized Memory Palace (v3.5+ network-effect lever, new in v0.4)** | **Per-user git-backed structured knowledge store, selectively published over the OCM mesh with cryptographic signatures**; substrate is git + markdown (GitHub for v3.5 hosting, iroh-blobs + git CRDT for v4+ pure-mesh); MCP tools `palace_search`/`read`/`write`/`publish`/`subscribe` expose the layer; three privacy zones (Zone A local Mem0 / Zone B personal palace / Zone C mesh-published) | OCM's third network-effect lever alongside inference sharing (v2+) and skill federation (v2+). Reference implementation: Brand's working OCR Memory Palace pattern, generalized from single-user to mesh-distributed. Full architecture in `../research/2026-05-09-decentralized-memory-palace-pattern.md`. Knowledge axis (human-readable curated artifacts) is orthogonal to skill federation (compiled DSPy programs) — they compound, do not duplicate |
 
 ## v1 scope — "Single-Node OCM"
 

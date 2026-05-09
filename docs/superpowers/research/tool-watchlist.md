@@ -46,6 +46,22 @@ A subagent dispatched with the prompt **"Re-run OCM tool scan; check `tool-watch
   - arXiv search: `("agent memory" OR "context retrieval") AND ("benchmark" OR "evaluation")` past 30 days
 - **Triggers an immediate scan:** Letta or Mem0 announces a 1.x version bump
 
+#### M1b. Decentralized memory palace / agent knowledge stores (added 2026-05-09)
+- **Last scanned:** 2026-05-09 ([Memory Palace pattern analysis](2026-05-09-decentralized-memory-palace-pattern.md))
+- **Next due:** 2026-06-09
+- **Why monthly:** This is OCM's newly-locked third network-effect lever (v3.5+); the substrate space (git CRDT, iroh-blobs, p2p notes apps) is moving fast in 2026
+- **Watch URLs:**
+  - https://github.com/n0-computer/iroh-blobs — content-addressed blob store, OCM mesh transport partner
+  - https://automerge.org/ — CRDT for collaborative markdown merge
+  - https://github.com/orbitdb/orbitdb — IPFS-backed distributed database
+  - https://earthstar-project.org/ — p2p personal-data store
+  - https://github.com/anyproto/any-sync — Anytype's p2p sync protocol (mostly-OSS)
+  - https://github.com/logseq/logseq — local-first knowledge graph
+  - https://github.com/foambubble/foam — VS Code PKM
+  - https://radicle.xyz — peer-to-peer code/git collaboration
+  - Search arxiv: `("knowledge graph" OR "memory palace") AND ("agent" OR "LLM") AND ("p2p" OR "federated")` past 30 days
+- **Triggers an immediate scan:** Anytype open-sources their full sync layer; any "agent memory federation" paper with shipping code; iroh-blobs adds git-replication primitives
+
 #### M2. Agent frameworks (orchestration)
 - **Last scanned:** 2026-05-08 ([orchestration report](2026-05-08-agent-memory-orchestration.md))
 - **Next due:** 2026-06-08
