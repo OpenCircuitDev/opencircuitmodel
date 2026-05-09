@@ -1,24 +1,20 @@
 {
-  "hypothesis_id": "aider-repomap-fidelity-vs-full-context",
-  "claim": "Aider-style repomap (NetworkX PageRank + tree-sitter compressed view) preserves >=85% of code-aware Q&A accuracy at 30% of the token budget vs sending the full repository as context. Tree-sitter compression cuts tokens ~70% while preserving structure.",
-  "metric": "code_qa_accuracy_at_30pct_tokens",
+  "hypothesis_id": "aider-repomap-token-reduction-and-symbol-coverage",
+  "claim": "An Aider-style repomap (signatures + first-line docstrings, function bodies elided, public symbols only) cuts repository token count by >=50% while preserving 100% of public symbols (functions, classes, methods) on a representative ~600 LOC Python codebase fixture. The accuracy axis (does the model still answer Q&A correctly) needs a model and lives in a future paired sandbox; this sandbox measures only the deterministic structural-compression axis.",
+  "metric": "token_reduction_pct",
   "thresholds": {
-    "confirm_at_least": 0.85,
-    "refute_below": 0.70
+    "confirm_at_least": 50.0,
+    "refute_below": 30.0
   },
-  "secondary_metric": "tokens_used_p50",
+  "secondary_metric": "symbol_coverage",
   "secondary_thresholds": {
-    "confirm_at_most": 8000,
-    "refute_above": 15000
+    "confirm_at_least": 1.0,
+    "refute_below": 0.99
   },
-  "workload": "code-qa-mid-size-repo.jsonl",
-  "source_for_claim": "Aider's repomap design + Repomix --compress benchmarks. Spec v0.3 row 24: 'Aider-style repomap pattern as generic compressed-view tool.'",
-  "comparison_anchor": "retrieval/full-context-baseline (when implemented — same Q&A on uncompressed repo dump)",
-  "decision_rule": "If CONFIRMED, repomap is the v1 default for code-context retrieval; row 24 lock holds. If REFUTED on accuracy, investigate PageRank parameter tuning before declaring repomap insufficient. If REFUTED on tokens, the 30% target is too aggressive and the spec's effective-context expansion math needs revisiting.",
-  "timeout_seconds": 1800,
-  "status": "INACTIVE",
-  "blocked_on": [
-    "Code Q&A workload not yet curated in bench/workloads/",
-    "MCP layer's code-aware tools not yet wired (planned for v1+, not v1)"
-  ]
+  "workload": "codebase-fixture-python (10 modules, 600 LOC; mylib + tests subtree)",
+  "source_for_claim": "Spec v0.3 row 24: 'Aider-style repomap pattern as generic compressed-view tool. Repomix --compress (tree-sitter) cuts tokens ~70% while preserving structure.' This sandbox proves the structural part deterministically.",
+  "comparison_anchor": "full-corpus baseline (concatenated raw .py files of the same fixture)",
+  "decision_rule": "If CONFIRMED on both primary (>=60% reduction) AND secondary (100% symbol coverage), the repomap recipe is sound for the structural axis. Row 24 lock holds for the deterministic claim. The accuracy claim still needs paired sandbox before row 24 graduates fully. If REFUTED on tokens, the recipe is too gentle (preserve fewer signatures or drop docstrings). If REFUTED on coverage (any public symbol missing), the AST extractor has a bug.",
+  "timeout_seconds": 300,
+  "status": "ACTIVE"
 }
