@@ -17,35 +17,60 @@ class DryRunError(ValueError):
     """Raised when sandbox structure fails dry-run validation."""
 
 
-def find_sandbox_files(sandbox_path: Path) -> dict[str, Path]:
-    """Locate the four files every sandbox must have."""
-    files = {
+def find_sandbox_files(sandbox_path: Path, *, active: bool = True) -> dict[str, Path]:
+    """Locate the files a sandbox must have.
+
+    ACTIVE sandboxes need all four (expected.json, docker-compose.yml, bench.py,
+    README.md) since they execute end-to-end.
+
+    INACTIVE sandboxes (slot stubs committed before their underlying tech is
+    ready) need only expected.json + README.md.
+    """
+    required = {
         "expected": sandbox_path / "expected.json",
-        "compose": sandbox_path / "docker-compose.yml",
-        "bench": sandbox_path / "bench.py",
         "readme": sandbox_path / "README.md",
     }
-    missing = [name for name, path in files.items() if not path.exists()]
+    if active:
+        required["compose"] = sandbox_path / "docker-compose.yml"
+        required["bench"] = sandbox_path / "bench.py"
+    missing = [name for name, path in required.items() if not path.exists()]
     if missing:
+        state = "ACTIVE" if active else "INACTIVE"
         raise DryRunError(
-            f"sandbox {sandbox_path} is missing required files: {', '.join(missing)}"
+            f"sandbox {sandbox_path} ({state}) is missing required files: {', '.join(missing)}"
         )
-    return files
+    return required
 
 
 def load_expected(sandbox_path: Path) -> ExpectedJson:
-    """Load and validate expected.json against the schema."""
-    files = find_sandbox_files(sandbox_path)
-    raw = json.loads(files["expected"].read_text())
+    """Load and validate expected.json against the schema.
+
+    Reads expected.json before checking the rest of the file set so the
+    sandbox's `status` can gate file requirements.
+    """
+    expected_path = sandbox_path / "expected.json"
+    if not expected_path.exists():
+        raise DryRunError(f"sandbox {sandbox_path} is missing expected.json")
+    raw = json.loads(expected_path.read_text())
     try:
-        return ExpectedJson(**raw)
+        expected = ExpectedJson(**raw)
     except ValidationError as e:
         raise DryRunError(f"expected.json schema invalid: {e}") from e
+    # Now enforce the file set appropriate for the sandbox's status.
+    find_sandbox_files(sandbox_path, active=(expected.status == "ACTIVE"))
+    return expected
 
 
 def validate_compose(sandbox_path: Path) -> None:
-    """Verify docker-compose.yml parses as YAML and declares at least one service."""
-    files = find_sandbox_files(sandbox_path)
+    """Verify docker-compose.yml parses as YAML and declares at least one service.
+
+    Skips silently for INACTIVE sandboxes — they don't ship a compose file.
+    """
+    expected_path = sandbox_path / "expected.json"
+    raw_expected = json.loads(expected_path.read_text())
+    if raw_expected.get("status", "ACTIVE") != "ACTIVE":
+        return
+    files = find_sandbox_files(sandbox_path, active=True)
     raw = files["compose"].read_text()
     try:
         parsed = yaml.safe_load(raw)

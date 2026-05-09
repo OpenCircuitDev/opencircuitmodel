@@ -1,0 +1,19 @@
+{
+  "hypothesis_id": "cognee-8b-graph-noise-rate",
+  "claim": "Cognee's knowledge-graph builder running on Llama 3.1 8B Q4 produces >=80% hallucinated graph nodes (factually wrong edges, fabricated entities), confirming Cognee's own docs that recommend deepseek-r1:32b or Llama 3.3 70B and not smaller. This disqualifies Cognee for OCM's small-model default but documents the limit.",
+  "metric": "graph_node_factual_accuracy_pct",
+  "thresholds": {
+    "confirm_at_most": 20.0,
+    "refute_above": 50.0
+  },
+  "workload": "wikipedia-bio-pages.jsonl",
+  "source_for_claim": "Cognee documentation: deepseek-r1:32b or Llama 3.3 70B required for stable graph construction. Research note observation that 8B produces ~90% hallucinated nodes informally.",
+  "comparison_anchor": "retrieval/cognee-32b-graph-quality (when implemented; same workload on the recommended model)",
+  "decision_rule": "CONFIRMED is the EXPECTED outcome — vindicates the v0.4 row decision NOT to ship Cognee in v1. REFUTED would prompt reconsidering Cognee for small-model setups.",
+  "timeout_seconds": 3600,
+  "status": "INACTIVE",
+  "blocked_on": [
+    "Cognee not packaged in OCM (and intentionally won't be in v1)",
+    "Wikipedia-bio workload not yet packaged in bench/workloads/"
+  ]
+}

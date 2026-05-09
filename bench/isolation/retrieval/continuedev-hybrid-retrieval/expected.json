@@ -1,0 +1,20 @@
+{
+  "hypothesis_id": "continuedev-hybrid-vs-pure-vector",
+  "claim": "Continue.dev's hybrid retrieval (LanceDB + ripgrep + LLM rerank, all local) outperforms pure vector RAG by >=10 points on a code-context Q&A workload, with privacy-clean local-only execution. Spec v0.3 row 25.",
+  "metric": "code_qa_accuracy_score",
+  "thresholds": {
+    "confirm_at_least_above_baseline": 10.0,
+    "refute_below_baseline": 0.0
+  },
+  "workload": "code-qa-mid-size-repo.jsonl",
+  "source_for_claim": "Continue.dev production telemetry + open-source design docs. Spec v0.3 row 25: 'Continue.dev hybrid stack as production blueprint for code context.'",
+  "comparison_anchor": "retrieval/pure-vector-rag-baseline (LanceDB only, no ripgrep, no rerank)",
+  "decision_rule": "If CONFIRMED, lift hybrid stack as v1 code-context blueprint; row 25 lock holds. If REFUTED on the gap (still better but <10pp), repomap may be the better v1 default. If REFUTED below baseline, hybrid is overengineered for OCM's small-model setup.",
+  "timeout_seconds": 2400,
+  "status": "INACTIVE",
+  "blocked_on": [
+    "Same code-Q&A workload as aider-repomap-fidelity",
+    "LanceDB embedding pipeline not yet wired in OCM",
+    "MCP code-aware tool layer not yet wired"
+  ]
+}

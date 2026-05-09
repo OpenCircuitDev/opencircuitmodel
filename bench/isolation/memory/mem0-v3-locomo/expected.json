@@ -1,0 +1,25 @@
+{
+  "hypothesis_id": "mem0-v3-locomo-recall",
+  "claim": "Mem0 v3 with library-driven retrieval (no agent-driven memory tool calls) achieves >=88 LoCoMo recall on a small-model setup (Qwen3 8B Q4 + Mem0 v3 + sqlite-vec) at <=7000 tokens retrieved per query — within 4 points of the 91.6 LoCoMo published number on larger models.",
+  "metric": "locomo_recall_score",
+  "thresholds": {
+    "confirm_at_least": 88.0,
+    "refute_below": 80.0
+  },
+  "secondary_metric": "tokens_retrieved_p50",
+  "secondary_thresholds": {
+    "confirm_at_most": 7000,
+    "refute_above": 12000
+  },
+  "workload": "locomo-conversations.jsonl",
+  "source_for_claim": "Mem0 v3 release notes (April 2026): 91.6 LoCoMo / 93.4 LongMemEval at ~7000 tokens/retrieval on production setup",
+  "comparison_anchor": "letta-tool-driven-memory-on-same-model (when implemented in sister sandbox)",
+  "decision_rule": "If CONFIRMED, library-driven retrieval is structurally aligned with the small-model thesis — proceed with v0.4 row 9 lock. If REFUTED on recall but secondary metric green, investigate Qwen3 8B's retrieval-context utilization. If REFUTED on tokens metric, the 7000 budget is overly optimistic and Effective-Context Triad's quick-look-up budget needs revisit.",
+  "timeout_seconds": 1800,
+  "status": "INACTIVE",
+  "blocked_on": [
+    "LoCoMo conversations workload not yet downloaded into bench/workloads/",
+    "Bench harness does not yet drive Mem0 + Qwen3 8B end-to-end",
+    "Mem0 OpenMemory MCP local mode not yet packaged with the daemon"
+  ]
+}

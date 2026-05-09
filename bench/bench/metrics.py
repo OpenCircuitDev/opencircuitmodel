@@ -42,6 +42,12 @@ class ExpectedJson(BaseModel):
     secondary_thresholds: Thresholds | None = None
     comparison_anchor: str | None = None
     decision_rule: str | None = None
+    # "ACTIVE" sandboxes have docker-compose.yml + bench.py and run end-to-end.
+    # "INACTIVE" sandboxes are slot-stubs committed before their underlying tech
+    # is ready (mesh transport, model packaging, workload curation, etc.) — they
+    # ship with just expected.json + README.md so the harness has a target later.
+    status: str = "ACTIVE"
+    blocked_on: list[str] | None = None
 
     model_config = {"extra": "allow"}
 

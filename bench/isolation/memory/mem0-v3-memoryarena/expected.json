@@ -1,0 +1,19 @@
+{
+  "hypothesis_id": "mem0-v3-memoryarena-interdependent-tasks",
+  "claim": "Mem0 v3 + Qwen3 8B Q4 achieves >=55% on Stanford MemoryArena's multi-session interdependent task suite — meaningfully above the 40-50% Stanford observed on small models with naive retrieval, but below the 100% LoCoMo ceiling that Stanford showed degrades to 40-60% on real interdependent work.",
+  "metric": "memoryarena_interdependent_score",
+  "thresholds": {
+    "confirm_at_least": 55.0,
+    "refute_below": 40.0
+  },
+  "workload": "memoryarena-multisession-interdependent.jsonl",
+  "source_for_claim": "Stanford MemoryArena (2026): agents at near-100% LoCoMo drop to 40-60% on real interdependent tasks. Calibrates honest expectations vs LoCoMo ceiling.",
+  "comparison_anchor": "memory/mem0-v3-locomo (LoCoMo recall on the same setup)",
+  "decision_rule": "If CONFIRMED, OCM has a credible story for real-world memory utility (not just LoCoMo recall). If REFUTED, revisit Mem0 retrieval policy + agent prompt structure before declaring small-model-mem0 unsuitable for interdependent work.",
+  "timeout_seconds": 3600,
+  "status": "INACTIVE",
+  "blocked_on": [
+    "Stanford MemoryArena workload not yet packaged for the bench framework",
+    "Critical to OCM's verification plan — paired with mem0-v3-locomo per spec verification rev"
+  ]
+}
