@@ -31,8 +31,7 @@ async fn main() -> anyhow::Result<()> {
         )
         .init();
 
-    let api_url =
-        std::env::var("OCM_API_URL").unwrap_or_else(|_| DEFAULT_API_URL.to_string());
+    let api_url = std::env::var("OCM_API_URL").unwrap_or_else(|_| DEFAULT_API_URL.to_string());
     info!(url = %api_url, "ocm-mcp starting; bridging stdio JSON-RPC -> OCM HTTP API");
 
     let bridge = OcmBridge::new(api_url);

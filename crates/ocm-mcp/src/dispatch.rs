@@ -3,9 +3,8 @@
 
 use crate::bridge::{arg_str, BridgeError, OcmBridge};
 use crate::protocol::{
-    initialize_result, tool, tools_call_error_result, tools_call_text_result,
-    tools_list_result, JsonRpcRequest, JsonRpcResponse, INTERNAL_ERROR, INVALID_PARAMS,
-    METHOD_NOT_FOUND,
+    initialize_result, tool, tools_call_error_result, tools_call_text_result, tools_list_result,
+    JsonRpcRequest, JsonRpcResponse, INTERNAL_ERROR, INVALID_PARAMS, METHOD_NOT_FOUND,
 };
 use serde_json::{json, Value};
 
@@ -87,11 +86,7 @@ async fn handle_tools_call(id: Value, params: &Value, bridge: &OcmBridge) -> Jso
             Err(e) => tools_call_error_result(e.to_string()),
         },
         unknown => {
-            return JsonRpcResponse::err(
-                id,
-                METHOD_NOT_FOUND,
-                format!("unknown tool: {unknown}"),
-            );
+            return JsonRpcResponse::err(id, METHOD_NOT_FOUND, format!("unknown tool: {unknown}"));
         }
     };
 
@@ -151,7 +146,10 @@ mod tests {
     async fn notification_returns_no_response() {
         let req = parse_req(r#"{"jsonrpc":"2.0","method":"notifications/initialized"}"#);
         let resp = dispatch(req, &dummy_bridge()).await;
-        assert!(resp.is_none(), "notifications should not produce a response");
+        assert!(
+            resp.is_none(),
+            "notifications should not produce a response"
+        );
     }
 
     #[tokio::test]
