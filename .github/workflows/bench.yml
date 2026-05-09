@@ -1,0 +1,33 @@
+name: Bench Framework CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'bench/**'
+      - '.github/workflows/bench.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'bench/**'
+      - '.github/workflows/bench.yml'
+
+jobs:
+  framework-tests:
+    name: Bench framework tests + dry-run-all
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - name: Install bench package
+        working-directory: bench
+        run: pip install -e ".[dev]"
+      - name: Run pytest
+        working-directory: bench
+        run: pytest tests/ -v
+      - name: Validate every sandbox structure (dry-run-all)
+        working-directory: bench
+        run: bench dry-run-all

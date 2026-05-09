@@ -1,0 +1,1000 @@
+{"category": "code", "prompt": "Write a Python function that returns the second-largest element of a list."}
+{"category": "reasoning", "prompt": "If I have 48 apples and give away 8, how many do I have left?"}
+{"category": "creative", "prompt": "What's an interesting fact about honeybees?"}
+{"category": "creative", "prompt": "Describe a an alpine meadow in three sentences."}
+{"category": "factual", "prompt": "Who wrote Beloved?"}
+{"category": "code", "prompt": "Convert this snake_case to camelCase: read_file_async"}
+{"category": "reasoning", "prompt": "Compare graph databases and key-value stores on three dimensions."}
+{"category": "factual", "prompt": "Who wrote Dune?"}
+{"category": "tool_use", "prompt": "I need to read a file at ~/projects/repo/main.py; give me the right command."}
+{"category": "tool_use", "prompt": "Compose a curl request to the Anthropic messages endpoint."}
+{"category": "tool_use", "prompt": "I need to read a file at C:/Users/dev/notes.md; give me the right command."}
+{"category": "reasoning", "prompt": "What's the next number in the sequence: 100, 81, 64, 49?"}
+{"category": "instruction", "prompt": "Translate 'see you tomorrow' to Spanish."}
+{"category": "instruction", "prompt": "Outline the steps to deploy a Tauri app."}
+{"category": "factual", "prompt": "Who wrote Dune?"}
+{"category": "code", "prompt": "Implement a observer pattern in Python."}
+{"category": "code", "prompt": "Convert this snake_case to camelCase: validate_email_address"}
+{"category": "creative", "prompt": "Describe a a futuristic library in three sentences."}
+{"category": "reasoning", "prompt": "A train leaves at 9:00am and arrives at 9:20am. How long is the trip?"}
+{"category": "creative", "prompt": "Tell a 100-word story involving a curious cat and a brass telescope."}
+{"category": "factual", "prompt": "When did the fall of the Berlin Wall happen?"}
+{"category": "reasoning", "prompt": "What's the next number in the sequence: 100, 81, 64, 49?"}
+{"category": "instruction", "prompt": "Convert 32F to Celsius."}
+{"category": "instruction", "prompt": "List three pros and three cons of learning Rust."}
+{"category": "code", "prompt": "Convert this snake_case to camelCase: read_file_async"}
+{"category": "tool_use", "prompt": "Build a one-liner shell command to decode a base64 string from stdin."}
+{"category": "creative", "prompt": "Write a haiku about machine learning."}
+{"category": "tool_use", "prompt": "Generate a regex that matches valid email addresses."}
+{"category": "factual", "prompt": "How many ounces in a hour?"}
+{"category": "code", "prompt": "Reverse a string in Go without using built-in reverse."}
+{"category": "factual", "prompt": "What is the capital of India?"}
+{"category": "code", "prompt": "Write a SQL query to count orders per region."}
+{"category": "factual", "prompt": "Who wrote Beloved?"}
+{"category": "reasoning", "prompt": "Compare graph databases and JavaScript on three dimensions."}
+{"category": "creative", "prompt": "What's an interesting fact about the ocean?"}
+{"category": "instruction", "prompt": "Outline the steps to deploy a Tauri app."}
+{"category": "tool_use", "prompt": "Compose a curl request to the Anthropic messages endpoint."}
+{"category": "instruction", "prompt": "List three pros and three cons of running a marathon."}
+{"category": "factual", "prompt": "How many millimeters in a meter?"}
+{"category": "creative", "prompt": "Describe a a derelict train station in three sentences."}
+{"category": "code", "prompt": "Reverse a string in Mandarin without using built-in reverse."}
+{"category": "creative", "prompt": "Describe a an alpine meadow in three sentences."}
+{"category": "code", "prompt": "Convert this snake_case to camelCase: compute_total_cost"}
+{"category": "factual", "prompt": "When did the fall of the Berlin Wall happen?"}
+{"category": "instruction", "prompt": "Outline the steps to publish to PyPI."}
+{"category": "creative", "prompt": "Compose a tagline for a privacy-preserving search engine."}
+{"category": "factual", "prompt": "What does DNA stand for?"}
+{"category": "factual", "prompt": "What is the capital of Brazil?"}
+{"category": "reasoning", "prompt": "If I have 44 apples and give away 8, how many do I have left?"}
+{"category": "factual", "prompt": "How many millimeters in a pound?"}
+{"category": "reasoning", "prompt": "Explain why tides happen happens."}
+{"category": "factual", "prompt": "What does API stand for?"}
+{"category": "factual", "prompt": "Who wrote 1984?"}
+{"category": "reasoning", "prompt": "A train leaves at 11:15pm and arrives at 4:00pm. How long is the trip?"}
+{"category": "tool_use", "prompt": "What tool would I use to minify JSON?"}
+{"category": "reasoning", "prompt": "A train leaves at 6:45am and arrives at 2:45am. How long is the trip?"}
+{"category": "tool_use", "prompt": "What tool would I use to diff two directories?"}
+{"category": "tool_use", "prompt": "Compose a curl request to the Anthropic messages endpoint."}
+{"category": "instruction", "prompt": "Convert 85F to Celsius."}
+{"category": "reasoning", "prompt": "Compare SQL and key-value stores on three dimensions."}
+{"category": "reasoning", "prompt": "Compare TCP and GraphQL on three dimensions."}
+{"category": "instruction", "prompt": "Outline the steps to deploy a Tauri app."}
+{"category": "instruction", "prompt": "Convert 32F to Celsius."}
+{"category": "code", "prompt": "Implement a observer pattern in Python."}
+{"category": "code", "prompt": "Write a SQL query to count orders per region."}
+{"category": "instruction", "prompt": "Translate 'good morning' to Python."}
+{"category": "code", "prompt": "Convert this snake_case to camelCase: validate_email_address"}
+{"category": "instruction", "prompt": "Translate 'see you tomorrow' to Python."}
+{"category": "creative", "prompt": "What's an interesting fact about machine learning?"}
+{"category": "code", "prompt": "Reverse a string in Spanish without using built-in reverse."}
+{"category": "creative", "prompt": "Describe a a derelict train station in three sentences."}
+{"category": "code", "prompt": "Convert this snake_case to camelCase: read_file_async"}
+{"category": "instruction", "prompt": "Convert 68F to Celsius."}
+{"category": "factual", "prompt": "What is the capital of Brazil?"}
+{"category": "instruction", "prompt": "Summarize honeybees in one sentence."}
+{"category": "code", "prompt": "Implement a strategy pattern in Python."}
+{"category": "creative", "prompt": "What's an interesting fact about compilers?"}
+{"category": "tool_use", "prompt": "Generate a regex that matches phone numbers in E.164."}
+{"category": "code", "prompt": "Implement a factory pattern in Python."}
+{"category": "factual", "prompt": "When did the Cuban Missile Crisis happen?"}
+{"category": "creative", "prompt": "Compose a tagline for a citizen-science compute network."}
+{"category": "instruction", "prompt": "Outline the steps to publish to PyPI."}
+{"category": "reasoning", "prompt": "Explain why neural networks generalize happens."}
+{"category": "creative", "prompt": "What's an interesting fact about compilers?"}
+{"category": "factual", "prompt": "When did the Apollo 11 landing happen?"}
+{"category": "factual", "prompt": "What does NATO stand for?"}
+{"category": "tool_use", "prompt": "What tool would I use to diff two directories?"}
+{"category": "tool_use", "prompt": "Build a one-liner shell command to decode a base64 string from stdin."}
+{"category": "tool_use", "prompt": "Build a one-liner shell command to count lines of Python in a directory."}
+{"category": "tool_use", "prompt": "I need to read a file at /var/log/syslog; give me the right command."}
+{"category": "factual", "prompt": "What does DHCP stand for?"}
+{"category": "tool_use", "prompt": "Build a one-liner shell command to find files larger than 100MB modified in the last week."}
+{"category": "creative", "prompt": "Tell a 100-word story involving a quantum physicist and an unmarked USB drive."}
+{"category": "factual", "prompt": "Who wrote The Trial?"}
+{"category": "code", "prompt": "Implement a decorator pattern in Python."}
+{"category": "code", "prompt": "Convert this snake_case to camelCase: read_file_async"}
+{"category": "tool_use", "prompt": "What tool would I use to find duplicate photos?"}
+{"category": "instruction", "prompt": "List three pros and three cons of working remotely."}
+{"category": "factual", "prompt": "What is the capital of Chile?"}
+{"category": "creative", "prompt": "Tell a 100-word story involving a curious cat and an unmarked USB drive."}
+{"category": "factual", "prompt": "When did the fall of the Berlin Wall happen?"}
+{"category": "instruction", "prompt": "List three pros and three cons of learning Rust."}
+{"category": "reasoning", "prompt": "A train leaves at 11:15pm and arrives at 11:30am. How long is the trip?"}
+{"category": "factual", "prompt": "When did the Cuban Missile Crisis happen?"}
+{"category": "creative", "prompt": "Tell a 100-word story involving a curious cat and an unmarked USB drive."}
+{"category": "code", "prompt": "Write a Python function that returns the median of a list."}
+{"category": "code", "prompt": "Reverse a string in Spanish without using built-in reverse."}
+{"category": "reasoning", "prompt": "If I have 47 apples and give away 1, how many do I have left?"}
+{"category": "tool_use", "prompt": "Generate a regex that matches valid email addresses."}
+{"category": "instruction", "prompt": "Translate 'good morning' to Go."}
+{"category": "creative", "prompt": "Write a haiku about compilers."}
+{"category": "instruction", "prompt": "List three pros and three cons of running a marathon."}
+{"category": "instruction", "prompt": "List three pros and three cons of running a marathon."}
+{"category": "factual", "prompt": "How many millimeters in a hour?"}
+{"category": "creative", "prompt": "Compose a tagline for a citizen-science compute network."}
+{"category": "code", "prompt": "Implement a singleton pattern in Python."}
+{"category": "reasoning", "prompt": "Explain why tides happen happens."}
+{"category": "code", "prompt": "Write a SQL query to join customers with their last purchase."}
+{"category": "reasoning", "prompt": "Compare REST and GraphQL on three dimensions."}
+{"category": "creative", "prompt": "Write a haiku about ancient Rome."}
+{"category": "tool_use", "prompt": "I need to read a file at /var/log/syslog; give me the right command."}
+{"category": "reasoning", "prompt": "If I have 30 apples and give away 6, how many do I have left?"}
+{"category": "reasoning", "prompt": "Compare REST and UDP on three dimensions."}
+{"category": "code", "prompt": "Write a SQL query to find the second-highest salary."}
+{"category": "reasoning", "prompt": "Explain why neural networks generalize happens."}
+{"category": "creative", "prompt": "Tell a 100-word story involving a bookbinder and a brass telescope."}
+{"category": "factual", "prompt": "How many feet in a meter?"}
+{"category": "factual", "prompt": "What is the capital of Japan?"}
+{"category": "code", "prompt": "Convert this snake_case to camelCase: validate_email_address"}
+{"category": "reasoning", "prompt": "Explain why tides happen happens."}
+{"category": "tool_use", "prompt": "Build a one-liner shell command to find files larger than 100MB modified in the last week."}
+{"category": "reasoning", "prompt": "Explain why rainbows form happens."}
+{"category": "reasoning", "prompt": "A train leaves at 11:15pm and arrives at 4:00pm. How long is the trip?"}
+{"category": "reasoning", "prompt": "If I have 42 apples and give away 7, how many do I have left?"}
+{"category": "creative", "prompt": "Describe a an alpine meadow in three sentences."}
+{"category": "code", "prompt": "Convert this snake_case to camelCase: read_file_async"}
+{"category": "factual", "prompt": "Who wrote The Trial?"}
+{"category": "factual", "prompt": "Who wrote Pride and Prejudice?"}
+{"category": "reasoning", "prompt": "What's the next number in the sequence: 2, 4, 8, 16?"}
+{"category": "factual", "prompt": "What is the capital of Japan?"}
+{"category": "code", "prompt": "Reverse a string in French without using built-in reverse."}
+{"category": "reasoning", "prompt": "Explain why tides happen happens."}
+{"category": "reasoning", "prompt": "A train leaves at 6:45am and arrives at 4:00pm. How long is the trip?"}
+{"category": "creative", "prompt": "What's an interesting fact about graph theory?"}
+{"category": "code", "prompt": "Implement a observer pattern in Python."}
+{"category": "code", "prompt": "Write a SQL query to find users registered in the last 7 days."}
+{"category": "reasoning", "prompt": "What's the next number in the sequence: 100, 81, 64, 49?"}
+{"category": "tool_use", "prompt": "What tool would I use to diff two directories?"}
+{"category": "code", "prompt": "Convert this snake_case to camelCase: read_file_async"}
+{"category": "tool_use", "prompt": "Compose a curl request to the Anthropic messages endpoint."}
+{"category": "creative", "prompt": "Compose a tagline for a privacy-preserving search engine."}
+{"category": "creative", "prompt": "What's an interesting fact about ancient Rome?"}
+{"category": "factual", "prompt": "How many ounces in a meter?"}
+{"category": "tool_use", "prompt": "I need to read a file at ~/projects/repo/main.py; give me the right command."}
+{"category": "instruction", "prompt": "Translate 'see you tomorrow' to Python."}
+{"category": "factual", "prompt": "What is the capital of France?"}
+{"category": "tool_use", "prompt": "What tool would I use to find duplicate photos?"}
+{"category": "factual", "prompt": "What is the capital of France?"}
+{"category": "tool_use", "prompt": "Build a one-liner shell command to find files larger than 100MB modified in the last week."}
+{"category": "instruction", "prompt": "Outline the steps to set up Tor."}
+{"category": "reasoning", "prompt": "What's the next number in the sequence: 2, 4, 8, 16?"}
+{"category": "reasoning", "prompt": "A train leaves at 11:15pm and arrives at 9:20am. How long is the trip?"}
+{"category": "instruction", "prompt": "Convert 50F to Celsius."}
+{"category": "reasoning", "prompt": "A train leaves at 6:45am and arrives at 2:45am. How long is the trip?"}
+{"category": "reasoning", "prompt": "Compare SQL and GraphQL on three dimensions."}
+{"category": "tool_use", "prompt": "I need to read a file at /var/log/syslog; give me the right command."}
+{"category": "factual", "prompt": "How many ounces in a yard?"}
+{"category": "instruction", "prompt": "Outline the steps to publish to PyPI."}
+{"category": "factual", "prompt": "What does API stand for?"}
+{"category": "reasoning", "prompt": "Compare graph databases and Go on three dimensions."}
+{"category": "code", "prompt": "Write a SQL query to find the second-highest salary."}
+{"category": "reasoning", "prompt": "Explain why neural networks generalize happens."}
+{"category": "reasoning", "prompt": "Compare graph databases and GraphQL on three dimensions."}
+{"category": "instruction", "prompt": "List three pros and three cons of writing a novel."}
+{"category": "instruction", "prompt": "Translate 'thank you very much' to French."}
+{"category": "instruction", "prompt": "List three pros and three cons of writing a novel."}
+{"category": "creative", "prompt": "What's an interesting fact about the ocean?"}
+{"category": "code", "prompt": "Implement a observer pattern in Python."}
+{"category": "factual", "prompt": "Who wrote Dune?"}
+{"category": "instruction", "prompt": "Translate 'thank you very much' to Rust."}
+{"category": "code", "prompt": "Write a Python function that returns the product of a list."}
+{"category": "reasoning", "prompt": "Explain why neural networks generalize happens."}
+{"category": "creative", "prompt": "Compose a tagline for a citizen-science compute network."}
+{"category": "code", "prompt": "Reverse a string in Rust without using built-in reverse."}
+{"category": "creative", "prompt": "Write a haiku about graph theory."}
+{"category": "creative", "prompt": "Write a haiku about honeybees."}
+{"category": "tool_use", "prompt": "Build a one-liner shell command to find files larger than 100MB modified in the last week."}
+{"category": "creative", "prompt": "Compose a tagline for a citizen-science compute network."}
+{"category": "reasoning", "prompt": "If I have 19 apples and give away 2, how many do I have left?"}
+{"category": "reasoning", "prompt": "Explain why tides happen happens."}
+{"category": "factual", "prompt": "How many seconds in a minute?"}
+{"category": "instruction", "prompt": "Translate 'thank you very much' to Go."}
+{"category": "factual", "prompt": "Who wrote The Trial?"}
+{"category": "code", "prompt": "Implement a observer pattern in Python."}
+{"category": "reasoning", "prompt": "A train leaves at 6:45am and arrives at 9:20am. How long is the trip?"}
+{"category": "instruction", "prompt": "Translate 'thank you very much' to Mandarin."}
+{"category": "instruction", "prompt": "Outline the steps to set up Tor."}
+{"category": "creative", "prompt": "What's an interesting fact about ancient Rome?"}
+{"category": "code", "prompt": "Implement a singleton pattern in Python."}
+{"category": "instruction", "prompt": "List three pros and three cons of learning Rust."}
+{"category": "factual", "prompt": "How many ounces in a hour?"}
+{"category": "instruction", "prompt": "List three pros and three cons of running a marathon."}
+{"category": "reasoning", "prompt": "If I have 16 apples and give away 4, how many do I have left?"}
+{"category": "tool_use", "prompt": "Generate a regex that matches valid email addresses."}
+{"category": "instruction", "prompt": "List three pros and three cons of working remotely."}
+{"category": "code", "prompt": "Reverse a string in Go without using built-in reverse."}
+{"category": "creative", "prompt": "Compose a tagline for a privacy-preserving search engine."}
+{"category": "factual", "prompt": "Who wrote The Trial?"}
+{"category": "factual", "prompt": "Who wrote Beloved?"}
+{"category": "instruction", "prompt": "Summarize the ocean in one sentence."}
+{"category": "creative", "prompt": "Describe a a futuristic library in three sentences."}
+{"category": "instruction", "prompt": "List three pros and three cons of learning Rust."}
+{"category": "creative", "prompt": "What's an interesting fact about ancient Rome?"}
+{"category": "code", "prompt": "Implement a observer pattern in Python."}
+{"category": "instruction", "prompt": "Translate 'thank you very much' to Python."}
+{"category": "creative", "prompt": "Write a haiku about honeybees."}
+{"category": "creative", "prompt": "Describe a a derelict train station in three sentences."}
+{"category": "factual", "prompt": "What is the capital of Japan?"}
+{"category": "instruction", "prompt": "List three pros and three cons of writing a novel."}
+{"category": "tool_use", "prompt": "Generate a regex that matches hex color codes."}
+{"category": "instruction", "prompt": "Summarize machine learning in one sentence."}
+{"category": "factual", "prompt": "Who wrote Beloved?"}
+{"category": "factual", "prompt": "How many feet in a meter?"}
+{"category": "creative", "prompt": "Tell a 100-word story involving a quantum physicist and a brass telescope."}
+{"category": "code", "prompt": "Reverse a string in French without using built-in reverse."}
+{"category": "creative", "prompt": "What's an interesting fact about compilers?"}
+{"category": "tool_use", "prompt": "Generate a regex that matches ISO-8601 dates."}
+{"category": "tool_use", "prompt": "I need to read a file at /var/log/syslog; give me the right command."}
+{"category": "instruction", "prompt": "Convert 50F to Celsius."}
+{"category": "instruction", "prompt": "Translate 'good morning' to Python."}
+{"category": "reasoning", "prompt": "A train leaves at 11:15pm and arrives at 11:30am. How long is the trip?"}
+{"category": "instruction", "prompt": "Summarize machine learning in one sentence."}
+{"category": "creative", "prompt": "What's an interesting fact about graph theory?"}
+{"category": "tool_use", "prompt": "Build a one-liner shell command to find files larger than 100MB modified in the last week."}
+{"category": "tool_use", "prompt": "Generate a regex that matches phone numbers in E.164."}
+{"category": "code", "prompt": "Reverse a string in TypeScript without using built-in reverse."}
+{"category": "tool_use", "prompt": "Compose a curl request to the GitHub API issues endpoint."}
+{"category": "tool_use", "prompt": "Compose a curl request to the GitHub API issues endpoint."}
+{"category": "creative", "prompt": "Tell a 100-word story involving a bookbinder and a faded letter."}
+{"category": "instruction", "prompt": "Summarize compilers in one sentence."}
+{"category": "code", "prompt": "Convert this snake_case to camelCase: compute_total_cost"}
+{"category": "creative", "prompt": "Describe a a futuristic library in three sentences."}
+{"category": "reasoning", "prompt": "Explain why tides happen happens."}
+{"category": "code", "prompt": "Reverse a string in French without using built-in reverse."}
+{"category": "factual", "prompt": "How many feet in a minute?"}
+{"category": "factual", "prompt": "When did the Apollo 11 landing happen?"}
+{"category": "instruction", "prompt": "List three pros and three cons of learning Rust."}
+{"category": "tool_use", "prompt": "Generate a regex that matches valid email addresses."}
+{"category": "factual", "prompt": "What is the capital of Kenya?"}
+{"category": "creative", "prompt": "Tell a 100-word story involving a bookbinder and a faded letter."}
+{"category": "creative", "prompt": "Describe a an alpine meadow in three sentences."}
+{"category": "reasoning", "prompt": "Compare Python and UDP on three dimensions."}
+{"category": "factual", "prompt": "How many seconds in a pound?"}
+{"category": "tool_use", "prompt": "I need to read a file at C:/Users/dev/notes.md; give me the right command."}
+{"category": "instruction", "prompt": "List three pros and three cons of working remotely."}
+{"category": "reasoning", "prompt": "Explain why rainbows form happens."}
+{"category": "reasoning", "prompt": "Explain why tides happen happens."}
+{"category": "creative", "prompt": "What's an interesting fact about the ocean?"}
+{"category": "factual", "prompt": "How many feet in a pound?"}
+{"category": "tool_use", "prompt": "Build a one-liner shell command to find files larger than 100MB modified in the last week."}
+{"category": "instruction", "prompt": "List three pros and three cons of learning Rust."}
+{"category": "reasoning", "prompt": "A train leaves at 11:15pm and arrives at 4:00pm. How long is the trip?"}
+{"category": "code", "prompt": "Implement a strategy pattern in Python."}
+{"category": "instruction", "prompt": "Convert 212F to Celsius."}
+{"category": "reasoning", "prompt": "If I have 7 apples and give away 8, how many do I have left?"}
+{"category": "factual", "prompt": "Who wrote Beloved?"}
+{"category": "creative", "prompt": "Tell a 100-word story involving a retired astronaut and a faded letter."}
+{"category": "factual", "prompt": "Who wrote The Trial?"}
+{"category": "creative", "prompt": "Describe a a derelict train station in three sentences."}
+{"category": "tool_use", "prompt": "Compose a curl request to the GitHub API issues endpoint."}
+{"category": "factual", "prompt": "What is the capital of Norway?"}
+{"category": "tool_use", "prompt": "I need to read a file at /var/log/syslog; give me the right command."}
+{"category": "code", "prompt": "Reverse a string in Python without using built-in reverse."}
+{"category": "code", "prompt": "Implement a factory pattern in Python."}
+{"category": "code", "prompt": "Implement a strategy pattern in Python."}
+{"category": "reasoning", "prompt": "Compare Rust and Go on three dimensions."}
+{"category": "tool_use", "prompt": "What tool would I use to diff two directories?"}
+{"category": "code", "prompt": "Implement a decorator pattern in Python."}
+{"category": "tool_use", "prompt": "I need to read a file at /var/log/syslog; give me the right command."}
+{"category": "tool_use", "prompt": "Generate a regex that matches phone numbers in E.164."}
+{"category": "instruction", "prompt": "List three pros and three cons of working remotely."}
+{"category": "tool_use", "prompt": "I need to read a file at C:/Users/dev/notes.md; give me the right command."}
+{"category": "creative", "prompt": "Tell a 100-word story involving a curious cat and an unmarked USB drive."}
+{"category": "tool_use", "prompt": "What tool would I use to minify JSON?"}
+{"category": "code", "prompt": "Write a Python function that returns the product of a list."}
+{"category": "creative", "prompt": "Describe a an alpine meadow in three sentences."}
+{"category": "tool_use", "prompt": "Build a one-liner shell command to decode a base64 string from stdin."}
+{"category": "tool_use", "prompt": "Generate a regex that matches ISO-8601 dates."}
+{"category": "code", "prompt": "Write a Python function that returns the longest run of duplicates of a list."}
+{"category": "tool_use", "prompt": "Build a one-liner shell command to find files larger than 100MB modified in the last week."}
+{"category": "factual", "prompt": "How many minutes in a hour?"}
+{"category": "tool_use", "prompt": "I need to read a file at ~/projects/repo/main.py; give me the right command."}
+{"category": "creative", "prompt": "Compose a tagline for a privacy-preserving search engine."}
+{"category": "instruction", "prompt": "Translate 'thank you very much' to French."}
+{"category": "tool_use", "prompt": "Generate a regex that matches ISO-8601 dates."}
+{"category": "instruction", "prompt": "Summarize the ocean in one sentence."}
+{"category": "instruction", "prompt": "Summarize graph theory in one sentence."}
+{"category": "creative", "prompt": "Describe a a futuristic library in three sentences."}
+{"category": "code", "prompt": "Write a SQL query to count orders per region."}
+{"category": "code", "prompt": "Write a SQL query to join customers with their last purchase."}
+{"category": "instruction", "prompt": "Translate 'see you tomorrow' to Spanish."}
+{"category": "tool_use", "prompt": "Compose a curl request to the Anthropic messages endpoint."}
+{"category": "instruction", "prompt": "Convert 100F to Celsius."}
+{"category": "code", "prompt": "Reverse a string in Mandarin without using built-in reverse."}
+{"category": "factual", "prompt": "How many seconds in a minute?"}
+{"category": "reasoning", "prompt": "Explain why rainbows form happens."}
+{"category": "code", "prompt": "Reverse a string in Python without using built-in reverse."}
+{"category": "code", "prompt": "Write a Python function that returns the sum of a list."}
+{"category": "instruction", "prompt": "Summarize compilers in one sentence."}
+{"category": "creative", "prompt": "What's an interesting fact about honeybees?"}
+{"category": "creative", "prompt": "Compose a tagline for a citizen-science compute network."}
+{"category": "instruction", "prompt": "List three pros and three cons of running a marathon."}
+{"category": "creative", "prompt": "Write a haiku about the ocean."}
+{"category": "creative", "prompt": "Tell a 100-word story involving a bookbinder and a brass telescope."}
+{"category": "creative", "prompt": "Write a haiku about honeybees."}
+{"category": "factual", "prompt": "How many minutes in a minute?"}
+{"category": "instruction", "prompt": "List three pros and three cons of working remotely."}
+{"category": "reasoning", "prompt": "Compare Python and key-value stores on three dimensions."}
+{"category": "tool_use", "prompt": "Compose a curl request to the Anthropic messages endpoint."}
+{"category": "tool_use", "prompt": "Build a one-liner shell command to count lines of Python in a directory."}
+{"category": "creative", "prompt": "Compose a tagline for a privacy-preserving search engine."}
+{"category": "reasoning", "prompt": "Explain why tides happen happens."}
+{"category": "code", "prompt": "Write a SQL query to join customers with their last purchase."}
+{"category": "creative", "prompt": "Tell a 100-word story involving a bookbinder and a brass telescope."}
+{"category": "tool_use", "prompt": "Compose a curl request to the GitHub API issues endpoint."}
+{"category": "reasoning", "prompt": "A train leaves at 11:15pm and arrives at 4:00pm. How long is the trip?"}
+{"category": "reasoning", "prompt": "Explain why compilers do dead-code elimination happens."}
+{"category": "reasoning", "prompt": "What's the next number in the sequence: 100, 81, 64, 49?"}
+{"category": "creative", "prompt": "Write a haiku about compilers."}
+{"category": "tool_use", "prompt": "Generate a regex that matches hex color codes."}
+{"category": "creative", "prompt": "What's an interesting fact about graph theory?"}
+{"category": "creative", "prompt": "Tell a 100-word story involving a retired astronaut and a brass telescope."}
+{"category": "reasoning", "prompt": "If I have 44 apples and give away 3, how many do I have left?"}
+{"category": "factual", "prompt": "What does DHCP stand for?"}
+{"category": "reasoning", "prompt": "What's the next number in the sequence: 3, 6, 9, 12?"}
+{"category": "creative", "prompt": "Compose a tagline for a citizen-science compute network."}
+{"category": "instruction", "prompt": "Outline the steps to deploy a Tauri app."}
+{"category": "creative", "prompt": "What's an interesting fact about graph theory?"}
+{"category": "factual", "prompt": "How many seconds in a minute?"}
+{"category": "code", "prompt": "Implement a factory pattern in Python."}
+{"category": "factual", "prompt": "What does DNA stand for?"}
+{"category": "code", "prompt": "Implement a observer pattern in Python."}
+{"category": "factual", "prompt": "How many seconds in a meter?"}
+{"category": "instruction", "prompt": "List three pros and three cons of learning Rust."}
+{"category": "tool_use", "prompt": "What tool would I use to find duplicate photos?"}
+{"category": "factual", "prompt": "How many seconds in a pound?"}
+{"category": "tool_use", "prompt": "Compose a curl request to the Anthropic messages endpoint."}
+{"category": "instruction", "prompt": "Summarize ancient Rome in one sentence."}
+{"category": "creative", "prompt": "Describe a a derelict train station in three sentences."}
+{"category": "code", "prompt": "Write a SQL query to join customers with their last purchase."}
+{"category": "factual", "prompt": "Who wrote Beloved?"}
+{"category": "creative", "prompt": "Describe a a futuristic library in three sentences."}
+{"category": "creative", "prompt": "Describe a an alpine meadow in three sentences."}
+{"category": "creative", "prompt": "Describe a a futuristic library in three sentences."}
+{"category": "factual", "prompt": "Who wrote Crime and Punishment?"}
+{"category": "reasoning", "prompt": "What's the next number in the sequence: 1, 1, 2, 3, 5?"}
+{"category": "instruction", "prompt": "Summarize ancient Rome in one sentence."}
+{"category": "creative", "prompt": "Tell a 100-word story involving a quantum physicist and a faded letter."}
+{"category": "code", "prompt": "Reverse a string in Python without using built-in reverse."}
+{"category": "factual", "prompt": "When did the Apollo 11 landing happen?"}
+{"category": "factual", "prompt": "When did the Apollo 11 landing happen?"}
+{"category": "factual", "prompt": "What does JSON stand for?"}
+{"category": "tool_use", "prompt": "Generate a regex that matches valid email addresses."}
+{"category": "creative", "prompt": "Tell a 100-word story involving a quantum physicist and a brass telescope."}
+{"category": "code", "prompt": "Implement a decorator pattern in Python."}
+{"category": "reasoning", "prompt": "Explain why neural networks generalize happens."}
+{"category": "reasoning", "prompt": "Compare Rust and JavaScript on three dimensions."}
+{"category": "tool_use", "prompt": "I need to read a file at C:/Users/dev/notes.md; give me the right command."}
+{"category": "creative", "prompt": "What's an interesting fact about honeybees?"}
+{"category": "tool_use", "prompt": "Build a one-liner shell command to count lines of Python in a directory."}
+{"category": "tool_use", "prompt": "Generate a regex that matches valid email addresses."}
+{"category": "factual", "prompt": "How many millimeters in a pound?"}
+{"category": "reasoning", "prompt": "If I have 11 apples and give away 2, how many do I have left?"}
+{"category": "reasoning", "prompt": "A train leaves at 6:45am and arrives at 9:20am. How long is the trip?"}
+{"category": "creative", "prompt": "Write a haiku about honeybees."}
+{"category": "factual", "prompt": "What is the capital of Kenya?"}
+{"category": "tool_use", "prompt": "Compose a curl request to the Anthropic messages endpoint."}
+{"category": "factual", "prompt": "Who wrote Dune?"}
+{"category": "creative", "prompt": "What's an interesting fact about machine learning?"}
+{"category": "creative", "prompt": "Compose a tagline for a privacy-preserving search engine."}
+{"category": "reasoning", "prompt": "A train leaves at 11:15pm and arrives at 11:30am. How long is the trip?"}
+{"category": "code", "prompt": "Reverse a string in Spanish without using built-in reverse."}
+{"category": "instruction", "prompt": "Translate 'good morning' to Rust."}
+{"category": "creative", "prompt": "Compose a tagline for a privacy-preserving search engine."}
+{"category": "creative", "prompt": "Write a haiku about ancient Rome."}
+{"category": "factual", "prompt": "When did the Apollo 11 landing happen?"}
+{"category": "instruction", "prompt": "Translate 'thank you very much' to Spanish."}
+{"category": "reasoning", "prompt": "What's the next number in the sequence: 2, 4, 8, 16?"}
+{"category": "code", "prompt": "Write a SQL query to find the second-highest salary."}
+{"category": "creative", "prompt": "Write a haiku about ancient Rome."}
+{"category": "creative", "prompt": "Write a haiku about honeybees."}
+{"category": "factual", "prompt": "What does NATO stand for?"}
+{"category": "reasoning", "prompt": "What's the next number in the sequence: 2, 4, 8, 16?"}
+{"category": "instruction", "prompt": "Outline the steps to set up Tor."}
+{"category": "creative", "prompt": "Tell a 100-word story involving a quantum physicist and a brass telescope."}
+{"category": "tool_use", "prompt": "What tool would I use to minify JSON?"}
+{"category": "factual", "prompt": "How many millimeters in a hour?"}
+{"category": "factual", "prompt": "Who wrote Pride and Prejudice?"}
+{"category": "creative", "prompt": "What's an interesting fact about graph theory?"}
+{"category": "tool_use", "prompt": "Compose a curl request to the GitHub API issues endpoint."}
+{"category": "tool_use", "prompt": "What tool would I use to find duplicate photos?"}
+{"category": "factual", "prompt": "Who wrote The Trial?"}
+{"category": "factual", "prompt": "How many millimeters in a meter?"}
+{"category": "factual", "prompt": "What does DNA stand for?"}
+{"category": "instruction", "prompt": "Summarize honeybees in one sentence."}
+{"category": "tool_use", "prompt": "I need to read a file at ~/projects/repo/main.py; give me the right command."}
+{"category": "factual", "prompt": "How many millimeters in a meter?"}
+{"category": "tool_use", "prompt": "Compose a curl request to the Anthropic messages endpoint."}
+{"category": "factual", "prompt": "How many millimeters in a pound?"}
+{"category": "tool_use", "prompt": "Compose a curl request to the Anthropic messages endpoint."}
+{"category": "creative", "prompt": "What's an interesting fact about honeybees?"}
+{"category": "factual", "prompt": "What is the capital of Kenya?"}
+{"category": "tool_use", "prompt": "What tool would I use to minify JSON?"}
+{"category": "factual", "prompt": "How many ounces in a hour?"}
+{"category": "instruction", "prompt": "Convert 50F to Celsius."}
+{"category": "creative", "prompt": "Compose a tagline for a citizen-science compute network."}
+{"category": "code", "prompt": "Reverse a string in Rust without using built-in reverse."}
+{"category": "instruction", "prompt": "Convert 32F to Celsius."}
+{"category": "factual", "prompt": "What does HTTP stand for?"}
+{"category": "code", "prompt": "Implement a decorator pattern in Python."}
+{"category": "creative", "prompt": "Describe a an alpine meadow in three sentences."}
+{"category": "code", "prompt": "Reverse a string in Mandarin without using built-in reverse."}
+{"category": "creative", "prompt": "Describe a a derelict train station in three sentences."}
+{"category": "factual", "prompt": "Who wrote Dune?"}
+{"category": "creative", "prompt": "Tell a 100-word story involving a bookbinder and a faded letter."}
+{"category": "factual", "prompt": "When did the Cuban Missile Crisis happen?"}
+{"category": "factual", "prompt": "Who wrote Pride and Prejudice?"}
+{"category": "factual", "prompt": "When did the fall of the Berlin Wall happen?"}
+{"category": "code", "prompt": "Write a Python function that returns the median of a list."}
+{"category": "creative", "prompt": "Describe a a futuristic library in three sentences."}
+{"category": "tool_use", "prompt": "Compose a curl request to the GitHub API issues endpoint."}
+{"category": "tool_use", "prompt": "I need to read a file at ~/projects/repo/main.py; give me the right command."}
+{"category": "tool_use", "prompt": "I need to read a file at C:/Users/dev/notes.md; give me the right command."}
+{"category": "code", "prompt": "Write a Python function that returns the longest run of duplicates of a list."}
+{"category": "reasoning", "prompt": "Explain why tides happen happens."}
+{"category": "creative", "prompt": "Write a haiku about ancient Rome."}
+{"category": "instruction", "prompt": "Convert 0F to Celsius."}
+{"category": "tool_use", "prompt": "Build a one-liner shell command to count lines of Python in a directory."}
+{"category": "factual", "prompt": "Who wrote Beloved?"}
+{"category": "tool_use", "prompt": "What tool would I use to diff two directories?"}
+{"category": "reasoning", "prompt": "A train leaves at 11:15pm and arrives at 2:45am. How long is the trip?"}
+{"category": "creative", "prompt": "What's an interesting fact about compilers?"}
+{"category": "factual", "prompt": "Who wrote The Trial?"}
+{"category": "reasoning", "prompt": "If I have 33 apples and give away 8, how many do I have left?"}
+{"category": "reasoning", "prompt": "What's the next number in the sequence: 2, 4, 8, 16?"}
+{"category": "tool_use", "prompt": "Generate a regex that matches phone numbers in E.164."}
+{"category": "tool_use", "prompt": "What tool would I use to find duplicate photos?"}
+{"category": "code", "prompt": "Reverse a string in Python without using built-in reverse."}
+{"category": "instruction", "prompt": "List three pros and three cons of learning Rust."}
+{"category": "code", "prompt": "Convert this snake_case to camelCase: read_file_async"}
+{"category": "reasoning", "prompt": "Compare SQL and GraphQL on three dimensions."}
+{"category": "reasoning", "prompt": "Explain why rainbows form happens."}
+{"category": "reasoning", "prompt": "What's the next number in the sequence: 100, 81, 64, 49?"}
+{"category": "creative", "prompt": "Compose a tagline for a citizen-science compute network."}
+{"category": "creative", "prompt": "Describe a a derelict train station in three sentences."}
+{"category": "tool_use", "prompt": "Generate a regex that matches phone numbers in E.164."}
+{"category": "reasoning", "prompt": "If I have 17 apples and give away 1, how many do I have left?"}
+{"category": "reasoning", "prompt": "Compare graph databases and UDP on three dimensions."}
+{"category": "code", "prompt": "Write a SQL query to find users registered in the last 7 days."}
+{"category": "factual", "prompt": "What is the capital of India?"}
+{"category": "factual", "prompt": "Who wrote The Trial?"}
+{"category": "instruction", "prompt": "List three pros and three cons of running a marathon."}
+{"category": "creative", "prompt": "Tell a 100-word story involving a retired astronaut and an unmarked USB drive."}
+{"category": "factual", "prompt": "How many millimeters in a meter?"}
+{"category": "factual", "prompt": "When did the Apollo 11 landing happen?"}
+{"category": "factual", "prompt": "What does API stand for?"}
+{"category": "instruction", "prompt": "Summarize machine learning in one sentence."}
+{"category": "code", "prompt": "Convert this snake_case to camelCase: compute_total_cost"}
+{"category": "tool_use", "prompt": "Compose a curl request to the Anthropic messages endpoint."}
+{"category": "instruction", "prompt": "Outline the steps to set up Tor."}
+{"category": "reasoning", "prompt": "Explain why neural networks generalize happens."}
+{"category": "instruction", "prompt": "Outline the steps to set up Tor."}
+{"category": "factual", "prompt": "What is the capital of France?"}
+{"category": "factual", "prompt": "What does API stand for?"}
+{"category": "creative", "prompt": "Write a haiku about the ocean."}
+{"category": "tool_use", "prompt": "I need to read a file at /var/log/syslog; give me the right command."}
+{"category": "tool_use", "prompt": "Build a one-liner shell command to count lines of Python in a directory."}
+{"category": "creative", "prompt": "Tell a 100-word story involving a curious cat and a faded letter."}
+{"category": "instruction", "prompt": "Outline the steps to deploy a Tauri app."}
+{"category": "code", "prompt": "Reverse a string in Python without using built-in reverse."}
+{"category": "instruction", "prompt": "Convert 68F to Celsius."}
+{"category": "tool_use", "prompt": "Generate a regex that matches phone numbers in E.164."}
+{"category": "reasoning", "prompt": "A train leaves at 6:45am and arrives at 4:00pm. How long is the trip?"}
+{"category": "tool_use", "prompt": "Compose a curl request to the GitHub API issues endpoint."}
+{"category": "tool_use", "prompt": "Compose a curl request to the GitHub API issues endpoint."}
+{"category": "code", "prompt": "Convert this snake_case to camelCase: validate_email_address"}
+{"category": "tool_use", "prompt": "I need to read a file at /var/log/syslog; give me the right command."}
+{"category": "instruction", "prompt": "Summarize machine learning in one sentence."}
+{"category": "instruction", "prompt": "Translate 'good morning' to Mandarin."}
+{"category": "factual", "prompt": "What does CPU stand for?"}
+{"category": "code", "prompt": "Reverse a string in Python without using built-in reverse."}
+{"category": "code", "prompt": "Convert this snake_case to camelCase: compute_total_cost"}
+{"category": "tool_use", "prompt": "Compose a curl request to the Anthropic messages endpoint."}
+{"category": "reasoning", "prompt": "A train leaves at 11:15pm and arrives at 2:45am. How long is the trip?"}
+{"category": "instruction", "prompt": "Translate 'see you tomorrow' to French."}
+{"category": "reasoning", "prompt": "If I have 46 apples and give away 8, how many do I have left?"}
+{"category": "code", "prompt": "Write a Python function that returns the sum of a list."}
+{"category": "tool_use", "prompt": "Compose a curl request to the Anthropic messages endpoint."}
+{"category": "code", "prompt": "Write a SQL query to count orders per region."}
+{"category": "tool_use", "prompt": "What tool would I use to find duplicate photos?"}
+{"category": "code", "prompt": "Implement a decorator pattern in Python."}
+{"category": "code", "prompt": "Reverse a string in Mandarin without using built-in reverse."}
+{"category": "tool_use", "prompt": "Compose a curl request to the Anthropic messages endpoint."}
+{"category": "creative", "prompt": "Compose a tagline for a privacy-preserving search engine."}
+{"category": "creative", "prompt": "Describe a an alpine meadow in three sentences."}
+{"category": "instruction", "prompt": "Outline the steps to publish to PyPI."}
+{"category": "code", "prompt": "Implement a strategy pattern in Python."}
+{"category": "factual", "prompt": "Who wrote Dune?"}
+{"category": "code", "prompt": "Implement a decorator pattern in Python."}
+{"category": "code", "prompt": "Reverse a string in Go without using built-in reverse."}
+{"category": "reasoning", "prompt": "Explain why compilers do dead-code elimination happens."}
+{"category": "creative", "prompt": "Describe a a futuristic library in three sentences."}
+{"category": "code", "prompt": "Reverse a string in Python without using built-in reverse."}
+{"category": "creative", "prompt": "Compose a tagline for a privacy-preserving search engine."}
+{"category": "creative", "prompt": "Describe a a futuristic library in three sentences."}
+{"category": "creative", "prompt": "Tell a 100-word story involving a bookbinder and a brass telescope."}
+{"category": "code", "prompt": "Implement a singleton pattern in Python."}
+{"category": "factual", "prompt": "When did the Apollo 11 landing happen?"}
+{"category": "reasoning", "prompt": "If I have 19 apples and give away 4, how many do I have left?"}
+{"category": "factual", "prompt": "When did the fall of the Berlin Wall happen?"}
+{"category": "code", "prompt": "Implement a singleton pattern in Python."}
+{"category": "reasoning", "prompt": "If I have 8 apples and give away 6, how many do I have left?"}
+{"category": "factual", "prompt": "What is the capital of Chile?"}
+{"category": "instruction", "prompt": "List three pros and three cons of running a marathon."}
+{"category": "tool_use", "prompt": "I need to read a file at /var/log/syslog; give me the right command."}
+{"category": "reasoning", "prompt": "What's the next number in the sequence: 2, 4, 8, 16?"}
+{"category": "reasoning", "prompt": "A train leaves at 6:45am and arrives at 4:00pm. How long is the trip?"}
+{"category": "factual", "prompt": "What is the capital of Egypt?"}
+{"category": "instruction", "prompt": "List three pros and three cons of writing a novel."}
+{"category": "creative", "prompt": "Write a haiku about honeybees."}
+{"category": "reasoning", "prompt": "Compare TCP and key-value stores on three dimensions."}
+{"category": "factual", "prompt": "Who wrote Crime and Punishment?"}
+{"category": "tool_use", "prompt": "Compose a curl request to the Anthropic messages endpoint."}
+{"category": "factual", "prompt": "When did the Cuban Missile Crisis happen?"}
+{"category": "code", "prompt": "Convert this snake_case to camelCase: compute_total_cost"}
+{"category": "instruction", "prompt": "Convert 50F to Celsius."}
+{"category": "instruction", "prompt": "Summarize honeybees in one sentence."}
+{"category": "factual", "prompt": "What does TLS stand for?"}
+{"category": "factual", "prompt": "When did the Apollo 11 landing happen?"}
+{"category": "tool_use", "prompt": "I need to read a file at /var/log/syslog; give me the right command."}
+{"category": "reasoning", "prompt": "Compare graph databases and JavaScript on three dimensions."}
+{"category": "instruction", "prompt": "List three pros and three cons of learning Rust."}
+{"category": "factual", "prompt": "When did the fall of the Berlin Wall happen?"}
+{"category": "tool_use", "prompt": "I need to read a file at C:/Users/dev/notes.md; give me the right command."}
+{"category": "factual", "prompt": "When did the Apollo 11 landing happen?"}
+{"category": "tool_use", "prompt": "Compose a curl request to the GitHub API issues endpoint."}
+{"category": "reasoning", "prompt": "Compare REST and JavaScript on three dimensions."}
+{"category": "instruction", "prompt": "Translate 'good morning' to Mandarin."}
+{"category": "reasoning", "prompt": "What's the next number in the sequence: 3, 6, 9, 12?"}
+{"category": "instruction", "prompt": "List three pros and three cons of learning Rust."}
+{"category": "creative", "prompt": "Tell a 100-word story involving a curious cat and a brass telescope."}
+{"category": "creative", "prompt": "Describe a a futuristic library in three sentences."}
+{"category": "creative", "prompt": "Write a haiku about machine learning."}
+{"category": "reasoning", "prompt": "Compare REST and UDP on three dimensions."}
+{"category": "creative", "prompt": "Describe a a derelict train station in three sentences."}
+{"category": "creative", "prompt": "Describe a a futuristic library in three sentences."}
+{"category": "creative", "prompt": "What's an interesting fact about compilers?"}
+{"category": "code", "prompt": "Reverse a string in Rust without using built-in reverse."}
+{"category": "code", "prompt": "Write a SQL query to count orders per region."}
+{"category": "tool_use", "prompt": "Build a one-liner shell command to decode a base64 string from stdin."}
+{"category": "instruction", "prompt": "Outline the steps to bake bread."}
+{"category": "tool_use", "prompt": "I need to read a file at ~/projects/repo/main.py; give me the right command."}
+{"category": "tool_use", "prompt": "Generate a regex that matches hex color codes."}
+{"category": "reasoning", "prompt": "A train leaves at 9:00am and arrives at 9:20am. How long is the trip?"}
+{"category": "tool_use", "prompt": "Generate a regex that matches ISO-8601 dates."}
+{"category": "code", "prompt": "Reverse a string in Go without using built-in reverse."}
+{"category": "code", "prompt": "Reverse a string in Mandarin without using built-in reverse."}
+{"category": "reasoning", "prompt": "Explain why rainbows form happens."}
+{"category": "factual", "prompt": "Who wrote The Trial?"}
+{"category": "reasoning", "prompt": "Compare graph databases and Go on three dimensions."}
+{"category": "creative", "prompt": "What's an interesting fact about compilers?"}
+{"category": "tool_use", "prompt": "I need to read a file at ~/projects/repo/main.py; give me the right command."}
+{"category": "tool_use", "prompt": "Compose a curl request to the GitHub API issues endpoint."}
+{"category": "factual", "prompt": "What does NATO stand for?"}
+{"category": "code", "prompt": "Implement a decorator pattern in Python."}
+{"category": "factual", "prompt": "What is the capital of Chile?"}
+{"category": "tool_use", "prompt": "I need to read a file at /var/log/syslog; give me the right command."}
+{"category": "code", "prompt": "Implement a factory pattern in Python."}
+{"category": "instruction", "prompt": "Summarize the ocean in one sentence."}
+{"category": "tool_use", "prompt": "Compose a curl request to the GitHub API issues endpoint."}
+{"category": "code", "prompt": "Convert this snake_case to camelCase: compute_total_cost"}
+{"category": "reasoning", "prompt": "A train leaves at 11:15pm and arrives at 11:30am. How long is the trip?"}
+{"category": "creative", "prompt": "Describe a a futuristic library in three sentences."}
+{"category": "code", "prompt": "Reverse a string in Spanish without using built-in reverse."}
+{"category": "creative", "prompt": "Compose a tagline for a citizen-science compute network."}
+{"category": "factual", "prompt": "When did the Apollo 11 landing happen?"}
+{"category": "factual", "prompt": "Who wrote Beloved?"}
+{"category": "reasoning", "prompt": "Compare SQL and key-value stores on three dimensions."}
+{"category": "reasoning", "prompt": "If I have 34 apples and give away 4, how many do I have left?"}
+{"category": "reasoning", "prompt": "Explain why neural networks generalize happens."}
+{"category": "reasoning", "prompt": "A train leaves at 9:00am and arrives at 9:20am. How long is the trip?"}
+{"category": "code", "prompt": "Implement a strategy pattern in Python."}
+{"category": "creative", "prompt": "Compose a tagline for a privacy-preserving search engine."}
+{"category": "reasoning", "prompt": "A train leaves at 6:45am and arrives at 2:45am. How long is the trip?"}
+{"category": "factual", "prompt": "What does TLS stand for?"}
+{"category": "factual", "prompt": "What is the capital of France?"}
+{"category": "reasoning", "prompt": "Compare REST and NoSQL on three dimensions."}
+{"category": "code", "prompt": "Write a Python function that returns the product of a list."}
+{"category": "reasoning", "prompt": "Explain why neural networks generalize happens."}
+{"category": "instruction", "prompt": "Summarize compilers in one sentence."}
+{"category": "code", "prompt": "Write a Python function that returns the product of a list."}
+{"category": "code", "prompt": "Convert this snake_case to camelCase: validate_email_address"}
+{"category": "code", "prompt": "Convert this snake_case to camelCase: compute_total_cost"}
+{"category": "factual", "prompt": "What is the capital of Egypt?"}
+{"category": "reasoning", "prompt": "A train leaves at 9:00am and arrives at 11:30am. How long is the trip?"}
+{"category": "creative", "prompt": "Write a haiku about honeybees."}
+{"category": "factual", "prompt": "How many ounces in a minute?"}
+{"category": "creative", "prompt": "Write a haiku about graph theory."}
+{"category": "reasoning", "prompt": "What's the next number in the sequence: 3, 6, 9, 12?"}
+{"category": "instruction", "prompt": "List three pros and three cons of learning Rust."}
+{"category": "instruction", "prompt": "Outline the steps to bake bread."}
+{"category": "reasoning", "prompt": "If I have 41 apples and give away 2, how many do I have left?"}
+{"category": "reasoning", "prompt": "Compare REST and key-value stores on three dimensions."}
+{"category": "code", "prompt": "Implement a observer pattern in Python."}
+{"category": "tool_use", "prompt": "What tool would I use to find duplicate photos?"}
+{"category": "code", "prompt": "Convert this snake_case to camelCase: read_file_async"}
+{"category": "tool_use", "prompt": "Build a one-liner shell command to find files larger than 100MB modified in the last week."}
+{"category": "tool_use", "prompt": "Compose a curl request to the GitHub API issues endpoint."}
+{"category": "code", "prompt": "Implement a singleton pattern in Python."}
+{"category": "tool_use", "prompt": "Generate a regex that matches phone numbers in E.164."}
+{"category": "instruction", "prompt": "List three pros and three cons of writing a novel."}
+{"category": "tool_use", "prompt": "Compose a curl request to the GitHub API issues endpoint."}
+{"category": "creative", "prompt": "Tell a 100-word story involving a quantum physicist and an unmarked USB drive."}
+{"category": "code", "prompt": "Write a SQL query to count orders per region."}
+{"category": "reasoning", "prompt": "What's the next number in the sequence: 100, 81, 64, 49?"}
+{"category": "factual", "prompt": "How many feet in a yard?"}
+{"category": "instruction", "prompt": "List three pros and three cons of learning Rust."}
+{"category": "tool_use", "prompt": "Generate a regex that matches hex color codes."}
+{"category": "reasoning", "prompt": "If I have 38 apples and give away 8, how many do I have left?"}
+{"category": "reasoning", "prompt": "What's the next number in the sequence: 100, 81, 64, 49?"}
+{"category": "reasoning", "prompt": "A train leaves at 1:30pm and arrives at 9:20am. How long is the trip?"}
+{"category": "reasoning", "prompt": "A train leaves at 11:15pm and arrives at 11:30am. How long is the trip?"}
+{"category": "creative", "prompt": "Tell a 100-word story involving a retired astronaut and a faded letter."}
+{"category": "factual", "prompt": "When did the fall of the Berlin Wall happen?"}
+{"category": "creative", "prompt": "Write a haiku about machine learning."}
+{"category": "factual", "prompt": "What is the capital of Japan?"}
+{"category": "reasoning", "prompt": "What's the next number in the sequence: 100, 81, 64, 49?"}
+{"category": "tool_use", "prompt": "I need to read a file at ~/projects/repo/main.py; give me the right command."}
+{"category": "instruction", "prompt": "Convert 0F to Celsius."}
+{"category": "creative", "prompt": "Write a haiku about graph theory."}
+{"category": "tool_use", "prompt": "What tool would I use to minify JSON?"}
+{"category": "tool_use", "prompt": "Compose a curl request to the Anthropic messages endpoint."}
+{"category": "instruction", "prompt": "Convert 50F to Celsius."}
+{"category": "code", "prompt": "Implement a decorator pattern in Python."}
+{"category": "code", "prompt": "Write a SQL query to find users registered in the last 7 days."}
+{"category": "creative", "prompt": "Write a haiku about compilers."}
+{"category": "tool_use", "prompt": "I need to read a file at C:/Users/dev/notes.md; give me the right command."}
+{"category": "tool_use", "prompt": "Generate a regex that matches valid email addresses."}
+{"category": "reasoning", "prompt": "If I have 33 apples and give away 4, how many do I have left?"}
+{"category": "code", "prompt": "Implement a observer pattern in Python."}
+{"category": "creative", "prompt": "Compose a tagline for a citizen-science compute network."}
+{"category": "instruction", "prompt": "Translate 'good morning' to Go."}
+{"category": "reasoning", "prompt": "Explain why compilers do dead-code elimination happens."}
+{"category": "instruction", "prompt": "Convert 100F to Celsius."}
+{"category": "factual", "prompt": "What does JSON stand for?"}
+{"category": "creative", "prompt": "Tell a 100-word story involving a bookbinder and an unmarked USB drive."}
+{"category": "code", "prompt": "Write a SQL query to find users registered in the last 7 days."}
+{"category": "creative", "prompt": "Compose a tagline for a privacy-preserving search engine."}
+{"category": "factual", "prompt": "When did the Apollo 11 landing happen?"}
+{"category": "tool_use", "prompt": "Generate a regex that matches ISO-8601 dates."}
+{"category": "code", "prompt": "Implement a strategy pattern in Python."}
+{"category": "reasoning", "prompt": "Explain why compilers do dead-code elimination happens."}
+{"category": "code", "prompt": "Write a Python function that returns the sum of a list."}
+{"category": "factual", "prompt": "When did the fall of the Berlin Wall happen?"}
+{"category": "reasoning", "prompt": "Explain why compilers do dead-code elimination happens."}
+{"category": "creative", "prompt": "Write a haiku about the ocean."}
+{"category": "code", "prompt": "Write a Python function that returns the product of a list."}
+{"category": "instruction", "prompt": "Convert 0F to Celsius."}
+{"category": "factual", "prompt": "What is the capital of Egypt?"}
+{"category": "tool_use", "prompt": "I need to read a file at /var/log/syslog; give me the right command."}
+{"category": "reasoning", "prompt": "A train leaves at 6:45am and arrives at 2:45am. How long is the trip?"}
+{"category": "reasoning", "prompt": "Explain why rainbows form happens."}
+{"category": "reasoning", "prompt": "A train leaves at 9:00am and arrives at 2:45am. How long is the trip?"}
+{"category": "code", "prompt": "Implement a decorator pattern in Python."}
+{"category": "code", "prompt": "Reverse a string in Python without using built-in reverse."}
+{"category": "factual", "prompt": "What is the capital of Chile?"}
+{"category": "code", "prompt": "Write a Python function that returns the second-largest element of a list."}
+{"category": "factual", "prompt": "When did the Apollo 11 landing happen?"}
+{"category": "code", "prompt": "Convert this snake_case to camelCase: read_file_async"}
+{"category": "reasoning", "prompt": "Explain why neural networks generalize happens."}
+{"category": "instruction", "prompt": "List three pros and three cons of running a marathon."}
+{"category": "factual", "prompt": "How many seconds in a minute?"}
+{"category": "tool_use", "prompt": "Generate a regex that matches valid email addresses."}
+{"category": "code", "prompt": "Reverse a string in Rust without using built-in reverse."}
+{"category": "creative", "prompt": "Tell a 100-word story involving a bookbinder and a brass telescope."}
+{"category": "instruction", "prompt": "Translate 'see you tomorrow' to French."}
+{"category": "reasoning", "prompt": "Compare SQL and Go on three dimensions."}
+{"category": "reasoning", "prompt": "A train leaves at 6:45am and arrives at 11:30am. How long is the trip?"}
+{"category": "reasoning", "prompt": "Compare REST and GraphQL on three dimensions."}
+{"category": "tool_use", "prompt": "Build a one-liner shell command to decode a base64 string from stdin."}
+{"category": "factual", "prompt": "When did the Cuban Missile Crisis happen?"}
+{"category": "creative", "prompt": "Describe a an alpine meadow in three sentences."}
+{"category": "instruction", "prompt": "Translate 'see you tomorrow' to Mandarin."}
+{"category": "instruction", "prompt": "Outline the steps to set up Tor."}
+{"category": "creative", "prompt": "Write a haiku about the ocean."}
+{"category": "instruction", "prompt": "List three pros and three cons of working remotely."}
+{"category": "reasoning", "prompt": "If I have 43 apples and give away 2, how many do I have left?"}
+{"category": "factual", "prompt": "How many millimeters in a meter?"}
+{"category": "factual", "prompt": "Who wrote The Trial?"}
+{"category": "tool_use", "prompt": "Generate a regex that matches ISO-8601 dates."}
+{"category": "reasoning", "prompt": "Compare Python and Go on three dimensions."}
+{"category": "creative", "prompt": "Tell a 100-word story involving a curious cat and a brass telescope."}
+{"category": "reasoning", "prompt": "Explain why rainbows form happens."}
+{"category": "instruction", "prompt": "Convert 32F to Celsius."}
+{"category": "instruction", "prompt": "List three pros and three cons of learning Rust."}
+{"category": "instruction", "prompt": "Summarize ancient Rome in one sentence."}
+{"category": "code", "prompt": "Convert this snake_case to camelCase: read_file_async"}
+{"category": "tool_use", "prompt": "Build a one-liner shell command to find files larger than 100MB modified in the last week."}
+{"category": "tool_use", "prompt": "Compose a curl request to the Anthropic messages endpoint."}
+{"category": "creative", "prompt": "Compose a tagline for a citizen-science compute network."}
+{"category": "instruction", "prompt": "Convert 68F to Celsius."}
+{"category": "reasoning", "prompt": "Explain why neural networks generalize happens."}
+{"category": "creative", "prompt": "Tell a 100-word story involving a quantum physicist and a brass telescope."}
+{"category": "reasoning", "prompt": "A train leaves at 6:45am and arrives at 11:30am. How long is the trip?"}
+{"category": "instruction", "prompt": "Translate 'thank you very much' to French."}
+{"category": "tool_use", "prompt": "Compose a curl request to the Anthropic messages endpoint."}
+{"category": "creative", "prompt": "What's an interesting fact about graph theory?"}
+{"category": "tool_use", "prompt": "What tool would I use to find duplicate photos?"}
+{"category": "code", "prompt": "Implement a decorator pattern in Python."}
+{"category": "reasoning", "prompt": "What's the next number in the sequence: 3, 6, 9, 12?"}
+{"category": "factual", "prompt": "How many ounces in a pound?"}
+{"category": "tool_use", "prompt": "Compose a curl request to the Anthropic messages endpoint."}
+{"category": "reasoning", "prompt": "If I have 17 apples and give away 5, how many do I have left?"}
+{"category": "code", "prompt": "Write a SQL query to count orders per region."}
+{"category": "creative", "prompt": "What's an interesting fact about graph theory?"}
+{"category": "tool_use", "prompt": "What tool would I use to diff two directories?"}
+{"category": "creative", "prompt": "Describe a a derelict train station in three sentences."}
+{"category": "reasoning", "prompt": "Compare REST and JavaScript on three dimensions."}
+{"category": "tool_use", "prompt": "I need to read a file at /var/log/syslog; give me the right command."}
+{"category": "instruction", "prompt": "List three pros and three cons of working remotely."}
+{"category": "factual", "prompt": "How many seconds in a hour?"}
+{"category": "code", "prompt": "Write a Python function that returns the second-largest element of a list."}
+{"category": "tool_use", "prompt": "I need to read a file at /var/log/syslog; give me the right command."}
+{"category": "creative", "prompt": "Describe a a derelict train station in three sentences."}
+{"category": "factual", "prompt": "Who wrote The Trial?"}
+{"category": "reasoning", "prompt": "A train leaves at 9:00am and arrives at 4:00pm. How long is the trip?"}
+{"category": "instruction", "prompt": "Summarize graph theory in one sentence."}
+{"category": "instruction", "prompt": "Translate 'thank you very much' to Spanish."}
+{"category": "tool_use", "prompt": "Build a one-liner shell command to decode a base64 string from stdin."}
+{"category": "tool_use", "prompt": "Compose a curl request to the GitHub API issues endpoint."}
+{"category": "creative", "prompt": "Tell a 100-word story involving a retired astronaut and an unmarked USB drive."}
+{"category": "tool_use", "prompt": "Build a one-liner shell command to decode a base64 string from stdin."}
+{"category": "code", "prompt": "Convert this snake_case to camelCase: compute_total_cost"}
+{"category": "tool_use", "prompt": "Build a one-liner shell command to decode a base64 string from stdin."}
+{"category": "tool_use", "prompt": "I need to read a file at /var/log/syslog; give me the right command."}
+{"category": "code", "prompt": "Convert this snake_case to camelCase: read_file_async"}
+{"category": "tool_use", "prompt": "Generate a regex that matches phone numbers in E.164."}
+{"category": "tool_use", "prompt": "Compose a curl request to the Anthropic messages endpoint."}
+{"category": "code", "prompt": "Write a Python function that returns the median of a list."}
+{"category": "instruction", "prompt": "List three pros and three cons of writing a novel."}
+{"category": "instruction", "prompt": "Summarize honeybees in one sentence."}
+{"category": "tool_use", "prompt": "Generate a regex that matches hex color codes."}
+{"category": "factual", "prompt": "When did the Cuban Missile Crisis happen?"}
+{"category": "code", "prompt": "Convert this snake_case to camelCase: read_file_async"}
+{"category": "code", "prompt": "Write a SQL query to join customers with their last purchase."}
+{"category": "tool_use", "prompt": "I need to read a file at ~/projects/repo/main.py; give me the right command."}
+{"category": "creative", "prompt": "What's an interesting fact about graph theory?"}
+{"category": "creative", "prompt": "Describe a an alpine meadow in three sentences."}
+{"category": "tool_use", "prompt": "Build a one-liner shell command to decode a base64 string from stdin."}
+{"category": "factual", "prompt": "When did the fall of the Berlin Wall happen?"}
+{"category": "instruction", "prompt": "Summarize honeybees in one sentence."}
+{"category": "tool_use", "prompt": "Build a one-liner shell command to count lines of Python in a directory."}
+{"category": "creative", "prompt": "What's an interesting fact about ancient Rome?"}
+{"category": "tool_use", "prompt": "Compose a curl request to the GitHub API issues endpoint."}
+{"category": "reasoning", "prompt": "If I have 6 apples and give away 6, how many do I have left?"}
+{"category": "instruction", "prompt": "Summarize graph theory in one sentence."}
+{"category": "instruction", "prompt": "List three pros and three cons of working remotely."}
+{"category": "code", "prompt": "Write a Python function that returns the sum of a list."}
+{"category": "tool_use", "prompt": "Compose a curl request to the Anthropic messages endpoint."}
+{"category": "code", "prompt": "Implement a decorator pattern in Python."}
+{"category": "code", "prompt": "Write a SQL query to find the second-highest salary."}
+{"category": "instruction", "prompt": "Outline the steps to publish to PyPI."}
+{"category": "instruction", "prompt": "Outline the steps to deploy a Tauri app."}
+{"category": "code", "prompt": "Write a SQL query to find the second-highest salary."}
+{"category": "factual", "prompt": "What does API stand for?"}
+{"category": "factual", "prompt": "What does CPU stand for?"}
+{"category": "instruction", "prompt": "Translate 'see you tomorrow' to Rust."}
+{"category": "factual", "prompt": "Who wrote 1984?"}
+{"category": "code", "prompt": "Write a SQL query to join customers with their last purchase."}
+{"category": "instruction", "prompt": "Outline the steps to set up Tor."}
+{"category": "factual", "prompt": "What does HTTP stand for?"}
+{"category": "instruction", "prompt": "Convert 50F to Celsius."}
+{"category": "instruction", "prompt": "List three pros and three cons of writing a novel."}
+{"category": "code", "prompt": "Write a SQL query to find users registered in the last 7 days."}
+{"category": "factual", "prompt": "Who wrote The Trial?"}
+{"category": "code", "prompt": "Write a SQL query to find users registered in the last 7 days."}
+{"category": "code", "prompt": "Implement a observer pattern in Python."}
+{"category": "reasoning", "prompt": "If I have 15 apples and give away 1, how many do I have left?"}
+{"category": "factual", "prompt": "What is the capital of Chile?"}
+{"category": "creative", "prompt": "Compose a tagline for a citizen-science compute network."}
+{"category": "creative", "prompt": "Write a haiku about the ocean."}
+{"category": "tool_use", "prompt": "What tool would I use to diff two directories?"}
+{"category": "tool_use", "prompt": "What tool would I use to find duplicate photos?"}
+{"category": "instruction", "prompt": "Convert 212F to Celsius."}
+{"category": "factual", "prompt": "What is the capital of Brazil?"}
+{"category": "creative", "prompt": "Write a haiku about graph theory."}
+{"category": "code", "prompt": "Convert this snake_case to camelCase: compute_total_cost"}
+{"category": "code", "prompt": "Reverse a string in TypeScript without using built-in reverse."}
+{"category": "reasoning", "prompt": "What's the next number in the sequence: 100, 81, 64, 49?"}
+{"category": "instruction", "prompt": "Translate 'thank you very much' to Rust."}
+{"category": "code", "prompt": "Convert this snake_case to camelCase: compute_total_cost"}
+{"category": "instruction", "prompt": "Convert 85F to Celsius."}
+{"category": "instruction", "prompt": "Summarize graph theory in one sentence."}
+{"category": "reasoning", "prompt": "A train leaves at 1:30pm and arrives at 9:20am. How long is the trip?"}
+{"category": "reasoning", "prompt": "A train leaves at 1:30pm and arrives at 4:00pm. How long is the trip?"}
+{"category": "creative", "prompt": "Describe a a futuristic library in three sentences."}
+{"category": "code", "prompt": "Reverse a string in Spanish without using built-in reverse."}
+{"category": "reasoning", "prompt": "What's the next number in the sequence: 100, 81, 64, 49?"}
+{"category": "code", "prompt": "Write a SQL query to join customers with their last purchase."}
+{"category": "creative", "prompt": "Describe a a derelict train station in three sentences."}
+{"category": "tool_use", "prompt": "Build a one-liner shell command to count lines of Python in a directory."}
+{"category": "tool_use", "prompt": "I need to read a file at /var/log/syslog; give me the right command."}
+{"category": "creative", "prompt": "Describe a an alpine meadow in three sentences."}
+{"category": "tool_use", "prompt": "I need to read a file at C:/Users/dev/notes.md; give me the right command."}
+{"category": "creative", "prompt": "Tell a 100-word story involving a retired astronaut and an unmarked USB drive."}
+{"category": "code", "prompt": "Implement a factory pattern in Python."}
+{"category": "reasoning", "prompt": "Compare Rust and UDP on three dimensions."}
+{"category": "creative", "prompt": "Describe a an alpine meadow in three sentences."}
+{"category": "factual", "prompt": "Who wrote Crime and Punishment?"}
+{"category": "tool_use", "prompt": "Build a one-liner shell command to decode a base64 string from stdin."}
+{"category": "creative", "prompt": "Tell a 100-word story involving a quantum physicist and a faded letter."}
+{"category": "instruction", "prompt": "Translate 'good morning' to Rust."}
+{"category": "factual", "prompt": "What is the capital of Egypt?"}
+{"category": "reasoning", "prompt": "Compare Python and UDP on three dimensions."}
+{"category": "tool_use", "prompt": "Build a one-liner shell command to count lines of Python in a directory."}
+{"category": "creative", "prompt": "What's an interesting fact about graph theory?"}
+{"category": "code", "prompt": "Reverse a string in Go without using built-in reverse."}
+{"category": "factual", "prompt": "Who wrote Beloved?"}
+{"category": "instruction", "prompt": "Summarize compilers in one sentence."}
+{"category": "reasoning", "prompt": "A train leaves at 11:15pm and arrives at 11:30am. How long is the trip?"}
+{"category": "tool_use", "prompt": "Compose a curl request to the GitHub API issues endpoint."}
+{"category": "instruction", "prompt": "Outline the steps to bake bread."}
+{"category": "reasoning", "prompt": "Explain why rainbows form happens."}
+{"category": "tool_use", "prompt": "Build a one-liner shell command to decode a base64 string from stdin."}
+{"category": "creative", "prompt": "Write a haiku about graph theory."}
+{"category": "code", "prompt": "Write a Python function that returns the longest run of duplicates of a list."}
+{"category": "instruction", "prompt": "List three pros and three cons of running a marathon."}
+{"category": "tool_use", "prompt": "Compose a curl request to the Anthropic messages endpoint."}
+{"category": "factual", "prompt": "What does NATO stand for?"}
+{"category": "instruction", "prompt": "Convert 32F to Celsius."}
+{"category": "creative", "prompt": "Compose a tagline for a citizen-science compute network."}
+{"category": "factual", "prompt": "When did the fall of the Berlin Wall happen?"}
+{"category": "tool_use", "prompt": "I need to read a file at /var/log/syslog; give me the right command."}
+{"category": "code", "prompt": "Write a Python function that returns the sum of a list."}
+{"category": "reasoning", "prompt": "What's the next number in the sequence: 2, 4, 8, 16?"}
+{"category": "tool_use", "prompt": "Generate a regex that matches valid email addresses."}
+{"category": "factual", "prompt": "What is the capital of Chile?"}
+{"category": "reasoning", "prompt": "If I have 43 apples and give away 5, how many do I have left?"}
+{"category": "instruction", "prompt": "Convert 0F to Celsius."}
+{"category": "reasoning", "prompt": "Explain why rainbows form happens."}
+{"category": "instruction", "prompt": "List three pros and three cons of learning Rust."}
+{"category": "tool_use", "prompt": "Build a one-liner shell command to count lines of Python in a directory."}
+{"category": "reasoning", "prompt": "Explain why neural networks generalize happens."}
+{"category": "tool_use", "prompt": "Generate a regex that matches ISO-8601 dates."}
+{"category": "tool_use", "prompt": "I need to read a file at C:/Users/dev/notes.md; give me the right command."}
+{"category": "reasoning", "prompt": "Explain why compilers do dead-code elimination happens."}
+{"category": "tool_use", "prompt": "Build a one-liner shell command to decode a base64 string from stdin."}
+{"category": "tool_use", "prompt": "What tool would I use to minify JSON?"}
+{"category": "tool_use", "prompt": "I need to read a file at /var/log/syslog; give me the right command."}
+{"category": "instruction", "prompt": "Translate 'see you tomorrow' to Spanish."}
+{"category": "instruction", "prompt": "Summarize graph theory in one sentence."}
+{"category": "reasoning", "prompt": "What's the next number in the sequence: 2, 4, 8, 16?"}
+{"category": "tool_use", "prompt": "Build a one-liner shell command to decode a base64 string from stdin."}
+{"category": "code", "prompt": "Write a Python function that returns the median of a list."}
+{"category": "tool_use", "prompt": "Generate a regex that matches valid email addresses."}
+{"category": "creative", "prompt": "Describe a an alpine meadow in three sentences."}
+{"category": "reasoning", "prompt": "Explain why rainbows form happens."}
+{"category": "factual", "prompt": "Who wrote 1984?"}
+{"category": "instruction", "prompt": "Summarize compilers in one sentence."}
+{"category": "instruction", "prompt": "Outline the steps to deploy a Tauri app."}
+{"category": "code", "prompt": "Implement a factory pattern in Python."}
+{"category": "instruction", "prompt": "Convert 0F to Celsius."}
+{"category": "instruction", "prompt": "Outline the steps to bake bread."}
+{"category": "code", "prompt": "Write a Python function that returns the product of a list."}
+{"category": "reasoning", "prompt": "If I have 6 apples and give away 1, how many do I have left?"}
+{"category": "reasoning", "prompt": "A train leaves at 11:15pm and arrives at 9:20am. How long is the trip?"}
+{"category": "instruction", "prompt": "List three pros and three cons of running a marathon."}
+{"category": "instruction", "prompt": "Outline the steps to publish to PyPI."}
+{"category": "factual", "prompt": "Who wrote The Trial?"}
+{"category": "creative", "prompt": "Tell a 100-word story involving a quantum physicist and an unmarked USB drive."}
+{"category": "instruction", "prompt": "List three pros and three cons of running a marathon."}
+{"category": "reasoning", "prompt": "Compare REST and JavaScript on three dimensions."}
+{"category": "code", "prompt": "Reverse a string in French without using built-in reverse."}
+{"category": "code", "prompt": "Implement a factory pattern in Python."}
+{"category": "instruction", "prompt": "Summarize graph theory in one sentence."}
+{"category": "reasoning", "prompt": "Explain why rainbows form happens."}
+{"category": "creative", "prompt": "Describe a an alpine meadow in three sentences."}
+{"category": "tool_use", "prompt": "I need to read a file at C:/Users/dev/notes.md; give me the right command."}
+{"category": "tool_use", "prompt": "Compose a curl request to the Anthropic messages endpoint."}
+{"category": "code", "prompt": "Write a Python function that returns the median of a list."}
+{"category": "creative", "prompt": "Tell a 100-word story involving a bookbinder and a brass telescope."}
+{"category": "factual", "prompt": "What is the capital of Japan?"}
+{"category": "code", "prompt": "Convert this snake_case to camelCase: compute_total_cost"}
+{"category": "reasoning", "prompt": "Compare Rust and GraphQL on three dimensions."}
+{"category": "instruction", "prompt": "Outline the steps to bake bread."}
+{"category": "instruction", "prompt": "Translate 'see you tomorrow' to Python."}
+{"category": "tool_use", "prompt": "I need to read a file at C:/Users/dev/notes.md; give me the right command."}
+{"category": "factual", "prompt": "Who wrote The Trial?"}
+{"category": "creative", "prompt": "What's an interesting fact about ancient Rome?"}
+{"category": "factual", "prompt": "What does CPU stand for?"}
+{"category": "tool_use", "prompt": "I need to read a file at ~/projects/repo/main.py; give me the right command."}
+{"category": "creative", "prompt": "What's an interesting fact about machine learning?"}
+{"category": "instruction", "prompt": "List three pros and three cons of writing a novel."}
+{"category": "instruction", "prompt": "Summarize honeybees in one sentence."}
+{"category": "tool_use", "prompt": "Generate a regex that matches ISO-8601 dates."}
+{"category": "factual", "prompt": "What does CPU stand for?"}
+{"category": "creative", "prompt": "What's an interesting fact about graph theory?"}
+{"category": "reasoning", "prompt": "A train leaves at 11:15pm and arrives at 4:00pm. How long is the trip?"}
+{"category": "instruction", "prompt": "Outline the steps to deploy a Tauri app."}
+{"category": "tool_use", "prompt": "I need to read a file at /var/log/syslog; give me the right command."}
+{"category": "factual", "prompt": "What is the capital of Egypt?"}
+{"category": "creative", "prompt": "What's an interesting fact about ancient Rome?"}
+{"category": "code", "prompt": "Write a SQL query to count orders per region."}
+{"category": "code", "prompt": "Convert this snake_case to camelCase: validate_email_address"}
+{"category": "code", "prompt": "Reverse a string in TypeScript without using built-in reverse."}
+{"category": "code", "prompt": "Write a Python function that returns the sum of a list."}
+{"category": "code", "prompt": "Reverse a string in French without using built-in reverse."}
+{"category": "factual", "prompt": "When did the Cuban Missile Crisis happen?"}
+{"category": "code", "prompt": "Write a Python function that returns the longest run of duplicates of a list."}
+{"category": "instruction", "prompt": "Convert 32F to Celsius."}
+{"category": "creative", "prompt": "Tell a 100-word story involving a retired astronaut and an unmarked USB drive."}
+{"category": "code", "prompt": "Write a Python function that returns the sum of a list."}
+{"category": "code", "prompt": "Implement a decorator pattern in Python."}
+{"category": "factual", "prompt": "Who wrote Beloved?"}
+{"category": "instruction", "prompt": "Summarize compilers in one sentence."}
+{"category": "instruction", "prompt": "List three pros and three cons of writing a novel."}
+{"category": "creative", "prompt": "What's an interesting fact about the ocean?"}
+{"category": "code", "prompt": "Convert this snake_case to camelCase: validate_email_address"}
+{"category": "creative", "prompt": "Describe a a derelict train station in three sentences."}
+{"category": "code", "prompt": "Write a SQL query to join customers with their last purchase."}
+{"category": "reasoning", "prompt": "A train leaves at 9:00am and arrives at 2:45am. How long is the trip?"}
+{"category": "reasoning", "prompt": "If I have 31 apples and give away 9, how many do I have left?"}
+{"category": "reasoning", "prompt": "What's the next number in the sequence: 3, 6, 9, 12?"}
+{"category": "reasoning", "prompt": "What's the next number in the sequence: 3, 6, 9, 12?"}
+{"category": "reasoning", "prompt": "A train leaves at 6:45am and arrives at 2:45am. How long is the trip?"}
+{"category": "instruction", "prompt": "Translate 'good morning' to French."}
+{"category": "instruction", "prompt": "Outline the steps to publish to PyPI."}
+{"category": "factual", "prompt": "What is the capital of Egypt?"}
+{"category": "creative", "prompt": "What's an interesting fact about machine learning?"}
+{"category": "code", "prompt": "Convert this snake_case to camelCase: validate_email_address"}
+{"category": "tool_use", "prompt": "Compose a curl request to the GitHub API issues endpoint."}
+{"category": "creative", "prompt": "Tell a 100-word story involving a quantum physicist and a brass telescope."}
+{"category": "instruction", "prompt": "Translate 'good morning' to Go."}
+{"category": "instruction", "prompt": "List three pros and three cons of working remotely."}
+{"category": "reasoning", "prompt": "What's the next number in the sequence: 100, 81, 64, 49?"}
+{"category": "factual", "prompt": "How many feet in a yard?"}
+{"category": "factual", "prompt": "Who wrote Dune?"}
+{"category": "code", "prompt": "Implement a factory pattern in Python."}
+{"category": "creative", "prompt": "Tell a 100-word story involving a quantum physicist and a faded letter."}
+{"category": "creative", "prompt": "Write a haiku about compilers."}
+{"category": "factual", "prompt": "When did the fall of the Berlin Wall happen?"}
+{"category": "creative", "prompt": "Write a haiku about the ocean."}
+{"category": "code", "prompt": "Reverse a string in French without using built-in reverse."}
+{"category": "instruction", "prompt": "Convert 32F to Celsius."}
+{"category": "instruction", "prompt": "Summarize the ocean in one sentence."}
+{"category": "tool_use", "prompt": "Build a one-liner shell command to find files larger than 100MB modified in the last week."}
+{"category": "reasoning", "prompt": "If I have 7 apples and give away 9, how many do I have left?"}
+{"category": "reasoning", "prompt": "If I have 40 apples and give away 7, how many do I have left?"}
+{"category": "reasoning", "prompt": "Explain why compilers do dead-code elimination happens."}
+{"category": "factual", "prompt": "What does HTTP stand for?"}
+{"category": "instruction", "prompt": "Summarize machine learning in one sentence."}
+{"category": "reasoning", "prompt": "A train leaves at 9:00am and arrives at 11:30am. How long is the trip?"}
+{"category": "code", "prompt": "Implement a singleton pattern in Python."}
+{"category": "creative", "prompt": "Describe a a derelict train station in three sentences."}
+{"category": "factual", "prompt": "What is the capital of Kenya?"}
+{"category": "instruction", "prompt": "Outline the steps to bake bread."}
+{"category": "reasoning", "prompt": "Compare TCP and GraphQL on three dimensions."}
+{"category": "factual", "prompt": "How many seconds in a yard?"}
+{"category": "creative", "prompt": "What's an interesting fact about the ocean?"}
+{"category": "factual", "prompt": "What does DNA stand for?"}
+{"category": "code", "prompt": "Write a Python function that returns the longest run of duplicates of a list."}
+{"category": "factual", "prompt": "When did the fall of the Berlin Wall happen?"}
+{"category": "instruction", "prompt": "Outline the steps to set up Tor."}
+{"category": "reasoning", "prompt": "Compare Rust and key-value stores on three dimensions."}
+{"category": "tool_use", "prompt": "Generate a regex that matches ISO-8601 dates."}
+{"category": "code", "prompt": "Reverse a string in Go without using built-in reverse."}
+{"category": "instruction", "prompt": "List three pros and three cons of running a marathon."}
+{"category": "code", "prompt": "Write a Python function that returns the sum of a list."}
+{"category": "reasoning", "prompt": "What's the next number in the sequence: 100, 81, 64, 49?"}
+{"category": "creative", "prompt": "Compose a tagline for a privacy-preserving search engine."}
+{"category": "creative", "prompt": "Describe a a derelict train station in three sentences."}
+{"category": "code", "prompt": "Convert this snake_case to camelCase: compute_total_cost"}
+{"category": "factual", "prompt": "How many feet in a minute?"}
+{"category": "instruction", "prompt": "Convert 32F to Celsius."}
+{"category": "creative", "prompt": "Write a haiku about honeybees."}
+{"category": "instruction", "prompt": "Translate 'see you tomorrow' to Spanish."}
+{"category": "reasoning", "prompt": "Compare TCP and UDP on three dimensions."}
+{"category": "instruction", "prompt": "Outline the steps to set up Tor."}
+{"category": "tool_use", "prompt": "What tool would I use to minify JSON?"}
+{"category": "reasoning", "prompt": "If I have 21 apples and give away 8, how many do I have left?"}
+{"category": "instruction", "prompt": "Translate 'see you tomorrow' to Python."}
+{"category": "factual", "prompt": "Who wrote Dune?"}
+{"category": "factual", "prompt": "When did the fall of the Berlin Wall happen?"}
+{"category": "tool_use", "prompt": "What tool would I use to minify JSON?"}
+{"category": "instruction", "prompt": "Convert 50F to Celsius."}
+{"category": "factual", "prompt": "What does API stand for?"}
+{"category": "factual", "prompt": "When did the Apollo 11 landing happen?"}
+{"category": "code", "prompt": "Write a SQL query to count orders per region."}
+{"category": "instruction", "prompt": "Outline the steps to deploy a Tauri app."}
+{"category": "reasoning", "prompt": "Explain why rainbows form happens."}

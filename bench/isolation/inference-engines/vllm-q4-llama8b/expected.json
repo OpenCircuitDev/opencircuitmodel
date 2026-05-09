@@ -1,0 +1,19 @@
+{
+  "hypothesis_id": "vllm-q4-llama8b-singlestream-tps",
+  "claim": "vLLM v1 with AWQ-INT4 Llama 3.1 8B delivers >=100 tokens per second median single-stream throughput on RTX 4090 24GB across 50 chat-singleturn prompts (publicly cited number: ~120 tok/s).",
+  "metric": "tokens_per_second_median_single_stream",
+  "thresholds": {
+    "confirm_at_least": 100.0,
+    "refute_below": 80.0
+  },
+  "secondary_metric": "ttft_seconds_p50",
+  "secondary_thresholds": {
+    "confirm_at_most": 2.0,
+    "refute_above": 5.0
+  },
+  "workload": "chat-singleturn-1k.jsonl",
+  "source_for_claim": "https://www.databasemart.com/blog/vllm-gpu-benchmark-rtx4090",
+  "comparison_anchor": "vllm-baseline-fp16-no-cache (combination/01-baseline-vllm-fp16-no-cache when implemented)",
+  "decision_rule": "If CONFIRMED, vLLM + Q4 is the v1 NVIDIA default. If REFUTED, investigate quantization + batching parameters before declaring vLLM Q4 unsuitable.",
+  "timeout_seconds": 1800
+}

@@ -1,0 +1,45 @@
+services:
+  vllm:
+    image: vllm/vllm-openai:v0.7.3
+    runtime: nvidia
+    ports:
+      - "8001:8000"
+    environment:
+      - HF_TOKEN=${HF_TOKEN:-}
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    command:
+      - --model
+      - hugging-quants/Meta-Llama-3.1-8B-Instruct-AWQ-INT4
+      - --port
+      - "8000"
+      - --max-model-len
+      - "8192"
+      - --quantization
+      - awq_marlin
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/v1/models')"]
+      interval: 15s
+      retries: 60
+      start_period: 60s
+  bench:
+    image: python:3.11-slim
+    depends_on:
+      vllm:
+        condition: service_healthy
+    volumes:
+      - ./:/work
+      - ../../../workloads:/workloads:ro
+    working_dir: /work
+    environment:
+      - VLLM_URL=http://vllm:8000
+      - WORKLOAD_PATH=/workloads/chat-singleturn-1k.jsonl
+    command:
+      - sh
+      - -c
+      - "pip install --quiet httpx && python bench.py"
