@@ -1,0 +1,24 @@
+[package]
+name = "ocm-daemon"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[build-dependencies]
+tauri-build = { version = "2.0", features = [] }
+
+[dependencies]
+tauri = { version = "2.0", features = ["tray-icon"] }
+tauri-plugin-shell = "2.0"
+tokio.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+anyhow.workspace = true
+log = "0.4"
+directories = "5.0"
+toml = "0.8"
+
+[dev-dependencies]
+tempfile = "3.10"
