@@ -1,0 +1,26 @@
+{
+  "hypothesis_id": "fp8-activation-transfer-vs-fp16",
+  "claim": "fp8 activation transfer between sharded inference layers (v6+ Exo / Prima.cpp pattern) preserves >=99% of fp16-baseline output token quality on a 200-prompt suite, while halving wire bandwidth for cross-node activations. Gates the v6 sharded-inference rollout.",
+  "metric": "output_token_quality_ratio_vs_fp16",
+  "thresholds": {
+    "confirm_at_least": 0.99,
+    "refute_below": 0.95
+  },
+  "secondary_metric": "activation_bandwidth_reduction_pct",
+  "secondary_thresholds": {
+    "confirm_at_least": 45.0,
+    "refute_below": 30.0
+  },
+  "workload": "sharded-inference-200prompt.jsonl",
+  "source_for_claim": "Spec v0.4 row 28: 'Activation transfer (v6+ sharded inference): fp8 default with fp16 fallback, gated by Sandbox H confirmation.'",
+  "comparison_anchor": "fp16-activation-baseline (same prompts, same shard topology, no quantization)",
+  "decision_rule": "CONFIRMED gates v6 sharded-inference at fp8 default. REFUTED on quality means fp8 is too lossy for our shard topology — fall back to fp16 (no bandwidth savings) or research mixed-precision per-layer policies. REFUTED on bandwidth means the savings story is overpromising and v6 economics need revisit.",
+  "timeout_seconds": 7200,
+  "status": "INACTIVE",
+  "blocked_on": [
+    "v6 sharded inference (Exo / Prima.cpp pattern) not yet implemented in OCM",
+    "Cross-node activation transfer protocol not yet defined",
+    "fp8 quantization codepath not yet wired into ocm-inference",
+    "200-prompt sharded-inference workload fixture not yet curated"
+  ]
+}

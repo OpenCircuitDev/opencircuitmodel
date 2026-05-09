@@ -1,0 +1,25 @@
+{
+  "hypothesis_id": "mem0-sqlcipher-aes256-overhead",
+  "claim": "SQLCipher AES-256 encryption on Mem0's at-rest SQLite store with Argon2id-derived key adds <=15% latency overhead on a 1000-query retrieval workload vs unencrypted baseline, with no measurable accuracy regression.",
+  "metric": "encrypted_retrieval_latency_overhead_pct",
+  "thresholds": {
+    "confirm_at_most": 15.0,
+    "refute_above": 30.0
+  },
+  "secondary_metric": "retrieval_accuracy_delta_pp",
+  "secondary_thresholds": {
+    "confirm_at_most": 1.0,
+    "refute_above": 3.0
+  },
+  "workload": "mem0-retrieval-1000q.jsonl",
+  "source_for_claim": "Spec v0.4 row 29 (Encryption mapped onto privacy zones A/B/C). 'SQLCipher AES-256 with Argon2id-derived key from user passphrase (~5-15% latency overhead).'",
+  "comparison_anchor": "mem0-unencrypted-baseline (same workload, plain SQLite)",
+  "decision_rule": "If CONFIRMED, Zone A encryption ships as default in v1.x. If REFUTED on latency, encryption becomes opt-in with a documented warning. If REFUTED on accuracy delta, something is structurally wrong with SQLCipher under our query patterns and the row 29 lock needs revising.",
+  "timeout_seconds": 1800,
+  "status": "INACTIVE",
+  "blocked_on": [
+    "SQLCipher integration not yet wired into ocm-memory crate",
+    "Argon2id-from-passphrase key-derivation not yet implemented",
+    "Mem0 retrieval workload fixture (1000 queries) not yet curated"
+  ]
+}
