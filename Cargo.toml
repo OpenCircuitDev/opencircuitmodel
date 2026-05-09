@@ -4,6 +4,7 @@ members = [
     "crates/ocm-api",
     "crates/ocm-daemon",
     "crates/ocm-inference",
+    "crates/ocm-mcp",
     "crates/ocm-memory",
 ]
 
