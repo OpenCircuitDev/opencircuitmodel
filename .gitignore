@@ -34,3 +34,4 @@ ocm-data/
 .env
 .env.*
 !.env.example
+bench/*.egg-info/
