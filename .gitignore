@@ -36,3 +36,4 @@ ocm-data/
 !.env.example
 bench/*.egg-info/
 bench/isolation/**/outputs.json
+bench/isolation/**/_sandbox_*.db
