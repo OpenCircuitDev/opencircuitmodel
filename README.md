@@ -2,7 +2,7 @@
 
 > A free, open-source personal AI agent that lives on your machine, remembers everything, and grows in capability as the mesh grows. Apache 2.0 licensed.
 
-**Status:** Pre-v1 — design and research phase. No installable artifact yet. Spec, implementation plan, and tool-landscape research are committed; v1 development begins after this initial commit.
+**Status:** **v1 mostly built, not yet released.** The daemon (Tauri + Rust) compiles end-to-end with HTTP + MCP API surfaces, library-driven Mem0 retrieval, llama.cpp / vLLM inference adapters, a SvelteKit chat UI, settings panel, and curated model registry. The release workflow is wired but no v0.1.0 tag has been cut yet. See "What's built" below for the per-crate state.
 
 **Website (planned):** [ocm.shortcircuit.bot](https://ocm.shortcircuit.bot) — under the [shortcircuit.bot](https://shortcircuit.bot) ecosystem.
 
@@ -22,8 +22,8 @@ OCM is built as a **stack of borrowed open-source frameworks plus a thin origina
 
 | Version | What | Effort | Status |
 |---|---|---|---|
-| **v1** | Single-node personal agent — works standalone, no mesh required | 8-12 wks | **In design** (this commit) |
-| v2 | Two-node mesh via iroh / libp2p | 6-8 wks | After v1 |
+| **v1** | Single-node personal agent — works standalone, no mesh required | 8-12 wks | **Mostly built; pre-release** |
+| v2 | Two-node mesh via iroh / libp2p | 6-8 wks | Trait scaffold landed; impl pending |
 | v3 | Reciprocity ledger (give-to-get accounting) | 4-6 wks | After v2 |
 | v4 | Public bootnet + codesigned daemon | 4-6 wks | After v3 |
 | v5 | Sandboxing + Sybil resistance | 6-10 wks | After v4 |
@@ -64,23 +64,65 @@ If you're considering contributing or running a node, do so because you believe 
 
 Apache 2.0 — see [LICENSE](LICENSE). Choose your own license for derivative works as Apache permits.
 
-## Status of this repo
+## What's built
 
-This is the initial commit. Everything in `docs/superpowers/` is the result of a brainstorming + research phase before code:
+### Daemon + API (Rust workspace)
 
-- [`specs/2026-05-08-ocm-v1-design-spec.md`](docs/superpowers/specs/2026-05-08-ocm-v1-design-spec.md) — the v1 design spec, with all locked architectural decisions and rationale
-- [`plans/2026-05-08-ocm-v1-implementation-plan.md`](docs/superpowers/plans/2026-05-08-ocm-v1-implementation-plan.md) — task-by-task TDD-style implementation plan for v1
-- [`research/2026-05-08-tool-landscape-synthesis.md`](docs/superpowers/research/2026-05-08-tool-landscape-synthesis.md) — synthesis of four research streams that informed the design
-- `research/2026-05-08-per-node-efficiency.md` — inference engines, quantization, speculative decoding, MoE, Apple Silicon (~3,200 words, 60+ citations)
-- `research/2026-05-08-mesh-distributed-compute.md` — Petals/Exo/Bittensor, libp2p/iroh, reciprocity precedents, network-effect data (~3,300 words)
-- `research/2026-05-08-agent-memory-orchestration.md` — Letta vs Mem0, agent frameworks, DSPy, MCP ecosystem (~3,200 words)
-- `research/2026-05-08-investment-market-viability.md` — comparable funding, grants, solo-OSS sustainability, honest outcome distribution (~3,200 words)
+| Crate | Role | State |
+|---|---|---|
+| `ocm-daemon` | Tauri desktop shell — system tray, settings, app paths, supervises subprocesses, hosts the API server. Tauri commands for settings (get/save) and model downloads (list/download). | Built |
+| `ocm-api` | OpenAI-compat HTTP server (`/v1/models`, `/v1/chat/completions` with SSE streaming, `/v1/registry/models`). Library-driven Mem0 retrieval before every chat turn. Localhost-only auth middleware. | Built |
+| `ocm-inference` | `InferenceBackend` trait + llama.cpp + vLLM adapters + supervisor. Auto-selects backend by platform. | Built |
+| `ocm-memory` | Mem0 client (search before generation, persist after). | Built |
+| `ocm-mcp` | MCP stdio JSON-RPC bridge. Lets Claude Code / Cursor / Cline / Continue.dev connect via standard MCP. | Built |
+| `ocm-models` | Curated registry (5 GGUFs across tiny / default / canonical tiers) + streaming SHA256-verified downloader. Refuses unverified hashes. | Built |
+| `ocm-mesh` | Mesh transport trait + iroh / libp2p stubs. Real implementations land in v2. | Scaffolded |
 
-Code begins after this commit. Follow along on the planned subdomain at [ocm.shortcircuit.bot](https://ocm.shortcircuit.bot) (not yet live).
+### Frontend (`frontend/`, SvelteKit 2 + Svelte 5 + adapter-static)
+
+| Route | What | State |
+|---|---|---|
+| `/` | Chat UI with SSE streaming, model picker, abort-to-stop | Built |
+| `/models/` | Browse the curated registry, download with status feedback (Tauri-only) | Built |
+| `/settings/` | Edit all 7 settings.toml fields, save via Tauri command | Built |
+
+Built with Tailwind v4, TypeScript strict mode, svelte-check 0 errors / 0 warnings.
+
+### Bench framework (`bench/`)
+
+Hypothesis-based sandbox runner. First isolation sandbox (`vllm-q4-llama8b` on RTX 4090) wired with `expected.json`. Multipass-fleet mesh-discovery sandbox stub committed for v2 activation.
+
+### Release pipeline
+
+`.github/workflows/release.yml` builds `.dmg` (mac aarch64 + x86_64), `.msi` (windows), `.deb` + `.AppImage` (linux) on tag push. Drafts a GitHub Release with auto-generated notes. Codesigning + auto-update deferred to v4 per spec. See [`docs/release-process.md`](docs/release-process.md).
+
+### Design + research artifacts
+
+Everything in `docs/superpowers/` informed the architecture:
+
+- [`specs/2026-05-08-ocm-v1-design-spec.md`](docs/superpowers/specs/2026-05-08-ocm-v1-design-spec.md) — v0.5, 31 locked decisions across architecture, models, optimizations, privacy, deployment policy
+- [`plans/2026-05-08-ocm-v1-implementation-plan.md`](docs/superpowers/plans/2026-05-08-ocm-v1-implementation-plan.md) — task-by-task implementation plan
+- [`research/`](docs/superpowers/research/) — eight research notes covering per-node efficiency, mesh, memory, market viability, Memory Palace pattern, effective-context triad, encryption + compression, and remote-node deployment
+
+### What's NOT built yet
+
+- Real iroh/libp2p mesh transport (v2)
+- Reciprocity ledger (v3)
+- Codesigning + auto-update (v4)
+- Sandboxing + Sybil resistance (v5)
+- Sharded inference (v6)
+- The five model SHA256 hashes in `crates/ocm-models/registry.json` — the downloader refuses empty-hash entries, so downloads no-op until hashes are committed
+- Live deployment on [ocm.shortcircuit.bot](https://ocm.shortcircuit.bot) — domain reserved, site not yet up
 
 ## Contributing
 
-Contributions are welcome once code work begins. For now, the most useful contribution is critical reading of the spec and research — flag where the analysis is wrong, the assumptions are off, or the architecture has a hidden flaw. File issues at [github.com/OpenCircuitDev/opencircuitmodel/issues](https://github.com/OpenCircuitDev/opencircuitmodel/issues).
+Code contributions are welcome. Per-area:
+
+- **Daemon / API** — Rust 1.78+, `cargo test --workspace` runs the suite locally. CI verifies fmt + clippy + tests across ubuntu / macos / windows.
+- **Frontend** — Node 20+, `cd frontend && npm install && npm run dev` for HMR. `npm run check` for svelte-check + tsc.
+- **Spec / research** — critical reading is still a high-leverage contribution. Flag where the analysis is wrong, the assumptions are off, or the architecture has a hidden flaw.
+
+File issues at [github.com/OpenCircuitDev/opencircuitmodel/issues](https://github.com/OpenCircuitDev/opencircuitmodel/issues).
 
 ## Acknowledgments
 
