@@ -2,6 +2,7 @@
 
 mod paths;
 mod settings;
+mod supervisor;
 mod tray;
 
 use tauri::tray::TrayIconBuilder;

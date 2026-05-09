@@ -19,6 +19,8 @@ anyhow.workspace = true
 log = "0.4"
 directories = "5.0"
 toml = "0.8"
+reqwest.workspace = true
+ocm-inference = { path = "../ocm-inference" }
 
 [dev-dependencies]
 tempfile = "3.10"
