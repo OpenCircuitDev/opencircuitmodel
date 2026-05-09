@@ -1,0 +1,15 @@
+@import 'tailwindcss';
+
+@theme {
+	--font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+	--font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
+
+	/* OCM brand: deep navy + electric teal accent. Deliberately understated —
+	 * the daemon is running real local inference, not a flashy demo. */
+	--color-ocm-bg: oklch(0.18 0.02 260);
+	--color-ocm-surface: oklch(0.22 0.025 260);
+	--color-ocm-border: oklch(0.32 0.03 260);
+	--color-ocm-accent: oklch(0.82 0.15 195);
+	--color-ocm-accent-dim: oklch(0.62 0.12 195);
+	--color-ocm-muted: oklch(0.65 0.02 260);
+}
