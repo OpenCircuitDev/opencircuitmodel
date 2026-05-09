@@ -8,6 +8,10 @@ use serde_json::Value;
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct JsonRpcRequest {
+    // Required by the JSON-RPC 2.0 wire format; serde validates presence
+    // during parse. Kept for spec fidelity even though the bin path doesn't
+    // re-read it after deserialize.
+    #[allow(dead_code)]
     pub jsonrpc: String,
     /// Server-assigned (no "id" = notification, no response expected).
     #[serde(default)]

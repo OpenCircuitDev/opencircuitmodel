@@ -26,6 +26,9 @@ impl OcmBridge {
         }
     }
 
+    // Used by tests + future diagnostic logging; kept on the public API so
+    // callers can introspect which daemon URL the bridge is bound to.
+    #[allow(dead_code)]
     pub fn base_url(&self) -> &str {
         &self.base_url
     }
