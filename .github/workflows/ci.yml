@@ -6,10 +6,24 @@ on:
       - main
       - 'feat/**'
       - 'fix/**'
+      - 'ci/**'
+    # Path filter: skip Rust CI when only docs / frontend / bench / website
+    # change. The frontend.yml workflow handles frontend changes; docs and
+    # bench scaffold changes don't need the Rust matrix to run.
+    paths:
+      - 'crates/**'
+      - 'Cargo.toml'
+      - 'Cargo.lock'
+      - '.github/workflows/ci.yml'
   pull_request:
     branches:
       - main
       - 'feat/**'
+    paths:
+      - 'crates/**'
+      - 'Cargo.toml'
+      - 'Cargo.lock'
+      - '.github/workflows/ci.yml'
 
 jobs:
   rust:
