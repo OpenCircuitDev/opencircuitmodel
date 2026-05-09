@@ -1,0 +1,18 @@
+[package]
+name = "ocm-mesh"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+# v2+ mesh transport layer. Currently a scaffold that defines the trait
+# interface and stub implementations. iroh and libp2p deps are deliberately
+# NOT added here yet — they're v2 implementation work, not v1.
+
+[dependencies]
+async-trait = "0.1"
+serde.workspace = true
+serde_json.workspace = true
+tokio.workspace = true
+tracing.workspace = true
+anyhow.workspace = true
+thiserror.workspace = true
