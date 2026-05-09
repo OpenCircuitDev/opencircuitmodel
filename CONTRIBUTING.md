@@ -50,6 +50,22 @@ npm run check    # svelte-check + tsc
 npm run build    # adapter-static -> build/
 ```
 
+### Building the Tauri daemon locally
+
+`tauri.conf.json` does NOT auto-build the frontend (was previously
+`beforeBuildCommand`, removed because the path resolution was unreliable
+in CI). Always build the frontend FIRST, then the Tauri bundle:
+
+```bash
+cd frontend && npm install && npm run build && cd ..
+cd crates/ocm-daemon
+cargo install tauri-cli --version "^2.0" --locked  # one-time
+cargo tauri build                                  # produces .dmg / .msi / .deb / .AppImage
+# or for hot-reload dev:
+#   one terminal: cd frontend && npm run dev
+#   another:      cd crates/ocm-daemon && cargo tauri dev
+```
+
 Dev server with HMR + daemon proxy: `npm run dev` (http://localhost:5173). Vite proxies `/v1/*` to `127.0.0.1:7300` so the chat / models pages work against a running daemon. Settings page requires the Tauri build (Tauri commands need the runtime).
 
 ### Bench framework (`bench/`)
