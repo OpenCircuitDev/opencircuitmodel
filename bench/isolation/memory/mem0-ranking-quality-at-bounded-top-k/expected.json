@@ -1,0 +1,20 @@
+{
+  "hypothesis_id": "mem0-ranking-quality-at-bounded-top-k",
+  "claim": "Mem0's library-driven retrieval ranking correctly surfaces ground-truth memories at recall@5 >=80% on a workload where each user has 15 memories (i.e., top_k=5 < per-user-corpus). Tests retrieval RANKING quality, not just retrieval coverage. Pairs with mem0-library-retrieval-recall (which tests the bounded case top_k>=user_memory_count).",
+  "metric": "recall_at_5_when_user_corpus_exceeds_k",
+  "thresholds": {
+    "confirm_at_least": 0.80,
+    "refute_below": 0.50
+  },
+  "workload": "mem0-ranking-15per-user.jsonl (to be curated; expand the existing mem0-retrieval-recall fixture from 8-10 to 15 memories per user)",
+  "source_for_claim": "Spec v0.4 row 9 — library-driven retrieval claim. Sister sandbox mem0-library-retrieval-recall validated the bounded case (k>=corpus); this validates the harder ranking case (k<corpus).",
+  "comparison_anchor": "memory/mem0-library-retrieval-recall (the bounded-case companion)",
+  "decision_rule": "If CONFIRMED, Mem0's ranking works correctly — full library-driven retrieval claim holds. If REFUTED, ranking is the weak link; investigate Mem0 v2's score-normalization bug (documented in mem0-library-retrieval-recall README) before declaring Mem0 unsuitable. May require Mem0 v3 to ship before sandbox can produce a clean confirmation.",
+  "timeout_seconds": 600,
+  "status": "INACTIVE",
+  "blocked_on": [
+    "Mem0 v2 has a documented score-normalization bug where the most-recently-added memory always reports score=1.0 — would skew this sandbox's results until upstream fixed",
+    "Workload not yet curated — needs 15 memories per user (vs the bounded sandbox's 8-10)",
+    "Wait for Mem0 v3 release with the bug fixed, OR submit upstream PR"
+  ]
+}
