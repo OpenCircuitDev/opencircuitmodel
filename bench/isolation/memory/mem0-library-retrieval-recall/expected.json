@@ -1,0 +1,20 @@
+{
+  "hypothesis_id": "mem0-library-retrieval-recall-and-isolation",
+  "claim": "Mem0's library-driven retrieval (search) returns all ground-truth memory IDs in the top-10 for >=95% of queries on a 39-memory / 39-query synthetic workload, with exactly 0% cross-user-id leakage. Tests the SEARCH layer specifically, NOT the LLM-driven extraction layer (bypassed via infer=False). Primary metric speaks to spec row 9's library-driven-retrieval claim; secondary metric is a structural invariant on Mem0's user_id isolation.",
+  "metric": "recall_at_10",
+  "thresholds": {
+    "confirm_at_least": 0.95,
+    "refute_below": 0.80
+  },
+  "secondary_metric": "cross_user_leak_rate",
+  "secondary_thresholds": {
+    "confirm_at_most": 0.0,
+    "refute_above": 0.05
+  },
+  "workload": "mem0-retrieval-recall.jsonl + mem0-retrieval-recall-corpus.jsonl",
+  "source_for_claim": "Spec v0.4 row 9 — 'library-driven retrieval (no agent decision required) is structurally aligned with the small-model thesis.' Sandbox validates the PATTERN; the absolute 91.6 LoCoMo number stays in mem0-v3-locomo pending Mem0 v3 + real LoCoMo data.",
+  "comparison_anchor": "agent-driven-memory-tool-baseline (when implemented — Letta-style tool-calling memory paradigm on the same workload)",
+  "decision_rule": "If CONFIRMED on both, library-driven retrieval pattern holds for the spec row 9 claim. If REFUTED on recall, embedding model or vector store config is wrong; investigate before declaring Mem0 unsuitable. If REFUTED on cross-user-leak, security bug — Mem0 isn't honoring user_id isolation, escalate immediately.",
+  "timeout_seconds": 600,
+  "status": "ACTIVE"
+}

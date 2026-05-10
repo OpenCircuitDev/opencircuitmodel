@@ -37,3 +37,4 @@ ocm-data/
 bench/*.egg-info/
 bench/isolation/**/outputs.json
 bench/isolation/**/_sandbox_*.db
+bench/isolation/**/_mem0_bench_faiss/

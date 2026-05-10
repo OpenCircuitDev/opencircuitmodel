@@ -1,0 +1,38 @@
+{"query_id": 0, "user_id": "alice", "query": "What's Alice's job?", "expected_memory_ids": [0]}
+{"query_id": 1, "user_id": "alice", "query": "Does Alice eat meat?", "expected_memory_ids": [1]}
+{"query_id": 2, "user_id": "alice", "query": "Where does Alice live?", "expected_memory_ids": [2]}
+{"query_id": 3, "user_id": "alice", "query": "Tell me about Alice's family", "expected_memory_ids": [3]}
+{"query_id": 4, "user_id": "alice", "query": "Are there any health concerns for Alice?", "expected_memory_ids": [4]}
+{"query_id": 5, "user_id": "alice", "query": "What language does Alice prefer for systems code?", "expected_memory_ids": [5]}
+{"query_id": 6, "user_id": "alice", "query": "Where does Alice get coffee?", "expected_memory_ids": [6]}
+{"query_id": 7, "user_id": "alice", "query": "Does Alice play music?", "expected_memory_ids": [7]}
+{"query_id": 8, "user_id": "alice", "query": "What sports does Alice do?", "expected_memory_ids": [8]}
+{"query_id": 9, "user_id": "alice", "query": "Does Alice have a pet?", "expected_memory_ids": [9]}
+{"query_id": 10, "user_id": "ben", "query": "What does Ben do for work?", "expected_memory_ids": [10]}
+{"query_id": 11, "user_id": "ben", "query": "Has Ben run a marathon?", "expected_memory_ids": [11]}
+{"query_id": 12, "user_id": "ben", "query": "Where does Ben live?", "expected_memory_ids": [12]}
+{"query_id": 13, "user_id": "ben", "query": "What languages does Ben speak?", "expected_memory_ids": [13]}
+{"query_id": 14, "user_id": "ben", "query": "Who is Ben's favorite scientist?", "expected_memory_ids": [14]}
+{"query_id": 15, "user_id": "ben", "query": "What does Ben drink in the morning?", "expected_memory_ids": [15]}
+{"query_id": 16, "user_id": "ben", "query": "What car does Ben drive?", "expected_memory_ids": [16]}
+{"query_id": 17, "user_id": "ben", "query": "Does Ben have any food restrictions?", "expected_memory_ids": [17]}
+{"query_id": 18, "user_id": "ben", "query": "Tell me about Ben's siblings", "expected_memory_ids": [18]}
+{"query_id": 19, "user_id": "ben", "query": "Does Ben volunteer?", "expected_memory_ids": [19]}
+{"query_id": 21, "user_id": "cara", "query": "What does Cara do for a living?", "expected_memory_ids": [21]}
+{"query_id": 22, "user_id": "cara", "query": "Where does Cara live?", "expected_memory_ids": [22]}
+{"query_id": 23, "user_id": "cara", "query": "What's Cara's hobby?", "expected_memory_ids": [23]}
+{"query_id": 24, "user_id": "cara", "query": "Does Cara have animals?", "expected_memory_ids": [24]}
+{"query_id": 25, "user_id": "cara", "query": "Any medication allergies for Cara?", "expected_memory_ids": [25]}
+{"query_id": 26, "user_id": "cara", "query": "Where is Cara originally from?", "expected_memory_ids": [26]}
+{"query_id": 27, "user_id": "cara", "query": "What yarn does Cara prefer?", "expected_memory_ids": [27]}
+{"query_id": 28, "user_id": "cara", "query": "What is Cara reading right now?", "expected_memory_ids": [28]}
+{"query_id": 29, "user_id": "dan", "query": "Where does Dan work?", "expected_memory_ids": [29]}
+{"query_id": 30, "user_id": "dan", "query": "Does Dan surf?", "expected_memory_ids": [30]}
+{"query_id": 31, "user_id": "dan", "query": "What is Dan's educational background?", "expected_memory_ids": [31]}
+{"query_id": 32, "user_id": "dan", "query": "What vehicle does Dan drive?", "expected_memory_ids": [32]}
+{"query_id": 33, "user_id": "dan", "query": "What's Dan's favorite restaurant?", "expected_memory_ids": [33]}
+{"query_id": 34, "user_id": "dan", "query": "Tell me about Dan's pet", "expected_memory_ids": [34]}
+{"query_id": 35, "user_id": "dan", "query": "Does Dan have food restrictions?", "expected_memory_ids": [35]}
+{"query_id": 36, "user_id": "dan", "query": "What sport does Dan play casually?", "expected_memory_ids": [36]}
+{"query_id": 37, "user_id": "dan", "query": "Where is Dan from?", "expected_memory_ids": [37]}
+{"query_id": 38, "user_id": "dan", "query": "Did Dan pick up new skills during COVID?", "expected_memory_ids": [38]}
