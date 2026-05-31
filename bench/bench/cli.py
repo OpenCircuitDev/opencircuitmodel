@@ -10,6 +10,13 @@ from rich.console import Console
 from rich.table import Table
 
 from .compare import retro_sync_report
+from .coverage import build_coverage, render_coverage_markdown
+from .dashboard import (
+    collect_dashboard_rows,
+    compute_overall_status,
+    counts_to_summary,
+    render_markdown,
+)
 from .runner import DryRunError, list_all_sandboxes, load_expected, run_sandbox
 
 console = Console()
@@ -301,6 +308,90 @@ def run_all(
     if errored and not continue_on_error:
         sys.exit(2)
     if refuted:
+        sys.exit(1)
+
+
+_DEFAULT_SPEC_PATH = (
+    "docs/superpowers/specs/2026-05-08-ocm-v1-design-spec.md"
+)
+
+
+@main.command()
+@click.option("--root", type=click.Path(exists=True, path_type=Path), default=None,
+              help="Override the bench/ root directory (default: auto-detected).")
+@click.option("--spec", "spec_path", type=click.Path(exists=True, path_type=Path),
+              default=None,
+              help=f"Path to the design spec (default: ../{_DEFAULT_SPEC_PATH}).")
+@click.option("--write", type=click.Path(path_type=Path), default=None,
+              help="Write markdown output to this path (default: print to stdout).")
+def coverage(root: Path | None, spec_path: Path | None, write: Path | None) -> None:
+    """Map spec rows to validating sandboxes.
+
+    Walks the design-spec markdown table of locked decisions, joins each row
+    with sandboxes whose `spec_row` field (or `source_for_claim` regex
+    fallback) references that row, and emits a coverage table. Orphan
+    sandboxes — those validating something the spec doesn't number — are
+    listed separately so they can be reconciled.
+    """
+    bench_root = root or _bench_root()
+    if spec_path is None:
+        spec_path = bench_root.parent / _DEFAULT_SPEC_PATH
+        if not spec_path.exists():
+            console.print(
+                f"[red]Spec not found at {spec_path}[/red]. "
+                "Pass --spec or run from a checkout with docs/superpowers/."
+            )
+            sys.exit(2)
+
+    entries, orphans = build_coverage(bench_root, spec_path)
+    md = render_coverage_markdown(entries, orphans)
+
+    if write is not None:
+        write.parent.mkdir(parents=True, exist_ok=True)
+        write.write_text(md, encoding="utf-8")
+        validated = sum(
+            1 for e in entries
+            if any(s.verdict and s.verdict.value == "CONFIRMED" for s in e.sandboxes)
+        )
+        console.print(
+            f"[green]coverage[/green]: {len(entries)} spec rows, "
+            f"{validated} CONFIRMED, {len(orphans)} orphan sandbox(es) "
+            f"-> wrote {write}"
+        )
+    else:
+        console.print(md)
+
+
+@main.command()
+@click.option("--root", type=click.Path(exists=True, path_type=Path), default=None,
+              help="Override the bench/ root directory (default: auto-detected).")
+@click.option("--write", type=click.Path(path_type=Path), default=None,
+              help="Write markdown output to this path (default: print to stdout).")
+@click.option("--check", is_flag=True,
+              help="Exit 1 if any sandbox is REFUTED, INCONCLUSIVE, or has no run. For CI.")
+def dashboard(root: Path | None, write: Path | None, check: bool) -> None:
+    """Show latest verdict per ACTIVE sandbox as a unified markdown table.
+
+    Walks bench/isolation/ + bench/combination/, takes the most recent
+    summary.json per (hypothesis_id, hardware_class) pair, renders a single
+    markdown document with an overall PASS/FAIL badge. With --check, exits 1
+    on any non-CONFIRMED status — wire this into CI to gate merges.
+    """
+    bench_root = root or _bench_root()
+    rows = collect_dashboard_rows(bench_root)
+    status, counts = compute_overall_status(rows)
+
+    if write is not None:
+        write.parent.mkdir(parents=True, exist_ok=True)
+        write.write_text(render_markdown(rows, status=status, counts=counts), encoding="utf-8")
+        color = "green" if status == "PASS" else "red"
+        console.print(
+            f"[{color}]{status}[/{color}] - {counts_to_summary(counts)} -> wrote {write}"
+        )
+    else:
+        console.print(render_markdown(rows, status=status, counts=counts))
+
+    if check and status != "PASS":
         sys.exit(1)
 
 
