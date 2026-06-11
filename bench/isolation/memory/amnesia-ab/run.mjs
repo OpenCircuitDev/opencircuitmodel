@@ -16,7 +16,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const OLLAMA = 'http://127.0.0.1:11434';
+const OLLAMA = process.env.OLLAMA_URL || 'http://127.0.0.1:11434';
 const CHAT_MODEL = 'llama3';
 const EMBED_MODEL = 'mxbai-embed-large';
 const TOP_K = 5;
