@@ -1,11 +1,13 @@
 //! Inference backend trait + adapters for OCM.
 //!
-//! Two production backends targeted by v1:
+//! Three backends:
 //! - [`llamacpp::LlamaCpp`] — Apple Silicon default (Metal) and CPU-only fallback
 //! - [`vllm::Vllm`] — NVIDIA default (CUDA + AWQ-INT4 + RadixAttention via SGLang upgrade path)
+//! - [`ollama::Ollama`] — bridges to an existing Ollama daemon (native NDJSON API),
+//!   the zero-extra-process path for the largest installed base of local-model users
 //!
-//! Both expose the same OpenAI-compatible HTTP wire format, so most adapter logic is
-//! shared via [`llamacpp::LlamaCpp`] and [`vllm::Vllm`] re-uses it.
+//! llama.cpp and vLLM share the OpenAI-compatible HTTP wire format ([`llamacpp::LlamaCpp`]
+//! hosts the shared SSE parser); Ollama speaks its own NDJSON streaming format.
 
 use async_trait::async_trait;
 use futures::stream::BoxStream;
@@ -64,6 +66,7 @@ pub trait InferenceBackend: Send + Sync {
 }
 
 pub mod llamacpp;
+pub mod ollama;
 pub mod selector;
 pub mod vllm;
 

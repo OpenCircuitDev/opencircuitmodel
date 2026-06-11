@@ -7,8 +7,9 @@
 //! functionality and logs warnings. The user gets a Tauri tray + window
 //! that reports status; chat requests fail with clear errors.
 
-use crate::settings::Settings;
-use ocm_inference::selector;
+use crate::settings::{Backend, Settings};
+use ocm_inference::ollama::DEFAULT_MODEL as DEFAULT_OLLAMA_MODEL;
+use ocm_inference::selector::{self, BackendKind, DEFAULT_OLLAMA_BASE_URL};
 use std::net::{IpAddr, Ipv4Addr, SocketAddr};
 use std::sync::Arc;
 use std::time::Duration;
@@ -60,6 +61,17 @@ async fn probe_url(base: &str, path: &str) -> bool {
     matches!(client.get(&url).send().await, Ok(r) if r.status().is_success())
 }
 
+/// Resolve `Settings.backend` to a concrete `BackendKind`. `Auto` delegates to
+/// the existing platform detect; explicit settings win over detection.
+fn resolve_backend_kind(setting: Backend) -> BackendKind {
+    match setting {
+        Backend::Auto => selector::detect_backend_kind(),
+        Backend::LlamaCpp => BackendKind::LlamaCpp,
+        Backend::Vllm => BackendKind::Vllm,
+        Backend::Ollama => BackendKind::Ollama,
+    }
+}
+
 /// Construct the full AppState given settings.
 pub fn build_app_state(settings: &Settings) -> ocm_api::AppState {
     let inference_url = settings
@@ -70,8 +82,18 @@ pub fn build_app_state(settings: &Settings) -> ocm_api::AppState {
         .mem0_base_url
         .clone()
         .unwrap_or_else(|| DEFAULT_MEM0_BASE_URL.to_string());
+    let ollama_url = settings
+        .ollama_base_url
+        .clone()
+        .unwrap_or_else(|| DEFAULT_OLLAMA_BASE_URL.to_string());
+    let ollama_model = settings
+        .ollama_model
+        .clone()
+        .unwrap_or_else(|| DEFAULT_OLLAMA_MODEL.to_string());
 
-    let backend = selector::make_backend(inference_url);
+    let kind = resolve_backend_kind(settings.backend);
+    info!(backend = kind.as_str(), "selected inference backend");
+    let backend = selector::make_backend_for_kind(kind, inference_url, ollama_url, ollama_model);
     let memory = Arc::new(ocm_memory::Mem0Client::new(memory_url, "ocm-default"));
     let backend: Arc<dyn ocm_inference::InferenceBackend> = Arc::from(backend);
 
@@ -132,7 +154,7 @@ pub async fn bootstrap(settings: Settings) {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::settings::Theme;
+    use crate::settings::{Backend, Theme};
 
     fn test_settings() -> Settings {
         Settings {
@@ -143,6 +165,9 @@ mod tests {
             inference_base_url: Some("http://127.0.0.1:18080".into()),
             mem0_base_url: Some("http://127.0.0.1:18765".into()),
             retrieval_top_k: Some(3),
+            backend: Backend::Auto,
+            ollama_base_url: None,
+            ollama_model: None,
         }
     }
 
@@ -154,6 +179,7 @@ mod tests {
         let state = build_app_state(&s);
         assert_eq!(state.retrieval_top_k, DEFAULT_RETRIEVAL_TOP_K);
         // backend / memory clients are constructed; concrete name depends on platform
+        // (Auto never picks Ollama — it's opt-in).
         let backend_name = state.backend.name();
         assert!(backend_name == "llama.cpp" || backend_name == "vLLM");
     }
@@ -163,6 +189,59 @@ mod tests {
         let s = test_settings();
         let state = build_app_state(&s);
         assert_eq!(state.retrieval_top_k, 3);
+    }
+
+    #[test]
+    fn explicit_ollama_backend_is_wired_through_to_app_state() {
+        // The headline v0.1.1 wiring assertion: a user who selects backend =
+        // "ollama" in settings ends up with an Ollama InferenceBackend on the
+        // live AppState. Verified by the trait's `name()` ("Ollama" — see
+        // ocm_inference::ollama::Ollama::name).
+        let s = Settings {
+            backend: Backend::Ollama,
+            ollama_base_url: Some("http://127.0.0.1:11434".into()),
+            ollama_model: Some("llama3".into()),
+            ..Settings::default()
+        };
+        let state = build_app_state(&s);
+        assert_eq!(state.backend.name(), "Ollama");
+    }
+
+    #[test]
+    fn explicit_ollama_uses_defaults_when_fields_unset() {
+        // backend = "ollama" with no URL/model still produces a constructible
+        // Ollama backend — bootstrap fills in the daemon's native defaults
+        // (port 11434, the existing ollama::DEFAULT_MODEL).
+        let s = Settings {
+            backend: Backend::Ollama,
+            ollama_base_url: None,
+            ollama_model: None,
+            ..Settings::default()
+        };
+        let state = build_app_state(&s);
+        assert_eq!(state.backend.name(), "Ollama");
+    }
+
+    #[test]
+    fn explicit_llamacpp_overrides_platform_detect() {
+        // Users on a CUDA box who explicitly pick llama.cpp must get llama.cpp,
+        // even if auto-detect would have picked vLLM.
+        let s = Settings {
+            backend: Backend::LlamaCpp,
+            ..Settings::default()
+        };
+        let state = build_app_state(&s);
+        assert_eq!(state.backend.name(), "llama.cpp");
+    }
+
+    #[test]
+    fn explicit_vllm_overrides_platform_detect() {
+        let s = Settings {
+            backend: Backend::Vllm,
+            ..Settings::default()
+        };
+        let state = build_app_state(&s);
+        assert_eq!(state.backend.name(), "vLLM");
     }
 
     #[tokio::test]

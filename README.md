@@ -75,7 +75,7 @@ Apache 2.0 — see [LICENSE](LICENSE). Choose your own license for derivative wo
 | `ocm-inference` | `InferenceBackend` trait + llama.cpp + vLLM adapters + supervisor. Auto-selects backend by platform. | Built |
 | `ocm-memory` | Mem0 client (search before generation, persist after). | Built |
 | `ocm-mcp` | MCP stdio JSON-RPC bridge. Lets Claude Code / Cursor / Cline / Continue.dev connect via standard MCP. | Built |
-| `ocm-models` | Curated registry (5 GGUFs across tiny / default / canonical tiers) + streaming SHA256-verified downloader. Refuses unverified hashes. | Built |
+| `ocm-models` | Curated registry (3 GGUFs across tiny / default tiers, all SHA256-verified; canonical tier returns in v0.1.1) + streaming verified downloader. Refuses unverified hashes. | Built |
 | `ocm-mesh` | Mesh transport trait + iroh / libp2p stubs. Real implementations land in v2. | Scaffolded |
 
 ### Frontend (`frontend/`, SvelteKit 2 + Svelte 5 + adapter-static)
@@ -111,7 +111,7 @@ Everything in `docs/superpowers/` informed the architecture:
 - Codesigning + auto-update (v4)
 - Sandboxing + Sybil resistance (v5)
 - Sharded inference (v6)
-- The five model SHA256 hashes in `crates/ocm-models/registry.json` — the downloader refuses empty-hash entries, so downloads no-op until hashes are committed
+- Qwen3 canonical-tier registry entries (dropped pending verified hashes; return in v0.1.1 — the shipping 3-model registry is fully SHA256-verified)
 - Live deployment on [ocm.shortcircuit.bot](https://ocm.shortcircuit.bot) — domain reserved, site not yet up
 
 ## Contributing
