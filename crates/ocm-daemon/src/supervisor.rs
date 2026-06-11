@@ -202,6 +202,12 @@ pub fn spawn_llama_server(binary: &Path, model_path: &Path, port: u16, ctx_len: 
 }
 
 /// Build a Supervisor that runs vLLM's OpenAI-compat HTTP server.
+///
+/// Not yet wired into bootstrap — the NVIDIA-supervision path is a separate
+/// follow-up (vLLM has heavier Python/CUDA preconditions than llama.cpp).
+/// Kept here so the supervision machinery covers both backends when that path
+/// activates.
+#[allow(dead_code)]
 pub fn spawn_vllm_server(python: &Path, model_id: &str, port: u16) -> Supervisor {
     let python = python.to_path_buf();
     let model_id = model_id.to_string();
@@ -254,6 +260,10 @@ pub async fn supervise(
     mut shutdown: tokio::sync::watch::Receiver<bool>,
 ) {
     let mut attempts: u8 = 0;
+    // Initialized to a sentinel that's only observable if we surface
+    // FailedAfterMaxRestarts before ever setting it (shouldn't happen in
+    // practice, but is sound). All real paths overwrite this before read.
+    #[allow(unused_assignments)]
     let mut last_error = String::new();
 
     loop {

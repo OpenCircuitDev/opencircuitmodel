@@ -152,13 +152,23 @@ pub fn build_llama_supervisor(
 }
 
 /// State the Tauri layer manages for the supervised subprocess. `status` is
-/// shared with the supervise loop (which mutates it). `shutdown` is the sender
-/// half of the cancellation channel; dropping it (or sending `true`) lets the
-/// supervise loop exit cleanly. Held in a `Mutex<Option<_>>` so app exit can
-/// `.take()` it.
+/// shared with the supervise loop (which mutates it).
+///
+/// `shutdown` is the sender half of the cancellation channel. The supervise
+/// loop's `watch::Receiver::changed()` fires either when we explicitly send
+/// `true` (via `signal_shutdown`) OR when the Sender is dropped — so dropping
+/// `LlamaSupervisorState` during Tauri's teardown is enough to wake the loop,
+/// which then calls `Supervisor::stop()` and exits with `Stopped` status.
+/// An explicit `signal_shutdown` is here for a future `RunEvent::ExitRequested`
+/// hook that wants to wait for the loop to drain.
 pub struct LlamaSupervisorState {
     pub status: Arc<Mutex<SupervisorStatus>>,
-    pub shutdown: Mutex<Option<tokio::sync::watch::Sender<bool>>>,
+    // Held in Mutex<Option<_>> so a future ExitRequested hook can `.take()` it
+    // to send the signal before tauri tears down the runtime. Field is
+    // observed via Drop semantics today, not direct reads — keep the
+    // dead_code allow until the hook lands.
+    #[allow(dead_code)]
+    shutdown: Mutex<Option<tokio::sync::watch::Sender<bool>>>,
 }
 
 impl LlamaSupervisorState {
@@ -176,6 +186,17 @@ impl LlamaSupervisorState {
         Self {
             status,
             shutdown: Mutex::new(Some(shutdown_tx)),
+        }
+    }
+
+    /// Explicitly signal the supervise loop to stop. Currently unused (Drop
+    /// is sufficient for v0.1.2), kept for the future graceful-exit hook.
+    #[allow(dead_code)]
+    pub fn signal_shutdown(&self) {
+        if let Ok(mut g) = self.shutdown.lock() {
+            if let Some(tx) = g.take() {
+                let _ = tx.send(true);
+            }
         }
     }
 }
