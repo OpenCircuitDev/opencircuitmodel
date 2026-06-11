@@ -35,9 +35,11 @@ execution with evidence. Two tracks, in priority order:
 3. **Settings UI polish** for the above.
 
 ### Track 2 — bench validation (each verdict de-risks or kills future work)
-1. **mem0-v3-locomo activation**: workload packaging plan first (the LoCoMo
-   dataset download + Mem0 harness); flag NEEDS_APPROVAL if it requires
-   accounts, payments, or >1GB downloads.
+1. **mem0-v3-locomo activation**: plan MERGED (#70). License decision RATIFIED
+   by the operator 2026-06-11: **fetch-on-run** — the CC BY-NC dataset never
+   ships in the repo; bench.py downloads the SHA-pinned 2.81MB file at run
+   time. Tasks 2+ of the plan are UNBLOCKED. Execute per the plan doc
+   (docs/superpowers/plans/2026-06-11-mem0-v3-locomo-activation-plan.md).
 2. Activate any sandbox whose `blocked_on` list you can clear with code alone.
 3. Keep `docs/coverage.md` + `docs/metrics.md` regenerated (CI rejects stale).
 
@@ -70,7 +72,7 @@ execution with evidence. Two tracks, in priority order:
 - **Each wake:** read this doc + your latest handoff → pick the next unfinished
   item in track order → work it to a PR or a NEEDS_APPROVAL → write a handoff
   digest (what shipped, PR links, CI run IDs, what's next, open questions).
-- **Cost discipline:** you are metered (budget visible to the control plane).
+- **Cost discipline:** budget is **$25/week, Pilot-paced** (operator-ratified 2026-06-11; day-1 reference: 3 deliverables for $19.29). You are metered.
   Keep sessions focused on ONE deliverable. End cleanly rather than sprawl.
 - **Questions to the operator:** ALWAYS multiple-choice / multi-select.
 - **Cadence:** you are woken by Pilot (Director) or the operator — you do not
