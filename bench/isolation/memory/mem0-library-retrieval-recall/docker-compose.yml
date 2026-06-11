@@ -1,0 +1,20 @@
+services:
+  bench:
+    image: python:3.11
+    volumes:
+      - ./:/work
+      - ../../../workloads:/workloads:ro
+    working_dir: /work
+    environment:
+      - WORKLOADS_DIR=/workloads
+    # mem0ai pulls in pydantic + a few networking deps; sentence-transformers
+    # pulls torch (huge but pip-cached). faiss-cpu is needed by Mem0's faiss
+    # vector store provider. python:3.11 (full image) gives us the build
+    # tools sentence-transformers/torch may need; python:3.11-slim works on
+    # most platforms but build gcc for some torch deps is safer.
+    command:
+      - sh
+      - -c
+      - |
+        pip install --quiet mem0ai sentence-transformers faiss-cpu
+        python bench.py
