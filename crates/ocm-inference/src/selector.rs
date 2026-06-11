@@ -6,13 +6,19 @@
 //! - Linux without CUDA -> llama.cpp (CPU)
 //! - Windows -> llama.cpp
 //! - everything else -> llama.cpp (safest fallback)
+//!
+//! Ollama is **opt-in** (Settings.backend = "ollama"); it is never returned
+//! from `detect_backend_kind()`. Auto-detect picks between the two backends
+//! OCM can supervise itself; Ollama bridges to an *external* daemon and is
+//! a deliberate user choice.
 
-use crate::{llamacpp::LlamaCpp, vllm::Vllm, InferenceBackend};
+use crate::{llamacpp::LlamaCpp, ollama::Ollama, vllm::Vllm, InferenceBackend};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum BackendKind {
     LlamaCpp,
     Vllm,
+    Ollama,
 }
 
 impl BackendKind {
@@ -20,9 +26,15 @@ impl BackendKind {
         match self {
             BackendKind::LlamaCpp => "llama.cpp",
             BackendKind::Vllm => "vLLM",
+            // Kept in lockstep with Ollama::name() so log/telemetry labels match.
+            BackendKind::Ollama => "Ollama",
         }
     }
 }
+
+/// Native Ollama daemon default — the daemon binds 127.0.0.1:11434 out of the
+/// box. Bootstrap falls back to this when Settings.ollama_base_url is unset.
+pub const DEFAULT_OLLAMA_BASE_URL: &str = "http://127.0.0.1:11434";
 
 pub fn detect_backend_kind() -> BackendKind {
     if cfg!(target_os = "macos") {
@@ -47,10 +59,36 @@ fn has_cuda() -> bool {
     false
 }
 
+/// Auto-detect-only constructor preserved for back-compat. Settings-driven
+/// callers (the daemon's bootstrap) should use `make_backend_for_kind`.
 pub fn make_backend(base_url: String) -> Box<dyn InferenceBackend> {
     match detect_backend_kind() {
         BackendKind::Vllm => Box::new(Vllm::new(base_url)),
         BackendKind::LlamaCpp => Box::new(LlamaCpp::new(base_url)),
+        // detect_backend_kind never returns Ollama, but the match must be
+        // exhaustive — fall through to the safest local default.
+        BackendKind::Ollama => Box::new(LlamaCpp::new(base_url)),
+    }
+}
+
+/// Settings-driven constructor: pick the backend by explicit `BackendKind`,
+/// using each backend's own URL/model where applicable.
+///
+/// The `inference_url` argument feeds llama.cpp / vLLM (they share the
+/// OpenAI-compat HTTP wire format); `ollama_url` + `ollama_model` feed the
+/// Ollama adapter. The two URLs are separate because a user can have an
+/// Ollama daemon AND llama-server running on the same machine on different
+/// ports; we don't want either's config to be shadowed by the other's.
+pub fn make_backend_for_kind(
+    kind: BackendKind,
+    inference_url: String,
+    ollama_url: String,
+    ollama_model: String,
+) -> Box<dyn InferenceBackend> {
+    match kind {
+        BackendKind::LlamaCpp => Box::new(LlamaCpp::new(inference_url)),
+        BackendKind::Vllm => Box::new(Vllm::new(inference_url)),
+        BackendKind::Ollama => Box::new(Ollama::new(ollama_url, ollama_model)),
     }
 }
 

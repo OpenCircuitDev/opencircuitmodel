@@ -18,6 +18,22 @@ pub struct Settings {
     /// Number of memories to retrieve per chat turn. Default 5. Set to 0 to disable.
     #[serde(default)]
     pub retrieval_top_k: Option<u32>,
+    /// Which inference backend to use. `Auto` (default) preserves pre-v0.1.1
+    /// behavior: platform-detect picks llama.cpp on Mac/Windows/CPU-Linux and
+    /// vLLM on CUDA Linux. Explicit `LlamaCpp` / `Vllm` / `Ollama` override
+    /// detection — the Ollama branch is the "I have an Ollama daemon already,
+    /// point OCM at it" zero-extra-process path.
+    #[serde(default)]
+    pub backend: Backend,
+    /// Override the Ollama daemon URL. Only consulted when `backend = "ollama"`.
+    /// Default (when unset) is `http://127.0.0.1:11434` — Ollama's installed default.
+    #[serde(default)]
+    pub ollama_base_url: Option<String>,
+    /// Ollama model tag (e.g. `llama3`, `qwen2.5:7b`). REQUIRED by the Ollama
+    /// native API — there is no server-side default. When unset, bootstrap
+    /// falls back to `ocm_inference::ollama::DEFAULT_MODEL`.
+    #[serde(default)]
+    pub ollama_model: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Copy)]
@@ -26,6 +42,23 @@ pub enum Theme {
     Dark,
     Light,
     System,
+}
+
+/// Inference backend selection. Wire-format is lowercase TOML (`backend = "ollama"`).
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq, Copy)]
+#[serde(rename_all = "lowercase")]
+pub enum Backend {
+    /// Platform-detect (existing pre-v0.1.1 behavior).
+    Auto,
+    LlamaCpp,
+    Vllm,
+    Ollama,
+}
+
+impl Default for Backend {
+    fn default() -> Self {
+        Backend::Auto
+    }
 }
 
 impl Default for Settings {
@@ -38,6 +71,9 @@ impl Default for Settings {
             inference_base_url: None,
             mem0_base_url: None,
             retrieval_top_k: None,
+            backend: Backend::Auto,
+            ollama_base_url: None,
+            ollama_model: None,
         }
     }
 }
