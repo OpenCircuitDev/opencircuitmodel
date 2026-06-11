@@ -163,6 +163,111 @@ mod tests {
         }
     }
 
+    /// Spawn-then-exit-immediately. Used to exercise the supervise loop's
+    /// restart-on-death path without having to block on a long-running subprocess.
+    fn immediate_exit_command() -> Command {
+        #[cfg(unix)]
+        {
+            Command::new("true")
+        }
+        #[cfg(windows)]
+        {
+            let mut c = Command::new("cmd");
+            c.args(["/c", "exit", "0"]);
+            c
+        }
+    }
+
+    #[test]
+    fn supervisor_status_default_is_not_spawning() {
+        assert_eq!(SupervisorStatus::default(), SupervisorStatus::NotSpawning);
+    }
+
+    #[test]
+    fn policy_default_uses_documented_constants() {
+        let p = SupervisorPolicy::default();
+        assert_eq!(p.max_restarts, DEFAULT_MAX_RESTARTS);
+        assert_eq!(p.initial_backoff, DEFAULT_INITIAL_BACKOFF);
+        assert_eq!(p.max_backoff, DEFAULT_MAX_BACKOFF);
+        assert_eq!(p.stability_window, DEFAULT_STABILITY_WINDOW);
+    }
+
+    #[test]
+    fn backoff_doubles_then_clamps_at_max() {
+        let initial = Duration::from_millis(100);
+        let max = Duration::from_millis(800);
+        assert_eq!(compute_backoff(0, initial, max), Duration::from_millis(100));
+        assert_eq!(compute_backoff(1, initial, max), Duration::from_millis(200));
+        assert_eq!(compute_backoff(2, initial, max), Duration::from_millis(400));
+        // attempt 3 would be 800 (exactly at cap)
+        assert_eq!(compute_backoff(3, initial, max), Duration::from_millis(800));
+        // attempt 4+ clamped
+        assert_eq!(compute_backoff(4, initial, max), Duration::from_millis(800));
+        // u8::MAX must not overflow
+        assert_eq!(compute_backoff(255, initial, max), Duration::from_millis(800));
+    }
+
+    #[tokio::test(flavor = "current_thread")]
+    async fn supervise_with_immediate_exit_hits_failed_after_max_restarts() {
+        // Process dies right after spawn AND the health URL never responds
+        // (port 1 is privileged + unbound on CI runners). The loop should
+        // burn through max_restarts attempts then surface FailedAfterMaxRestarts.
+        let sup = Arc::new(Supervisor::new("immediate-exit", immediate_exit_command));
+        let policy = SupervisorPolicy {
+            max_restarts: 2,
+            initial_backoff: Duration::from_millis(20),
+            max_backoff: Duration::from_millis(40),
+            stability_window: Duration::from_secs(60),
+            health_url: "http://127.0.0.1:1/health".to_string(),
+            health_check_interval: Duration::from_millis(50),
+            health_check_timeout: Duration::from_millis(100),
+        };
+        let status = Arc::new(Mutex::new(SupervisorStatus::default()));
+        let (_tx, rx) = tokio::sync::watch::channel(false);
+
+        supervise(sup.clone(), policy, status.clone(), rx).await;
+
+        let final_status = status.lock().unwrap().clone();
+        match final_status {
+            SupervisorStatus::FailedAfterMaxRestarts { attempts, .. } => {
+                assert_eq!(attempts, 2, "should hit exactly max_restarts attempts");
+            }
+            other => panic!("expected FailedAfterMaxRestarts, got {other:?}"),
+        }
+        // Drop should leave no orphan
+        assert!(!sup.is_alive());
+    }
+
+    #[tokio::test(flavor = "current_thread")]
+    async fn supervise_exits_cleanly_on_shutdown_signal() {
+        // sleep 30 keeps the supervisee alive; we signal shutdown before any
+        // restart loop work happens, expecting Stopped status + clean exit.
+        let sup = Arc::new(Supervisor::new("sleep", || sleep_command(30)));
+        let policy = SupervisorPolicy {
+            max_restarts: 3,
+            initial_backoff: Duration::from_millis(10),
+            max_backoff: Duration::from_millis(20),
+            stability_window: Duration::from_secs(60),
+            health_url: "http://127.0.0.1:1/health".to_string(),
+            health_check_interval: Duration::from_millis(50),
+            health_check_timeout: Duration::from_millis(50),
+        };
+        let status = Arc::new(Mutex::new(SupervisorStatus::default()));
+        let (tx, rx) = tokio::sync::watch::channel(false);
+
+        // Signal shutdown almost immediately, before the loop's first health check returns.
+        let shutdown_handle = tokio::spawn(async move {
+            tokio::time::sleep(Duration::from_millis(10)).await;
+            let _ = tx.send(true);
+        });
+
+        supervise(sup.clone(), policy, status.clone(), rx).await;
+        shutdown_handle.await.ok();
+
+        assert_eq!(*status.lock().unwrap(), SupervisorStatus::Stopped);
+        assert!(!sup.is_alive(), "supervisor should have killed the child");
+    }
+
     #[test]
     fn lifecycle_with_sleep_command() {
         let sup = Supervisor::new("sleep", || sleep_command(30));

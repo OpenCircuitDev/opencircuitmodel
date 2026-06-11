@@ -244,6 +244,103 @@ mod tests {
         assert_eq!(state.backend.name(), "vLLM");
     }
 
+    // --- Process supervision decision (Task 2 — Track 1 item 2) ---
+
+    fn write_dummy_model(dir: &std::path::Path, model_id: &str) -> std::path::PathBuf {
+        // Convention matches ocm_models::downloader::download_model:
+        // dest = dest_dir.join(format!("{}.gguf", entry.id))
+        let p = dir.join(format!("{model_id}.gguf"));
+        std::fs::write(&p, b"").unwrap();
+        p
+    }
+
+    #[test]
+    fn should_spawn_llama_supervisor_yes_when_llamacpp_plus_binary_plus_model_present() {
+        let dir = tempfile::tempdir().unwrap();
+        write_dummy_model(dir.path(), "qwen2.5-1.5b-q4");
+        let s = Settings {
+            backend: Backend::LlamaCpp,
+            model_id: Some("qwen2.5-1.5b-q4".into()),
+            llama_server_binary: Some("/usr/local/bin/llama-server".into()),
+            ..Settings::default()
+        };
+        assert!(should_spawn_llama_supervisor(&s, dir.path()));
+    }
+
+    #[test]
+    fn should_spawn_llama_supervisor_no_when_backend_is_ollama() {
+        // Headline rule per AGENT_OPERATIONS scope: Ollama supervises itself —
+        // OCM must NEVER spawn anything when backend=ollama, regardless of the
+        // other fields.
+        let dir = tempfile::tempdir().unwrap();
+        write_dummy_model(dir.path(), "qwen2.5-1.5b-q4");
+        let s = Settings {
+            backend: Backend::Ollama,
+            model_id: Some("qwen2.5-1.5b-q4".into()),
+            llama_server_binary: Some("/usr/local/bin/llama-server".into()),
+            ..Settings::default()
+        };
+        assert!(!should_spawn_llama_supervisor(&s, dir.path()));
+    }
+
+    #[test]
+    fn should_spawn_llama_supervisor_no_when_backend_is_auto() {
+        // Auto leaves orchestration to the user's existing setup. Don't surprise
+        // pre-v0.1.2 users who never opted into supervision.
+        let dir = tempfile::tempdir().unwrap();
+        write_dummy_model(dir.path(), "qwen2.5-1.5b-q4");
+        let s = Settings {
+            backend: Backend::Auto,
+            model_id: Some("qwen2.5-1.5b-q4".into()),
+            llama_server_binary: Some("/usr/local/bin/llama-server".into()),
+            ..Settings::default()
+        };
+        assert!(!should_spawn_llama_supervisor(&s, dir.path()));
+    }
+
+    #[test]
+    fn should_spawn_llama_supervisor_no_when_binary_unset() {
+        // Directive: "llama-server binary path from settings, new field,
+        // None = do-not-spawn preserves current behavior".
+        let dir = tempfile::tempdir().unwrap();
+        write_dummy_model(dir.path(), "qwen2.5-1.5b-q4");
+        let s = Settings {
+            backend: Backend::LlamaCpp,
+            model_id: Some("qwen2.5-1.5b-q4".into()),
+            llama_server_binary: None,
+            ..Settings::default()
+        };
+        assert!(!should_spawn_llama_supervisor(&s, dir.path()));
+    }
+
+    #[test]
+    fn should_spawn_llama_supervisor_no_when_model_file_missing() {
+        // Conservative: refuse to spawn if there's nothing to load. The user
+        // hasn't downloaded a model yet — let chat fail with the existing
+        // "backend not reachable" message rather than burn the restart budget.
+        let dir = tempfile::tempdir().unwrap();
+        // intentionally no write_dummy_model
+        let s = Settings {
+            backend: Backend::LlamaCpp,
+            model_id: Some("qwen2.5-1.5b-q4".into()),
+            llama_server_binary: Some("/usr/local/bin/llama-server".into()),
+            ..Settings::default()
+        };
+        assert!(!should_spawn_llama_supervisor(&s, dir.path()));
+    }
+
+    #[test]
+    fn should_spawn_llama_supervisor_no_when_model_id_unset() {
+        let dir = tempfile::tempdir().unwrap();
+        let s = Settings {
+            backend: Backend::LlamaCpp,
+            model_id: None,
+            llama_server_binary: Some("/usr/local/bin/llama-server".into()),
+            ..Settings::default()
+        };
+        assert!(!should_spawn_llama_supervisor(&s, dir.path()));
+    }
+
     #[tokio::test]
     async fn probe_url_returns_false_for_unreachable() {
         // Using port 1 (privileged, almost guaranteed not bound) on localhost

@@ -176,6 +176,46 @@ theme = "system"
     }
 
     #[test]
+    fn default_llama_server_binary_is_none() {
+        // None preserves the pre-v0.1.2 "do not spawn anything" behavior; the
+        // user opts in by pointing settings at their llama-server binary.
+        assert_eq!(Settings::default().llama_server_binary, None);
+    }
+
+    #[test]
+    fn llama_server_binary_round_trips_via_toml() {
+        let dir = tempdir().unwrap();
+        let path = dir.path().join("settings.toml");
+        let original = Settings {
+            llama_server_binary: Some("/usr/local/bin/llama-server".into()),
+            ..Settings::default()
+        };
+        original.save(&path).unwrap();
+        let loaded = Settings::load_or_default(&path).unwrap();
+        assert_eq!(
+            loaded.llama_server_binary.as_deref(),
+            Some("/usr/local/bin/llama-server")
+        );
+    }
+
+    #[test]
+    fn legacy_settings_toml_without_llama_server_binary_still_parses() {
+        // Forward-compat for v0.1.0/v0.1.1 settings.toml that pre-dates this field.
+        let dir = tempdir().unwrap();
+        let path = dir.path().join("settings.toml");
+        let legacy = r#"
+api_port = 7300
+mcp_enabled = true
+theme = "system"
+backend = "llamacpp"
+"#;
+        std::fs::write(&path, legacy).unwrap();
+        let loaded = Settings::load_or_default(&path).unwrap();
+        assert_eq!(loaded.llama_server_binary, None);
+        assert_eq!(loaded.backend, Backend::LlamaCpp);
+    }
+
+    #[test]
     fn all_backend_variants_round_trip() {
         for kind in [
             Backend::Auto,
