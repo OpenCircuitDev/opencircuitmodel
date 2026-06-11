@@ -45,20 +45,15 @@ pub enum Theme {
 }
 
 /// Inference backend selection. Wire-format is lowercase TOML (`backend = "ollama"`).
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq, Copy)]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq, Copy, Default)]
 #[serde(rename_all = "lowercase")]
 pub enum Backend {
     /// Platform-detect (existing pre-v0.1.1 behavior).
+    #[default]
     Auto,
     LlamaCpp,
     Vllm,
     Ollama,
-}
-
-impl Default for Backend {
-    fn default() -> Self {
-        Backend::Auto
-    }
 }
 
 impl Default for Settings {
