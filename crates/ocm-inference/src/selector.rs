@@ -6,13 +6,19 @@
 //! - Linux without CUDA -> llama.cpp (CPU)
 //! - Windows -> llama.cpp
 //! - everything else -> llama.cpp (safest fallback)
+//!
+//! Ollama is **opt-in** (Settings.backend = "ollama"); it is never returned
+//! from `detect_backend_kind()`. Auto-detect picks between the two backends
+//! OCM can supervise itself; Ollama bridges to an *external* daemon and is
+//! a deliberate user choice.
 
-use crate::{llamacpp::LlamaCpp, vllm::Vllm, InferenceBackend};
+use crate::{llamacpp::LlamaCpp, ollama::Ollama, vllm::Vllm, InferenceBackend};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum BackendKind {
     LlamaCpp,
     Vllm,
+    Ollama,
 }
 
 impl BackendKind {
@@ -20,9 +26,15 @@ impl BackendKind {
         match self {
             BackendKind::LlamaCpp => "llama.cpp",
             BackendKind::Vllm => "vLLM",
+            // Kept in lockstep with Ollama::name() so log/telemetry labels match.
+            BackendKind::Ollama => "Ollama",
         }
     }
 }
+
+/// Native Ollama daemon default — the daemon binds 127.0.0.1:11434 out of the
+/// box. Bootstrap falls back to this when Settings.ollama_base_url is unset.
+pub const DEFAULT_OLLAMA_BASE_URL: &str = "http://127.0.0.1:11434";
 
 pub fn detect_backend_kind() -> BackendKind {
     if cfg!(target_os = "macos") {
@@ -47,10 +59,36 @@ fn has_cuda() -> bool {
     false
 }
 
+/// Auto-detect-only constructor preserved for back-compat. Settings-driven
+/// callers (the daemon's bootstrap) should use `make_backend_for_kind`.
 pub fn make_backend(base_url: String) -> Box<dyn InferenceBackend> {
     match detect_backend_kind() {
         BackendKind::Vllm => Box::new(Vllm::new(base_url)),
         BackendKind::LlamaCpp => Box::new(LlamaCpp::new(base_url)),
+        // detect_backend_kind never returns Ollama, but the match must be
+        // exhaustive — fall through to the safest local default.
+        BackendKind::Ollama => Box::new(LlamaCpp::new(base_url)),
+    }
+}
+
+/// Settings-driven constructor: pick the backend by explicit `BackendKind`,
+/// using each backend's own URL/model where applicable.
+///
+/// The `inference_url` argument feeds llama.cpp / vLLM (they share the
+/// OpenAI-compat HTTP wire format); `ollama_url` + `ollama_model` feed the
+/// Ollama adapter. The two URLs are separate because a user can have an
+/// Ollama daemon AND llama-server running on the same machine on different
+/// ports; we don't want either's config to be shadowed by the other's.
+pub fn make_backend_for_kind(
+    kind: BackendKind,
+    inference_url: String,
+    ollama_url: String,
+    ollama_model: String,
+) -> Box<dyn InferenceBackend> {
+    match kind {
+        BackendKind::LlamaCpp => Box::new(LlamaCpp::new(inference_url)),
+        BackendKind::Vllm => Box::new(Vllm::new(inference_url)),
+        BackendKind::Ollama => Box::new(Ollama::new(ollama_url, ollama_model)),
     }
 }
 
@@ -60,6 +98,8 @@ mod tests {
 
     #[test]
     fn detect_returns_one_of_two_kinds() {
+        // `detect_backend_kind()` is the AUTO-detect path; it never picks Ollama
+        // (Ollama is opt-in via Settings.backend, not platform-default).
         let kind = detect_backend_kind();
         assert!(matches!(kind, BackendKind::LlamaCpp | BackendKind::Vllm));
     }
@@ -93,6 +133,7 @@ mod tests {
         let expected = match detect_backend_kind() {
             BackendKind::LlamaCpp => "llama.cpp",
             BackendKind::Vllm => "vLLM",
+            BackendKind::Ollama => "Ollama",
         };
         assert_eq!(backend.name(), expected);
     }
@@ -101,5 +142,48 @@ mod tests {
     fn backend_kind_as_str_matches_name() {
         assert_eq!(BackendKind::LlamaCpp.as_str(), "llama.cpp");
         assert_eq!(BackendKind::Vllm.as_str(), "vLLM");
+        // The Ollama adapter's InferenceBackend::name() returns "Ollama" — keep
+        // as_str() in lockstep so log/telemetry never disagree on labels.
+        assert_eq!(BackendKind::Ollama.as_str(), "Ollama");
+    }
+
+    #[test]
+    fn default_ollama_base_url_is_native_daemon_port() {
+        // 11434 is the Ollama daemon's installed default; if this ever changes
+        // upstream we want the test to force us to revisit the constant.
+        assert_eq!(DEFAULT_OLLAMA_BASE_URL, "http://127.0.0.1:11434");
+    }
+
+    #[test]
+    fn make_backend_for_kind_ollama_constructs_ollama_backend() {
+        let backend = make_backend_for_kind(
+            BackendKind::Ollama,
+            "http://127.0.0.1:8080".to_string(),
+            "http://127.0.0.1:11434".to_string(),
+            "llama3".to_string(),
+        );
+        assert_eq!(backend.name(), "Ollama");
+    }
+
+    #[test]
+    fn make_backend_for_kind_llamacpp_ignores_ollama_args() {
+        let backend = make_backend_for_kind(
+            BackendKind::LlamaCpp,
+            "http://127.0.0.1:8080".to_string(),
+            "http://127.0.0.1:11434".to_string(),
+            "llama3".to_string(),
+        );
+        assert_eq!(backend.name(), "llama.cpp");
+    }
+
+    #[test]
+    fn make_backend_for_kind_vllm_ignores_ollama_args() {
+        let backend = make_backend_for_kind(
+            BackendKind::Vllm,
+            "http://127.0.0.1:8000".to_string(),
+            "http://127.0.0.1:11434".to_string(),
+            "llama3".to_string(),
+        );
+        assert_eq!(backend.name(), "vLLM");
     }
 }
