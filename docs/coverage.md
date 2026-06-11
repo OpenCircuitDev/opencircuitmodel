@@ -47,3 +47,4 @@ _ACTIVE sandboxes whose `spec_row` field or `source_for_claim` did not resolve t
 | Sandbox | Hypothesis | Source-for-claim hint |
 |---|---|---|
 | `vllm-q4-llama8b` | `vllm-q4-llama8b-singlestream-tps` | https://www.databasemart.com/blog/vllm-gpu-benchmark-rtx4090 |
+| `mem0-v3-locomo` | `mem0-v3-locomo-recall` | Mem0 v3 release notes (April 2026): 91.6 LoCoMo / 93.4 LongMemEval at ~7000 t... |

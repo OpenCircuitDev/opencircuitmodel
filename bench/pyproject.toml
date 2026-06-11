@@ -38,6 +38,9 @@ include = ["bench*"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
+markers = [
+    "requires_mem0: test requires mem0ai + sentence-transformers + faiss-cpu (Python 3.11 only locally)",
+]
 
 [tool.ruff]
 line-length = 100
