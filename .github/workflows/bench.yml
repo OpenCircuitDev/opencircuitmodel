@@ -5,11 +5,17 @@ on:
     branches: [main]
     paths:
       - 'bench/**'
+      - 'docs/superpowers/specs/**'
+      - 'docs/coverage.md'
+      - 'docs/metrics.md'
       - '.github/workflows/bench.yml'
   pull_request:
     branches: [main]
     paths:
       - 'bench/**'
+      - 'docs/superpowers/specs/**'
+      - 'docs/coverage.md'
+      - 'docs/metrics.md'
       - '.github/workflows/bench.yml'
 
 jobs:
@@ -31,3 +37,13 @@ jobs:
       - name: Validate every sandbox structure (dry-run-all)
         working-directory: bench
         run: bench dry-run-all
+      - name: Regenerate docs/coverage.md
+        run: python -m bench.cli coverage --root bench --write docs/coverage.md
+      - name: Regenerate docs/metrics.md
+        run: python -m bench.cli dashboard --root bench --write docs/metrics.md
+      - name: Fail if generated docs are out of date
+        run: |
+          if ! git diff --exit-code docs/coverage.md docs/metrics.md; then
+            echo "::error::docs/coverage.md or docs/metrics.md is stale. Run 'bench coverage' and 'bench dashboard' locally and commit the regenerated files."
+            exit 1
+          fi

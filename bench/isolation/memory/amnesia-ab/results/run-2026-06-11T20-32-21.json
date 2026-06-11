@@ -1,0 +1,643 @@
+{
+  "summary": {
+    "sandbox": "amnesia-ab",
+    "ranAt": "2026-06-11T20:32:21.539Z",
+    "hardware": "operator dev box (Windows, Ollama CPU/GPU local)",
+    "chatModel": "llama3 8B Q4_0",
+    "embedModel": "mxbai-embed-large",
+    "memory_on_fact_recall_pct": 94.2,
+    "memory_off_fact_recall_pct": 2.5,
+    "retrieval_hit_rate_pct": 100,
+    "latency_ms_p50": {
+      "on": 19493,
+      "off": 12255
+    },
+    "verdict": "CONFIRMED"
+  },
+  "results": [
+    {
+      "task": "K1",
+      "project": "kestrel",
+      "retrieval": {
+        "topIds": [
+          "k01",
+          "k02",
+          "k04",
+          "k12",
+          "k06"
+        ],
+        "sourceHits": 2,
+        "of": 2,
+        "hit": true
+      },
+      "on": {
+        "factsFound": [
+          "AmpReach",
+          "VoltHive",
+          "12%"
+        ],
+        "recall": 1,
+        "ms": 36686,
+        "text": "\"Update on the Kestrel e-bike conversion: We've switched battery vendors from VoltHive to AmpReach, effective March 3. The new 52V 17.5Ah pack from AmpReach saves 12% weight at the same capacity, a significant improvement for our range target of 45 miles per charge at assist level 2. Remembering the initial controller failure when it saw 52V on the battery side, we'll ensure the replacement controller is rated for 52V nominal to avoid any future issues.\""
+      },
+      "off": {
+        "factsFound": [],
+        "recall": 0,
+        "ms": 8553,
+        "text": "\"Update: The Kestrel battery situation has improved. After investigating, we found that the issue was caused by a faulty charging port. We replaced it with a new one, which resolved the problem. All batteries are now functioning properly.\""
+      }
+    },
+    {
+      "task": "K2",
+      "project": "kestrel",
+      "retrieval": {
+        "topIds": [
+          "k04",
+          "k03",
+          "f01",
+          "f02",
+          "k07"
+        ],
+        "sourceHits": 2,
+        "of": 2,
+        "hit": true
+      },
+      "on": {
+        "factsFound": [
+          "Bafang G062",
+          "52V"
+        ],
+        "recall": 1,
+        "ms": 15363,
+        "text": "We chose the Bafang G062 rear hub motor for the Kestrel build. The first controller fried when it saw 52V on the battery side."
+      },
+      "off": {
+        "factsFound": [],
+        "recall": 0,
+        "ms": 10891,
+        "text": "We selected the T-Motor MN3508-12S motor for the Kestrel build.\n\nRegarding the first controller, it was an ESC failure due to overheating during testing. We need to replace it with a more robust one, such as the Hobbywing 60A or the Castle Creations 100A."
+      }
+    },
+    {
+      "task": "K3",
+      "project": "kestrel",
+      "retrieval": {
+        "topIds": [
+          "k06",
+          "k05",
+          "k11",
+          "k01",
+          "k03"
+        ],
+        "sourceHits": 2,
+        "of": 2,
+        "hit": true
+      },
+      "on": {
+        "factsFound": [
+          "$1,400",
+          "45 miles"
+        ],
+        "recall": 1,
+        "ms": 45316,
+        "text": "Based on our previous discussions, I recall that we're aiming to achieve a range target of 45 miles per charge at assist level 2 while staying within the hard budget cap of $1,400 all-in.\n\nTo move forward, here are my suggested next steps:\n\n1. Confirm the Bafang G062 rear hub motor installation and ensure it's properly calibrated for optimal performance.\n2. Review the original VoltHive 52V 17.5Ah battery pack specifications to determine if any upgrades or modifications can be made to improve range without exceeding the budget cap.\n3. Consult with the local shop that built the spoke gauge on the motor wheel build (12G front-load pattern) to explore options for optimizing the wheel's aerodynamics and minimizing rolling resistance while staying within the agreed-upon budget.\n4. Conduct a thorough analysis of the Kestrel e-bike conversion's overall design and components to identify potential areas for cost savings or optimization without compromising performance.\n\nBy focusing on these key areas, I'm confident that we can achieve our range target while staying within the agreed-upon budget cap of $1,400 all-in."
+      },
+      "off": {
+        "factsFound": [],
+        "recall": 0,
+        "ms": 26880,
+        "text": "Next Steps for Kestrel:\n\n1. Finalize design iterations: Review and refine the current design to ensure it meets the agreed-upon range target while staying within the allocated budget.\n2. Material selection: Conduct a thorough analysis of materials to identify the most cost-effective options that meet performance requirements, without exceeding the budget.\n3. Prototype development: Create a functional prototype to test and validate the design, making any necessary adjustments before moving forward with production.\n4. Supply chain optimization: Identify reliable suppliers for components and materials, ensuring timely delivery and minimizing costs.\n5. Production planning: Develop a detailed plan for manufacturing, including scheduling, quality control measures, and inventory management.\n\nBy following these steps, we can ensure that Kestrel meets its range target while staying within the agreed-upon budget."
+      }
+    },
+    {
+      "task": "K4",
+      "project": "kestrel",
+      "retrieval": {
+        "topIds": [
+          "k07",
+          "k11",
+          "k03",
+          "k08",
+          "f01"
+        ],
+        "sourceHits": 1,
+        "of": 1,
+        "hit": true
+      },
+      "on": {
+        "factsFound": [
+          "carbon dropouts",
+          "torque arm"
+        ],
+        "recall": 1,
+        "ms": 20130,
+        "text": "The torque arm is mandatory for the Kestrel frame because it has carbon dropouts, which cannot handle the axle torque of the hub motor. This was a crucial consideration when we chose the Bafang G062 rear hub motor for the Kestrel build."
+      },
+      "off": {
+        "factsFound": [
+          "torque arm"
+        ],
+        "recall": 0.5,
+        "ms": 8315,
+        "text": "The torque arm is non-negotiable on the Kestrel frame because it provides critical stability and prevents the fork from flexing excessively under heavy loads, ensuring precise steering and handling."
+      }
+    },
+    {
+      "task": "A1",
+      "project": "aurora",
+      "retrieval": {
+        "topIds": [
+          "a04",
+          "a06",
+          "a02",
+          "a01",
+          "a11"
+        ],
+        "sourceHits": 2,
+        "of": 2,
+        "hit": true
+      },
+      "on": {
+        "factsFound": [
+          "SHT45",
+          "38%"
+        ],
+        "recall": 1,
+        "ms": 18439,
+        "text": "The Aurora misting rule is driven by the SHT45 sensor's canopy humidity reading, which triggers the mist pump when the humidity drops below 38%. This was fixed with a firmware bug fix, implementing a 500ms debounce on the humidity trigger."
+      },
+      "off": {
+        "factsFound": [],
+        "recall": 0,
+        "ms": 10068,
+        "text": "The Aurora misting system is triggered by the temperature sensor, which detects temperatures above 75°F (24°C). The threshold for activation is set at 78°F (25.5°C), ensuring optimal misting performance when the ambient temperature reaches a comfortable level."
+      }
+    },
+    {
+      "task": "A2",
+      "project": "aurora",
+      "retrieval": {
+        "topIds": [
+          "a06",
+          "a11",
+          "a03",
+          "a04",
+          "a01"
+        ],
+        "sourceHits": 1,
+        "of": 1,
+        "hit": true
+      },
+      "on": {
+        "factsFound": [
+          "500ms debounce"
+        ],
+        "recall": 1,
+        "ms": 15172,
+        "text": "The relay chatter issue on the Aurora mist pump was resolved by implementing a 500ms debounce on the humidity trigger. This fix allowed for smooth operation of the misting system."
+      },
+      "off": {
+        "factsFound": [],
+        "recall": 0,
+        "ms": 17421,
+        "text": "According to the maintenance records, the issue was resolved by replacing the faulty solenoid valve and adjusting the pump's air pressure setting."
+      }
+    },
+    {
+      "task": "A3",
+      "project": "aurora",
+      "retrieval": {
+        "topIds": [
+          "a07",
+          "a01",
+          "a03",
+          "a06",
+          "a09"
+        ],
+        "sourceHits": 3,
+        "of": 3,
+        "hit": true
+      },
+      "on": {
+        "factsFound": [
+          "ESP32-S3",
+          "DripWorks DV-2",
+          "120W"
+        ],
+        "recall": 1,
+        "ms": 33958,
+        "text": "Here's a quick recap of Aurora's hardware:\n\n* Controller Board: The ESP32-S3 dev board runs the show.\n* Drip Valves: We're using DripWorks DV-2 solenoid drip valves, one per bed.\n* Solar Panel: Our power source is a 120W solar panel charging a 12V 20Ah LiFePO4 battery, all controlled by a Victron 75/10 controller."
+      },
+      "off": {
+        "factsFound": [],
+        "recall": 0,
+        "ms": 42600,
+        "text": "Here is a hardware recap for Aurora:\n\n**Controller Board:** The Aurora controller board is a custom-designed PCB that integrates with the system's sensors, actuators, and power management components. It features an ARM Cortex-M4 processor, 128KB flash memory, and 16KB SRAM.\n\n**Drip Valves:** The drip valves are precision-machined stainless steel components designed for precise water control. Each valve has a 1/8\" NPT inlet and a 1/16\" NPT outlet, with a maximum flow rate of 10 mL/min.\n\n**Solar Panel Size:** The Aurora solar panel is a high-efficiency, monocrystalline silicon module measuring 12 inches x 24 inches (30.5 cm x 61 cm). It has an open-circuit voltage of 22V and a short-circuit current of 3.2A, with a maximum power output of 60W.\n\nLet me know if you'd like any further details!"
+      }
+    },
+    {
+      "task": "A4",
+      "project": "aurora",
+      "retrieval": {
+        "topIds": [
+          "a05",
+          "a04",
+          "a02",
+          "a01",
+          "a12"
+        ],
+        "sourceHits": 2,
+        "of": 2,
+        "hit": true
+      },
+      "on": {
+        "factsFound": [
+          "B2",
+          "38%"
+        ],
+        "recall": 1,
+        "ms": 16752,
+        "text": "The tomatoes are in Bed 2 (B2). As for misting, it triggers when the canopy humidity drops below 38%."
+      },
+      "off": {
+        "factsFound": [],
+        "recall": 0,
+        "ms": 7146,
+        "text": "The tomatoes are in Bed 3.\n\nAs per the greenhouse settings, the misting system is triggered when the humidity level drops to 40%."
+      }
+    },
+    {
+      "task": "T1",
+      "project": "tidehouse",
+      "retrieval": {
+        "topIds": [
+          "t01",
+          "t08",
+          "t03",
+          "t09",
+          "t02"
+        ],
+        "sourceHits": 3,
+        "of": 3,
+        "hit": true
+      },
+      "on": {
+        "factsFound": [
+          "Jonsbo N3",
+          "12TB",
+          "RAIDZ2"
+        ],
+        "recall": 1,
+        "ms": 23469,
+        "text": "The Tidehouse NAS uses a Jonsbo N3 case with an ITX motherboard featuring 6 SATA ports and an ASM1166 M.2 adapter for expansion. The system runs ZFS RAIDZ2 on four 12TB Seagate Ironwolf drives, providing two-drive failure tolerance. The filesystem layout utilizes the full capacity of the drives, offering a robust storage solution."
+      },
+      "off": {
+        "factsFound": [],
+        "recall": 0,
+        "ms": 33769,
+        "text": "The Tidehouse storage design is a Linux-based solution that provides a scalable and efficient way to store and manage data. Here's a summary of its key components:\n\n**Case:**\nTidehouse uses a standard 19-inch rackmount case with a depth of approximately 12 inches.\n\n**Drives:**\nThe storage system consists of multiple drives, including:\n\n* A primary drive (e.g., NVMe SSD) for the operating system and critical data\n* One or more secondary drives (e.g., SATA SSDs or HDDs) for storing user data\n\n**Filesystem Layout:**\nTidehouse uses a hierarchical filesystem layout to organize data. The main directories are:\n\n* `/`: Root directory, containing the OS and essential files\n* `/data`: Directory for storing user data, divided into subdirectories based on specific use cases (e.g., `/data/photos`, `/data/docs`)\n* `/logs`: Directory for storing system logs and diagnostic information\n\nThis design allows for efficient storage management, easy scalability, and robust data protection."
+      }
+    },
+    {
+      "task": "T2",
+      "project": "tidehouse",
+      "retrieval": {
+        "topIds": [
+          "t05",
+          "t04",
+          "t10",
+          "t09",
+          "t11"
+        ],
+        "sourceHits": 2,
+        "of": 2,
+        "hit": true
+      },
+      "on": {
+        "factsFound": [
+          "Backblaze B2"
+        ],
+        "recall": 0.5,
+        "ms": 15803,
+        "text": "The Tidehouse ZFS scrub is scheduled to run every Sunday at 2am. As for offsite backups, they are stored on Backblaze B2, encrypted with restic before upload."
+      },
+      "off": {
+        "factsFound": [],
+        "recall": 0,
+        "ms": 6811,
+        "text": "The Tidehouse scrub runs every Sunday at 2:00 AM.\n\nOffsite backups are stored on Amazon S3 servers located in the US East region."
+      }
+    },
+    {
+      "task": "T3",
+      "project": "tidehouse",
+      "retrieval": {
+        "topIds": [
+          "t07",
+          "t06",
+          "t12",
+          "t09",
+          "a07"
+        ],
+        "sourceHits": 2,
+        "of": 2,
+        "hit": true
+      },
+      "on": {
+        "factsFound": [
+          "Corsair SF450",
+          "31W"
+        ],
+        "recall": 1,
+        "ms": 20128,
+        "text": "The Tidehouse power story! According to my persistent memory, the Tidehouse's power supply unit (PSU) is a Corsair SF450, specifically designed for SFX form factor required by the Jonsbo case. When I checked the idle power consumption, I measured it at 31W with all drives spun down."
+      },
+      "off": {
+        "factsFound": [],
+        "recall": 0,
+        "ms": 12255,
+        "text": "Here is the report on the Tidehouse power story:\n\n**PSU Model:** Seasonic FOCUS GX-750, 80+ Gold certified\n\n**Measured Idle Draw:** 0.15A (1.7W)\n\nPlease let me know if you'd like any additional information or if there's anything else I can help with!"
+      }
+    },
+    {
+      "task": "T4",
+      "project": "tidehouse",
+      "retrieval": {
+        "topIds": [
+          "t11",
+          "t01",
+          "t04",
+          "t08",
+          "t06"
+        ],
+        "sourceHits": 2,
+        "of": 3,
+        "hit": true
+      },
+      "on": {
+        "factsFound": [
+          "Jonsbo N3",
+          "SF450"
+        ],
+        "recall": 0.6666666666666666,
+        "ms": 39577,
+        "text": "Subject: Tidehouse Build Recap - Parts and Config\n\nHey [Friend's Name],\n\nI'm happy to share my experience building the Tidehouse NAS with you! To help you plan your own build, here are the key parts I used:\n\n* The Jonsbo N3 case provides a compact footprint for eight bays.\n* For the motherboard, I chose an ITX board with 6 SATA ports and an ASM1166 M.2 adapter to accommodate the extra bays.\n* Powering it all is the Corsair SF450 SFX-form-factor PSU, specifically designed for the Jonsbo case.\n\nFor data protection, I set up offsite backups using Backblaze B2, encrypting the data with restic before upload. If you have any questions or would like more details on my experience, feel free to reach out!\n\nBest regards,\n[Your Name]"
+      },
+      "off": {
+        "factsFound": [],
+        "recall": 0,
+        "ms": 27587,
+        "text": "Here's a draft:\n\nSubject: Parts Recap - Tidehouse Build\n\nHey [Friend's Name],\n\nJust wanted to confirm that we've got all the necessary parts lined up for our upcoming Tidehouse NAS build. To recap, here's what we're looking at: 1x ASRock C2550D4I mini-ITX board, 2x WD Red 12TB drives, 1x Corsair VS650 power supply, 1x Noctua NH-U14S TR4-SP3 CPU cooler, and 1x Fractal Design Node 202 case. Let me know if you have any questions or concerns - otherwise, I'll keep an eye on the parts and make sure everything arrives in time for our build day!\n\nBest,\n[Your Name]"
+      }
+    },
+    {
+      "task": "F1",
+      "project": "falconer",
+      "retrieval": {
+        "topIds": [
+          "f01",
+          "f07",
+          "f02",
+          "f04",
+          "f06"
+        ],
+        "sourceHits": 2,
+        "of": 2,
+        "hit": true
+      },
+      "on": {
+        "factsFound": [
+          "TPU 95A",
+          "GB2208"
+        ],
+        "recall": 1,
+        "ms": 26447,
+        "text": "The Falconer vibration issue! We previously identified the culprit as excessive jello in footage due to vibrations. The fix was simple yet effective: we added printed TPU 95A dampers between the frame and gimbal cage. This eliminated the unwanted motion.\n\nAs for the motors, I recall that the Falconer drone uses GB2208 brushless gimbal motors, one per axis. These motors are designed to provide smooth and precise control over the gimbal's movements."
+      },
+      "off": {
+        "factsFound": [],
+        "recall": 0,
+        "ms": 13296,
+        "text": "The Falconer vibration issue was resolved by updating the gimbal's firmware to version 3.2. This fixed the problem with the motor vibrations causing camera shake.\n\nThe Falconer gimbal features a combination of brushless motors from Maxon Motors (EC-4 pole, 16mm diameter) and Faulhaber Motors (MICRO-17/32F)."
+      }
+    },
+    {
+      "task": "F2",
+      "project": "falconer",
+      "retrieval": {
+        "topIds": [
+          "f02",
+          "f01",
+          "f07",
+          "f06",
+          "f05"
+        ],
+        "sourceHits": 1,
+        "of": 1,
+        "hit": true
+      },
+      "on": {
+        "factsFound": [
+          "2.61",
+          "STorM32"
+        ],
+        "recall": 1,
+        "ms": 15114,
+        "text": "The Falconer gimbal is locked at firmware version 2.61, and it's controlled by the STorM32 board."
+      },
+      "off": {
+        "factsFound": [],
+        "recall": 0,
+        "ms": 7123,
+        "text": "According to our records, the Falconer gimbal is currently running firmware version 2.3.1, and it's using the DJI EC35 controller board."
+      }
+    },
+    {
+      "task": "F3",
+      "project": "falconer",
+      "retrieval": {
+        "topIds": [
+          "f03",
+          "f05",
+          "f06",
+          "f07",
+          "f02"
+        ],
+        "sourceHits": 2,
+        "of": 2,
+        "hit": true
+      },
+      "on": {
+        "factsFound": [
+          "Runcam Thumb Pro",
+          "2.3mm"
+        ],
+        "recall": 1,
+        "ms": 19493,
+        "text": "The Falconer camera is the Runcam Thumb Pro, chosen for its weight considerations. As of our last rebalance session, the camera sits 2.3mm forward of the roll axis. Please note that I've been instructed not to move the mount plate, so we'll need to work around this current offset."
+      },
+      "off": {
+        "factsFound": [],
+        "recall": 0,
+        "ms": 12873,
+        "text": "The Falconer camera choice is the Sony A7R IV, which provides high-quality images with its 61.4MP full-frame sensor.\n\nAs for the current balance offset, it's currently set at -0.5% to account for the slight weight bias towards the front of the camera. This adjustment ensures a smooth and stable panning experience when using the Falconer rig."
+      }
+    },
+    {
+      "task": "F4",
+      "project": "falconer",
+      "retrieval": {
+        "topIds": [
+          "f02",
+          "f01",
+          "f07",
+          "f06",
+          "f05"
+        ],
+        "sourceHits": 2,
+        "of": 3,
+        "hit": true
+      },
+      "on": {
+        "factsFound": [
+          "STorM32",
+          "2.3mm"
+        ],
+        "recall": 0.6666666666666666,
+        "ms": 18613,
+        "text": "Falconer Gimbal Pre-Flight Tuning Checklist:\n\n1. Controller:\n\t* Verify firmware version: 2.61 (do not update)\n\t* Ensure STorM32 board is properly connected and powered\n2. Dampers:\n\t* Check IMU filter settings for optimal performance\n3. Balance:\n\t* Confirm camera sits 2.3mm forward of the roll axis (do not adjust mount plate)\n\nBy following this checklist, you'll ensure a smooth and stable flight with your Falconer gimbal."
+      },
+      "off": {
+        "factsFound": [],
+        "recall": 0,
+        "ms": 30968,
+        "text": "Here is a pre-flight tuning checklist for the Falconer gimbal:\n\n**Controller:**\n\n1. Ensure the controller is turned on and set to the correct mode (e.g., \"Flight\" or \"Record\").\n2. Check that the joystick is centered and not stuck.\n3. Verify that the controller's battery level is sufficient.\n\n**Dampers:**\n\n1. Adjust the dampers to the desired setting for smooth panning and tilting.\n2. Ensure the dampers are not too loose, which can cause vibrations or oscillations.\n\n**Balance:**\n\n1. Check the gimbal's balance by observing the camera's horizon line on the display screen.\n2. Make any necessary adjustments to the balance arms or counterweights to ensure a stable platform.\n3. Verify that the camera is properly secured and level.\n\nBy following this checklist, you'll be able to ensure your Falconer gimbal is properly tuned for a smooth and successful flight."
+      }
+    },
+    {
+      "task": "M1",
+      "project": "marrow",
+      "retrieval": {
+        "topIds": [
+          "m05",
+          "m06",
+          "m09",
+          "m01",
+          "m02"
+        ],
+        "sourceHits": 2,
+        "of": 2,
+        "hit": true
+      },
+      "on": {
+        "factsFound": [
+          "$9",
+          "$35"
+        ],
+        "recall": 1,
+        "ms": 11612,
+        "text": "We charge $9 per loaf of Marrow bread at the farmers market. The stall fee is $35 per Saturday."
+      },
+      "off": {
+        "factsFound": [],
+        "recall": 0,
+        "ms": 6528,
+        "text": "We charge $5 per loaf of bread at the market.\n\nAs for the stall cost, it's $200 per week."
+      }
+    },
+    {
+      "task": "M2",
+      "project": "marrow",
+      "retrieval": {
+        "topIds": [
+          "m03",
+          "m04",
+          "m10",
+          "m02",
+          "m07"
+        ],
+        "sourceHits": 3,
+        "of": 3,
+        "hit": true
+      },
+      "on": {
+        "factsFound": [
+          "Rofco B40",
+          "Saturday",
+          "78%"
+        ],
+        "recall": 1,
+        "ms": 29571,
+        "text": "Marrow operations are running smoothly! Here's a status update:\n\n* Oven: The Rofco B40 is preheated and ready to go. Remember to preheat it for 90 minutes before baking.\n* Bake Day: Marrow bake day is this Saturday, so make sure to mix the dough on Friday evening and have everything prepared for the big bake at 5am.\n* Dough Hydration: Our standard dough hydration remains at 78% for the country loaf. Don't forget to keep Clyde, our sourdough starter, happy with its twice-daily feeding schedule in summer.\n\nAll systems are go!"
+      },
+      "off": {
+        "factsFound": [],
+        "recall": 0,
+        "ms": 11219,
+        "text": "Here's an update:\n\n* Oven: Currently at 375°F, scheduled to be adjusted to 425°F for the next batch.\n* Bake Day: Still on track for tomorrow morning, with all necessary ingredients and equipment ready.\n* Dough Hydration: Levels are within acceptable range (65%), with no issues reported."
+      }
+    },
+    {
+      "task": "M3",
+      "project": "marrow",
+      "retrieval": {
+        "topIds": [
+          "m08",
+          "m06",
+          "m05",
+          "m03",
+          "m04"
+        ],
+        "sourceHits": 1,
+        "of": 1,
+        "hit": true
+      },
+      "on": {
+        "factsFound": [
+          "August 15",
+          "cottage"
+        ],
+        "recall": 1,
+        "ms": 12644,
+        "text": "The food license renewal for Marrow Cottage is due on August 15th. I've set a calendar reminder to go off two weeks prior, so that's July 1st."
+      },
+      "off": {
+        "factsFound": [],
+        "recall": 0,
+        "ms": 4395,
+        "text": "According to our records, Marrow's software license renewal is due on March 15th."
+      }
+    },
+    {
+      "task": "M4",
+      "project": "marrow",
+      "retrieval": {
+        "topIds": [
+          "m01",
+          "m07",
+          "m03",
+          "m02",
+          "m04"
+        ],
+        "sourceHits": 2,
+        "of": 2,
+        "hit": true
+      },
+      "on": {
+        "factsFound": [
+          "Cairnspring",
+          "Clyde"
+        ],
+        "recall": 1,
+        "ms": 19244,
+        "text": "We use Cairnspring Trailblazer flour for baking at Marrow. It comes in 50lb bags.\n\nAs for our sourdough starter, it's named Clyde and is kept at 100% hydration. During summer months, Clyde is fed twice daily to ensure its health and activity."
+      },
+      "off": {
+        "factsFound": [],
+        "recall": 0,
+        "ms": 18524,
+        "text": "We use unbleached, unbromated all-purpose flour for baking. It's a high-protein flour that provides structure and texture to our baked goods.\n\nAs for our starter, it's a natural yeast culture made from a mixture of flour and water that's been allowed to ferment over time. Our starter is fed regularly and has developed a unique flavor profile that adds depth and complexity to our breads and pastries. It's a vital component in many of our recipes and helps to create the signature rise and texture we're known for."
+      }
+    }
+  ]
+}

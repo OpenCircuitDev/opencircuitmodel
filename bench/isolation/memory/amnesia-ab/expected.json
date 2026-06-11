@@ -1,0 +1,25 @@
+{
+  "hypothesis_id": "amnesia-ab-memory-loop",
+  "claim": "OCM's central loop (library-driven retrieval: embed query -> top-k memory injection -> generate) materially improves an 8B Q4 local model's output on tasks that depend on prior-session facts, with BOTH retrieval precision and the small model's fact-usage functioning end-to-end on consumer hardware. This is the cheapest discriminating test of the architecture's reason to exist: if memory-ON does not clearly beat memory-OFF here, the persistent-memory differentiator is refuted at small scale.",
+  "metric": "memory_on_fact_recall_pct",
+  "thresholds": {
+    "confirm_at_least": 70.0,
+    "refute_below": 50.0
+  },
+  "secondary_metric": "retrieval_hit_rate_pct",
+  "secondary_thresholds": {
+    "confirm_at_least": 80.0,
+    "refute_below": 60.0
+  },
+  "sanity_check": {
+    "metric": "memory_off_fact_recall_pct",
+    "must_be_at_most": 25.0,
+    "rationale": "If the OFF arm recalls facts it was never given, the corpus is guessable and the run is INVALID, not a confirmation."
+  },
+  "workload": "corpus.json (65 synthetic prior-session memories across 5 fictional projects + personal prefs; 20 tasks, each with 2-3 exact-matchable key facts)",
+  "method_note": "Faithful miniature of the Mem0 library-driven retrieval pattern (spec row 9) using Ollama llama3 8B Q4 + mxbai-embed-large cosine top-5 — NOT the OCM binaries. Tests the thesis on the operator's actual hardware class; a CONFIRM justifies standing up the real 3-process OCM stack, a REFUTE kills it before that cost.",
+  "source_for_claim": "OCM v1 design spec row 9 (library-driven Mem0 retrieval before every turn); README pitch 'remembers everything'",
+  "decision_rule": "CONFIRM both metrics + sanity green => OCM's core loop is valid at small scale; proceed to Ollama backend adapter + Mem0-on-8B LoCoMo sandbox. REFUTE on fact_recall => 8B cannot use injected memories; thesis fails on target hardware. REFUTE on retrieval => embedding retrieval fails even at toy scale; memory layer needs redesign before any further investment.",
+  "timeout_seconds": 1800,
+  "status": "ACTIVE"
+}

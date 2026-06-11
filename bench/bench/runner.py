@@ -4,13 +4,42 @@ from __future__ import annotations
 
 import json
 import subprocess
+import time
 from datetime import UTC, datetime
 from pathlib import Path
 
 import yaml
 from pydantic import ValidationError
 
-from .metrics import ExpectedJson, RunResult, SandboxSummary, Verdict, decide_verdict
+from .metrics import (
+    ExpectedJson,
+    HistoryRecord,
+    RunResult,
+    SandboxSummary,
+    Verdict,
+    decide_verdict,
+)
+
+
+def _get_git_sha(repo_hint: Path | None = None) -> str:
+    """Return the current git HEAD short SHA, or "unknown" if not in a repo.
+
+    Resilient to test environments and shallow clones — never raises.
+    """
+    try:
+        proc = subprocess.run(
+            ["git", "rev-parse", "--short", "HEAD"],
+            cwd=str(repo_hint) if repo_hint else None,
+            capture_output=True,
+            text=True,
+            timeout=5,
+            check=False,
+        )
+        if proc.returncode == 0 and proc.stdout.strip():
+            return proc.stdout.strip()
+    except (subprocess.SubprocessError, FileNotFoundError, OSError):
+        pass
+    return "unknown"
 
 
 class DryRunError(ValueError):
@@ -122,10 +151,12 @@ def run_sandbox(
     run_dir = out_dir / f"{timestamp}-{expected.hypothesis_id}-{hardware_class}"
     run_dir.mkdir(parents=True, exist_ok=True)
 
+    wall_clock_start = time.monotonic()
     runs: list[RunResult] = []
     for i in range(repeats):
         result = _execute_compose(sandbox_path, expected, repeat=i, out_dir=run_dir)
         runs.append(result)
+    wall_clock_s = time.monotonic() - wall_clock_start
 
     primary_values = sorted(r.primary_value for r in runs)
     primary_median = primary_values[len(primary_values) // 2]
@@ -155,6 +186,22 @@ def run_sandbox(
         verdict_reason=reason,
     )
     (run_dir / "summary.json").write_text(summary.model_dump_json(indent=2))
+
+    record = HistoryRecord(
+        timestamp_utc=timestamp,
+        hypothesis_id=expected.hypothesis_id,
+        hardware_class=hardware_class,
+        primary_median=primary_median,
+        primary_std=primary_std,
+        secondary_median=secondary_median,
+        verdict=verdict,
+        git_sha=_get_git_sha(repo_hint=sandbox_path),
+        repeats=repeats,
+        wall_clock_s=wall_clock_s,
+    )
+    with (out_dir / "history.jsonl").open("a", encoding="utf-8") as f:
+        f.write(record.model_dump_json() + "\n")
+
     return summary
 
 

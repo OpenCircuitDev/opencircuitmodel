@@ -1,0 +1,14 @@
+services:
+  bench:
+    image: node:22-slim
+    volumes:
+      - ./:/work
+    working_dir: /work
+    environment:
+      # The measurement needs a HOST Ollama daemon with llama3 +
+      # mxbai-embed-large pulled — same host-dependency pattern as
+      # vllm-q4-llama8b needing a host GPU.
+      - OLLAMA_URL=http://host.docker.internal:11434
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    command: ["node", "run.mjs"]

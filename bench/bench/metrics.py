@@ -48,6 +48,10 @@ class ExpectedJson(BaseModel):
     # ship with just expected.json + README.md so the harness has a target later.
     status: str = "ACTIVE"
     blocked_on: list[str] | None = None
+    # Spec rows this sandbox validates. New sandboxes set this explicitly; for
+    # existing sandboxes, `bench coverage` falls back to regex-parsing
+    # `source_for_claim` until they're backfilled.
+    spec_row: list[int] | None = None
 
     model_config = {"extra": "allow"}
 
@@ -77,6 +81,27 @@ class SandboxSummary(BaseModel):
     secondary_std: float | None = None
     verdict: Verdict
     verdict_reason: str
+
+
+class HistoryRecord(BaseModel):
+    """One row in results/history.jsonl — append-only per-run trend record.
+
+    Distinct from `compare.HistoryEntry` which is an in-memory dataclass built
+    by walking summary.json files. HistoryRecord is the durable schema written
+    once per `bench run`, giving a fast scan path for trend tooling without
+    re-parsing every summary.json.
+    """
+
+    timestamp_utc: str
+    hypothesis_id: str
+    hardware_class: str
+    primary_median: float
+    primary_std: float | None = None
+    secondary_median: float | None = None
+    verdict: Verdict
+    git_sha: str
+    repeats: int
+    wall_clock_s: float
 
 
 def decide_verdict(
