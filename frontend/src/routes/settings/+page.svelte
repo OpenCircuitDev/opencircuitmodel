@@ -1,6 +1,12 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { getSettings, saveSettings, type Settings, type Theme } from '$lib/settings';
+	import {
+		getSettings,
+		saveSettings,
+		type Backend,
+		type Settings,
+		type Theme
+	} from '$lib/settings';
 	import { isTauri } from '$lib/tauri';
 
 	let inTauri = $state(false);
@@ -46,6 +52,15 @@
 	}
 
 	const themeOptions: Theme[] = ['system', 'dark', 'light'];
+
+	// Backend labels — wire labels (auto/llamacpp/vllm/ollama) match Rust
+	// serde; display labels are humanized for the UI.
+	const backendOptions: { value: Backend; label: string }[] = [
+		{ value: 'auto', label: 'auto (detect)' },
+		{ value: 'llamacpp', label: 'llama.cpp' },
+		{ value: 'vllm', label: 'vLLM' },
+		{ value: 'ollama', label: 'Ollama' }
+	];
 </script>
 
 <div class="flex h-full flex-col">
@@ -112,6 +127,17 @@
 					{/each}
 				</select>
 
+				<label for="backend" class="text-ocm-muted">backend</label>
+				<select
+					id="backend"
+					class="w-48 rounded border border-ocm-border bg-ocm-bg px-2 py-1 font-mono"
+					bind:value={settings.backend}
+				>
+					{#each backendOptions as b (b.value)}
+						<option value={b.value}>{b.label}</option>
+					{/each}
+				</select>
+
 				<label for="inference_url" class="text-ocm-muted">inference URL</label>
 				<input
 					id="inference_url"
@@ -119,6 +145,24 @@
 					placeholder="http://127.0.0.1:8080"
 					class="rounded border border-ocm-border bg-ocm-bg px-2 py-1 font-mono"
 					bind:value={settings.inference_base_url}
+				/>
+
+				<label for="ollama_url" class="text-ocm-muted">Ollama URL</label>
+				<input
+					id="ollama_url"
+					type="text"
+					placeholder="http://127.0.0.1:11434"
+					class="rounded border border-ocm-border bg-ocm-bg px-2 py-1 font-mono"
+					bind:value={settings.ollama_base_url}
+				/>
+
+				<label for="ollama_model" class="text-ocm-muted">Ollama model</label>
+				<input
+					id="ollama_model"
+					type="text"
+					placeholder="llama3"
+					class="rounded border border-ocm-border bg-ocm-bg px-2 py-1 font-mono"
+					bind:value={settings.ollama_model}
 				/>
 
 				<label for="mem0_url" class="text-ocm-muted">Mem0 URL</label>

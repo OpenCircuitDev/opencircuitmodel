@@ -3,6 +3,11 @@
 
 export type Theme = 'dark' | 'light' | 'system';
 
+// Mirror of crate::settings::Backend (serde lowercase). `auto` preserves
+// platform-detect (the pre-v0.1.1 default). `ollama` is the zero-extra-process
+// path — point OCM at an already-running Ollama daemon.
+export type Backend = 'auto' | 'llamacpp' | 'vllm' | 'ollama';
+
 export interface Settings {
 	model_id: string | null;
 	api_port: number;
@@ -11,6 +16,9 @@ export interface Settings {
 	inference_base_url: string | null;
 	mem0_base_url: string | null;
 	retrieval_top_k: number | null;
+	backend: Backend;
+	ollama_base_url: string | null;
+	ollama_model: string | null;
 }
 
 import { invoke } from './tauri';
