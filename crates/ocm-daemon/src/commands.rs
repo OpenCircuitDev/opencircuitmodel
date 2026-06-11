@@ -12,8 +12,10 @@
 //! `retrieval_top_k`, `api_port`, `mcp_enabled`. The frontend surfaces
 //! "restart required to apply" so the user isn't surprised.
 
+use crate::bootstrap::LlamaSupervisorState;
 use crate::paths::AppPaths;
 use crate::settings::Settings;
+use crate::supervisor::SupervisorStatus;
 use ocm_models::{downloader::download_model, Registry};
 use std::path::PathBuf;
 use std::sync::Mutex;
@@ -57,6 +59,23 @@ pub fn save_settings(
 #[tauri::command]
 pub fn list_registry_models() -> Result<Registry, String> {
     Registry::load_bundled().map_err(|e| format!("load bundled registry: {e}"))
+}
+
+/// Live status of the llama-server supervisor (if any). The frontend polls
+/// this to surface "running" / "restarting" / "failed" badges. When the
+/// daemon was started without supervision (backend != "llamacpp", or
+/// `llama_server_binary` unset, or model missing), the status is
+/// `NotSpawning` and the frontend can fall back to the existing
+/// "inference URL reachable?" probe.
+#[tauri::command]
+pub fn get_supervisor_status(
+    state: State<'_, LlamaSupervisorState>,
+) -> Result<SupervisorStatus, String> {
+    state
+        .status
+        .lock()
+        .map(|s| s.clone())
+        .map_err(|e| format!("supervisor status state poisoned: {e}"))
 }
 
 /// Download a model by registry id into the app data dir under "models/".

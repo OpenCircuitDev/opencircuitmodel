@@ -34,6 +34,17 @@ pub struct Settings {
     /// falls back to `ocm_inference::ollama::DEFAULT_MODEL`.
     #[serde(default)]
     pub ollama_model: Option<String>,
+    /// Absolute path to a `llama-server` binary. When set, the daemon will
+    /// spawn + supervise it on boot (provided `backend = "llamacpp"` AND
+    /// a downloaded model file exists under the app's models dir).
+    ///
+    /// `None` (the default) preserves the pre-v0.1.2 behavior: the user is
+    /// expected to run `llama-server` themselves. See
+    /// `crates/ocm-daemon/src/supervisor.rs` for the lifecycle policy.
+    ///
+    /// **No-op when `backend = "ollama"`** — Ollama supervises itself.
+    #[serde(default)]
+    pub llama_server_binary: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Copy)]
@@ -69,6 +80,7 @@ impl Default for Settings {
             backend: Backend::Auto,
             ollama_base_url: None,
             ollama_model: None,
+            llama_server_binary: None,
         }
     }
 }

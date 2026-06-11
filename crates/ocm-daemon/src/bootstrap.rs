@@ -8,10 +8,12 @@
 //! that reports status; chat requests fail with clear errors.
 
 use crate::settings::{Backend, Settings};
+use crate::supervisor::{self, Supervisor, SupervisorPolicy, SupervisorStatus};
 use ocm_inference::ollama::DEFAULT_MODEL as DEFAULT_OLLAMA_MODEL;
 use ocm_inference::selector::{self, BackendKind, DEFAULT_OLLAMA_BASE_URL};
 use std::net::{IpAddr, Ipv4Addr, SocketAddr};
-use std::sync::Arc;
+use std::path::{Path, PathBuf};
+use std::sync::{Arc, Mutex};
 use std::time::Duration;
 use tracing::{info, warn};
 
@@ -69,6 +71,112 @@ fn resolve_backend_kind(setting: Backend) -> BackendKind {
         Backend::LlamaCpp => BackendKind::LlamaCpp,
         Backend::Vllm => BackendKind::Vllm,
         Backend::Ollama => BackendKind::Ollama,
+    }
+}
+
+/// Build the on-disk path the daemon expects for a model_id, matching the
+/// convention used by `ocm_models::downloader::download_model`.
+fn model_path_for(models_dir: &Path, model_id: &str) -> PathBuf {
+    models_dir.join(format!("{model_id}.gguf"))
+}
+
+/// Decision: should bootstrap spawn + supervise `llama-server` on this run?
+///
+/// True iff ALL of:
+/// - `Settings.backend = "llamacpp"` (explicit opt-in — Auto preserves
+///   pre-v0.1.2 behavior, Ollama supervises itself, Vllm has its own path)
+/// - `Settings.llama_server_binary` is `Some` (directive: None preserves
+///   "do not spawn anything")
+/// - `Settings.model_id` is `Some` AND the GGUF exists under `models_dir`
+///   (conservative: don't burn the restart budget spawning a server that
+///   has nothing to load — chat will fail loudly via the existing
+///   "backend not reachable" message instead)
+pub fn should_spawn_llama_supervisor(settings: &Settings, models_dir: &Path) -> bool {
+    if !matches!(settings.backend, Backend::LlamaCpp) {
+        return false;
+    }
+    if settings.llama_server_binary.is_none() {
+        return false;
+    }
+    match settings.model_id.as_deref() {
+        Some(id) => model_path_for(models_dir, id).exists(),
+        None => false,
+    }
+}
+
+/// Parse the port out of an `http://host:port/...` URL. Bare-bones to avoid
+/// pulling in `url` for one field. Returns `None` if no port segment is found.
+fn parse_port(url: &str) -> Option<u16> {
+    // The last `:`-delimited segment, up to the first `/`.
+    let after_colon = url.rsplit(':').next()?;
+    let port_str = after_colon.split('/').next()?;
+    port_str.parse().ok()
+}
+
+/// Build (but don't start) the llama-server Supervisor + its restart policy
+/// for the current settings. Returns `None` if the spawn-gate
+/// (`should_spawn_llama_supervisor`) refuses.
+///
+/// The caller is responsible for spawning `supervisor::supervise(...)` as a
+/// background task and holding the resulting handle alive for the daemon's
+/// lifetime (`main.rs` does this via Tauri-managed state + tokio task).
+pub fn build_llama_supervisor(
+    settings: &Settings,
+    models_dir: &Path,
+) -> Option<(Arc<Supervisor>, SupervisorPolicy)> {
+    if !should_spawn_llama_supervisor(settings, models_dir) {
+        return None;
+    }
+    let binary = PathBuf::from(settings.llama_server_binary.as_ref()?);
+    let model_id = settings.model_id.as_ref()?;
+    let model_path = model_path_for(models_dir, model_id);
+
+    let inference_url = settings
+        .inference_base_url
+        .clone()
+        .unwrap_or_else(|| DEFAULT_INFERENCE_BASE_URL.to_string());
+    let port = parse_port(&inference_url).unwrap_or(8080);
+    let health_url = format!("{inference_url}/v1/models");
+
+    let sup = Arc::new(supervisor::spawn_llama_server(
+        &binary,
+        &model_path,
+        port,
+        supervisor::DEFAULT_LLAMA_CTX_LEN,
+    ));
+    let policy = SupervisorPolicy {
+        health_url,
+        ..SupervisorPolicy::default()
+    };
+    Some((sup, policy))
+}
+
+/// State the Tauri layer manages for the supervised subprocess. `status` is
+/// shared with the supervise loop (which mutates it). `shutdown` is the sender
+/// half of the cancellation channel; dropping it (or sending `true`) lets the
+/// supervise loop exit cleanly. Held in a `Mutex<Option<_>>` so app exit can
+/// `.take()` it.
+pub struct LlamaSupervisorState {
+    pub status: Arc<Mutex<SupervisorStatus>>,
+    pub shutdown: Mutex<Option<tokio::sync::watch::Sender<bool>>>,
+}
+
+impl LlamaSupervisorState {
+    pub fn not_spawning() -> Self {
+        Self {
+            status: Arc::new(Mutex::new(SupervisorStatus::NotSpawning)),
+            shutdown: Mutex::new(None),
+        }
+    }
+
+    pub fn live(
+        status: Arc<Mutex<SupervisorStatus>>,
+        shutdown_tx: tokio::sync::watch::Sender<bool>,
+    ) -> Self {
+        Self {
+            status,
+            shutdown: Mutex::new(Some(shutdown_tx)),
+        }
     }
 }
 
@@ -168,7 +276,28 @@ mod tests {
             backend: Backend::Auto,
             ollama_base_url: None,
             ollama_model: None,
+            llama_server_binary: None,
         }
+    }
+
+    #[test]
+    fn parse_port_extracts_from_loopback_url() {
+        assert_eq!(parse_port("http://127.0.0.1:8080"), Some(8080));
+        assert_eq!(parse_port("http://127.0.0.1:8080/v1"), Some(8080));
+        assert_eq!(parse_port("http://127.0.0.1:8000/v1/models"), Some(8000));
+    }
+
+    #[test]
+    fn parse_port_returns_none_when_no_port() {
+        assert_eq!(parse_port("http://example.com/v1"), None);
+    }
+
+    #[test]
+    fn build_llama_supervisor_returns_none_when_spawn_gate_refuses() {
+        let dir = tempfile::tempdir().unwrap();
+        // Spawn-gate refuses (backend = Auto, no model file).
+        let s = Settings::default();
+        assert!(build_llama_supervisor(&s, dir.path()).is_none());
     }
 
     #[test]
