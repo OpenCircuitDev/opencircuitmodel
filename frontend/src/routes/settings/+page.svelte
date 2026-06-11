@@ -165,6 +165,15 @@
 					bind:value={settings.ollama_model}
 				/>
 
+				<label for="llama_server_binary" class="text-ocm-muted">llama-server</label>
+				<input
+					id="llama_server_binary"
+					type="text"
+					placeholder="(leave blank: run llama-server yourself)"
+					class="rounded border border-ocm-border bg-ocm-bg px-2 py-1 font-mono"
+					bind:value={settings.llama_server_binary}
+				/>
+
 				<label for="mem0_url" class="text-ocm-muted">Mem0 URL</label>
 				<input
 					id="mem0_url"

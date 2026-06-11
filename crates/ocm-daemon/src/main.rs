@@ -4,15 +4,10 @@ mod bootstrap;
 mod commands;
 mod paths;
 mod settings;
-// Supervisor's process-spawning helpers (spawn_llama_server, spawn_vllm_server)
-// will be activated once OCM ships its own bundled binaries; for now the
-// daemon expects external llama-server / vLLM processes to be running and
-// connects to them via the URLs in settings (bootstrap.rs handles the connect).
-#[allow(dead_code)]
 mod supervisor;
 mod tray;
 
-use std::sync::Mutex;
+use std::sync::{Arc, Mutex};
 use tauri::tray::TrayIconBuilder;
 use tauri::Manager;
 use tracing::info;
@@ -32,6 +27,7 @@ fn main() -> anyhow::Result<()> {
             commands::save_settings,
             commands::list_registry_models,
             commands::download_model_cmd,
+            commands::get_supervisor_status,
         ])
         .setup(|app| {
             let app_paths = paths::AppPaths::resolve()?;
@@ -48,6 +44,34 @@ fn main() -> anyhow::Result<()> {
                 port = loaded_settings.api_port,
                 "settings loaded"
             );
+
+            // Build the llama-server supervisor before bootstrap, so the
+            // existing dependency probe sees the spawned process as up.
+            // None means "supervision disabled this run" — preserves
+            // pre-v0.1.2 behavior when the user doesn't opt in.
+            let supervisor_state =
+                match bootstrap::build_llama_supervisor(&loaded_settings, &app_paths.models_dir) {
+                    Some((supervised, policy)) => {
+                        let status = Arc::new(Mutex::new(supervisor::SupervisorStatus::default()));
+                        let (shutdown_tx, shutdown_rx) = tokio::sync::watch::channel(false);
+                        let status_for_loop = status.clone();
+                        info!(
+                            name = supervised.name(),
+                            health_url = %policy.health_url,
+                            "starting llama-server supervisor"
+                        );
+                        tauri::async_runtime::spawn(async move {
+                            supervisor::supervise(supervised, policy, status_for_loop, shutdown_rx)
+                                .await;
+                        });
+                        bootstrap::LlamaSupervisorState::live(status, shutdown_tx)
+                    }
+                    None => {
+                        info!("llama-server supervisor not configured for this run");
+                        bootstrap::LlamaSupervisorState::not_spawning()
+                    }
+                };
+
             // Spawn the bootstrap task — probes external dependencies and
             // starts the OCM HTTP API server in the background. Tauri's
             // setup() is sync so we hand off to a tokio task; the Tauri main
@@ -67,6 +91,7 @@ fn main() -> anyhow::Result<()> {
 
             app.manage(app_paths);
             app.manage(settings_state);
+            app.manage(supervisor_state);
 
             let menu = tray::build_tray_menu(app.handle())?;
             let _tray = TrayIconBuilder::new()

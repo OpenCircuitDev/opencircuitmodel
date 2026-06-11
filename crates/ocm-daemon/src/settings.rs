@@ -34,6 +34,17 @@ pub struct Settings {
     /// falls back to `ocm_inference::ollama::DEFAULT_MODEL`.
     #[serde(default)]
     pub ollama_model: Option<String>,
+    /// Absolute path to a `llama-server` binary. When set, the daemon will
+    /// spawn + supervise it on boot (provided `backend = "llamacpp"` AND
+    /// a downloaded model file exists under the app's models dir).
+    ///
+    /// `None` (the default) preserves the pre-v0.1.2 behavior: the user is
+    /// expected to run `llama-server` themselves. See
+    /// `crates/ocm-daemon/src/supervisor.rs` for the lifecycle policy.
+    ///
+    /// **No-op when `backend = "ollama"`** — Ollama supervises itself.
+    #[serde(default)]
+    pub llama_server_binary: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Copy)]
@@ -69,6 +80,7 @@ impl Default for Settings {
             backend: Backend::Auto,
             ollama_base_url: None,
             ollama_model: None,
+            llama_server_binary: None,
         }
     }
 }
@@ -173,6 +185,46 @@ theme = "system"
         assert_eq!(loaded.backend, Backend::Auto);
         assert_eq!(loaded.ollama_base_url, None);
         assert_eq!(loaded.ollama_model, None);
+    }
+
+    #[test]
+    fn default_llama_server_binary_is_none() {
+        // None preserves the pre-v0.1.2 "do not spawn anything" behavior; the
+        // user opts in by pointing settings at their llama-server binary.
+        assert_eq!(Settings::default().llama_server_binary, None);
+    }
+
+    #[test]
+    fn llama_server_binary_round_trips_via_toml() {
+        let dir = tempdir().unwrap();
+        let path = dir.path().join("settings.toml");
+        let original = Settings {
+            llama_server_binary: Some("/usr/local/bin/llama-server".into()),
+            ..Settings::default()
+        };
+        original.save(&path).unwrap();
+        let loaded = Settings::load_or_default(&path).unwrap();
+        assert_eq!(
+            loaded.llama_server_binary.as_deref(),
+            Some("/usr/local/bin/llama-server")
+        );
+    }
+
+    #[test]
+    fn legacy_settings_toml_without_llama_server_binary_still_parses() {
+        // Forward-compat for v0.1.0/v0.1.1 settings.toml that pre-dates this field.
+        let dir = tempdir().unwrap();
+        let path = dir.path().join("settings.toml");
+        let legacy = r#"
+api_port = 7300
+mcp_enabled = true
+theme = "system"
+backend = "llamacpp"
+"#;
+        std::fs::write(&path, legacy).unwrap();
+        let loaded = Settings::load_or_default(&path).unwrap();
+        assert_eq!(loaded.llama_server_binary, None);
+        assert_eq!(loaded.backend, Backend::LlamaCpp);
     }
 
     #[test]
