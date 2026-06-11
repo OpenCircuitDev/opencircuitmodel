@@ -19,6 +19,7 @@ export interface Settings {
 	backend: Backend;
 	ollama_base_url: string | null;
 	ollama_model: string | null;
+	llama_server_binary: string | null;
 }
 
 import { invoke } from './tauri';

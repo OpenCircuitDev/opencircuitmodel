@@ -272,7 +272,10 @@ pub async fn supervise(
                 match wait_for_http_ready(&policy.health_url, policy.health_check_timeout).await {
                     Ok(()) => {
                         let pid = supervisor.pid().unwrap_or(0);
-                        info!(name = supervisor.name(), pid, "supervised subprocess healthy");
+                        info!(
+                            name = supervisor.name(),
+                            pid, "supervised subprocess healthy"
+                        );
                         set_status(&status, SupervisorStatus::Running { pid });
                         // Counter resets immediately on healthy spawn; if the
                         // process later crashes after stability_window, the
@@ -333,8 +336,11 @@ pub async fn supervise(
 
         // Backoff, then loop. attempt_index is the 0-based shift power; first
         // restart waits `initial_backoff`.
-        let backoff =
-            compute_backoff(attempts.saturating_sub(1), policy.initial_backoff, policy.max_backoff);
+        let backoff = compute_backoff(
+            attempts.saturating_sub(1),
+            policy.initial_backoff,
+            policy.max_backoff,
+        );
         warn!(
             attempts,
             backoff_ms = backoff.as_millis() as u64,
@@ -465,7 +471,10 @@ mod tests {
         // attempt 4+ clamped
         assert_eq!(compute_backoff(4, initial, max), Duration::from_millis(800));
         // u8::MAX must not overflow
-        assert_eq!(compute_backoff(255, initial, max), Duration::from_millis(800));
+        assert_eq!(
+            compute_backoff(255, initial, max),
+            Duration::from_millis(800)
+        );
     }
 
     #[tokio::test(flavor = "current_thread")]

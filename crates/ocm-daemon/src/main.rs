@@ -49,30 +49,28 @@ fn main() -> anyhow::Result<()> {
             // existing dependency probe sees the spawned process as up.
             // None means "supervision disabled this run" — preserves
             // pre-v0.1.2 behavior when the user doesn't opt in.
-            let supervisor_state = match bootstrap::build_llama_supervisor(
-                &loaded_settings,
-                &app_paths.models_dir,
-            ) {
-                Some((supervised, policy)) => {
-                    let status = Arc::new(Mutex::new(supervisor::SupervisorStatus::default()));
-                    let (shutdown_tx, shutdown_rx) = tokio::sync::watch::channel(false);
-                    let status_for_loop = status.clone();
-                    info!(
-                        name = supervised.name(),
-                        health_url = %policy.health_url,
-                        "starting llama-server supervisor"
-                    );
-                    tauri::async_runtime::spawn(async move {
-                        supervisor::supervise(supervised, policy, status_for_loop, shutdown_rx)
-                            .await;
-                    });
-                    bootstrap::LlamaSupervisorState::live(status, shutdown_tx)
-                }
-                None => {
-                    info!("llama-server supervisor not configured for this run");
-                    bootstrap::LlamaSupervisorState::not_spawning()
-                }
-            };
+            let supervisor_state =
+                match bootstrap::build_llama_supervisor(&loaded_settings, &app_paths.models_dir) {
+                    Some((supervised, policy)) => {
+                        let status = Arc::new(Mutex::new(supervisor::SupervisorStatus::default()));
+                        let (shutdown_tx, shutdown_rx) = tokio::sync::watch::channel(false);
+                        let status_for_loop = status.clone();
+                        info!(
+                            name = supervised.name(),
+                            health_url = %policy.health_url,
+                            "starting llama-server supervisor"
+                        );
+                        tauri::async_runtime::spawn(async move {
+                            supervisor::supervise(supervised, policy, status_for_loop, shutdown_rx)
+                                .await;
+                        });
+                        bootstrap::LlamaSupervisorState::live(status, shutdown_tx)
+                    }
+                    None => {
+                        info!("llama-server supervisor not configured for this run");
+                        bootstrap::LlamaSupervisorState::not_spawning()
+                    }
+                };
 
             // Spawn the bootstrap task — probes external dependencies and
             // starts the OCM HTTP API server in the background. Tauri's
