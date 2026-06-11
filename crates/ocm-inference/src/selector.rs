@@ -60,6 +60,8 @@ mod tests {
 
     #[test]
     fn detect_returns_one_of_two_kinds() {
+        // `detect_backend_kind()` is the AUTO-detect path; it never picks Ollama
+        // (Ollama is opt-in via Settings.backend, not platform-default).
         let kind = detect_backend_kind();
         assert!(matches!(kind, BackendKind::LlamaCpp | BackendKind::Vllm));
     }
@@ -93,6 +95,7 @@ mod tests {
         let expected = match detect_backend_kind() {
             BackendKind::LlamaCpp => "llama.cpp",
             BackendKind::Vllm => "vLLM",
+            BackendKind::Ollama => "Ollama",
         };
         assert_eq!(backend.name(), expected);
     }
@@ -101,5 +104,48 @@ mod tests {
     fn backend_kind_as_str_matches_name() {
         assert_eq!(BackendKind::LlamaCpp.as_str(), "llama.cpp");
         assert_eq!(BackendKind::Vllm.as_str(), "vLLM");
+        // The Ollama adapter's InferenceBackend::name() returns "Ollama" — keep
+        // as_str() in lockstep so log/telemetry never disagree on labels.
+        assert_eq!(BackendKind::Ollama.as_str(), "Ollama");
+    }
+
+    #[test]
+    fn default_ollama_base_url_is_native_daemon_port() {
+        // 11434 is the Ollama daemon's installed default; if this ever changes
+        // upstream we want the test to force us to revisit the constant.
+        assert_eq!(DEFAULT_OLLAMA_BASE_URL, "http://127.0.0.1:11434");
+    }
+
+    #[test]
+    fn make_backend_for_kind_ollama_constructs_ollama_backend() {
+        let backend = make_backend_for_kind(
+            BackendKind::Ollama,
+            "http://127.0.0.1:8080".to_string(),
+            "http://127.0.0.1:11434".to_string(),
+            "llama3".to_string(),
+        );
+        assert_eq!(backend.name(), "Ollama");
+    }
+
+    #[test]
+    fn make_backend_for_kind_llamacpp_ignores_ollama_args() {
+        let backend = make_backend_for_kind(
+            BackendKind::LlamaCpp,
+            "http://127.0.0.1:8080".to_string(),
+            "http://127.0.0.1:11434".to_string(),
+            "llama3".to_string(),
+        );
+        assert_eq!(backend.name(), "llama.cpp");
+    }
+
+    #[test]
+    fn make_backend_for_kind_vllm_ignores_ollama_args() {
+        let backend = make_backend_for_kind(
+            BackendKind::Vllm,
+            "http://127.0.0.1:8000".to_string(),
+            "http://127.0.0.1:11434".to_string(),
+            "llama3".to_string(),
+        );
+        assert_eq!(backend.name(), "vLLM");
     }
 }

@@ -132,7 +132,7 @@ pub async fn bootstrap(settings: Settings) {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::settings::Theme;
+    use crate::settings::{Backend, Theme};
 
     fn test_settings() -> Settings {
         Settings {
@@ -143,6 +143,9 @@ mod tests {
             inference_base_url: Some("http://127.0.0.1:18080".into()),
             mem0_base_url: Some("http://127.0.0.1:18765".into()),
             retrieval_top_k: Some(3),
+            backend: Backend::Auto,
+            ollama_base_url: None,
+            ollama_model: None,
         }
     }
 
@@ -154,6 +157,7 @@ mod tests {
         let state = build_app_state(&s);
         assert_eq!(state.retrieval_top_k, DEFAULT_RETRIEVAL_TOP_K);
         // backend / memory clients are constructed; concrete name depends on platform
+        // (Auto never picks Ollama — it's opt-in).
         let backend_name = state.backend.name();
         assert!(backend_name == "llama.cpp" || backend_name == "vLLM");
     }
@@ -163,6 +167,59 @@ mod tests {
         let s = test_settings();
         let state = build_app_state(&s);
         assert_eq!(state.retrieval_top_k, 3);
+    }
+
+    #[test]
+    fn explicit_ollama_backend_is_wired_through_to_app_state() {
+        // The headline v0.1.1 wiring assertion: a user who selects backend =
+        // "ollama" in settings ends up with an Ollama InferenceBackend on the
+        // live AppState. Verified by the trait's `name()` ("Ollama" — see
+        // ocm_inference::ollama::Ollama::name).
+        let s = Settings {
+            backend: Backend::Ollama,
+            ollama_base_url: Some("http://127.0.0.1:11434".into()),
+            ollama_model: Some("llama3".into()),
+            ..Settings::default()
+        };
+        let state = build_app_state(&s);
+        assert_eq!(state.backend.name(), "Ollama");
+    }
+
+    #[test]
+    fn explicit_ollama_uses_defaults_when_fields_unset() {
+        // backend = "ollama" with no URL/model still produces a constructible
+        // Ollama backend — bootstrap fills in the daemon's native defaults
+        // (port 11434, the existing ollama::DEFAULT_MODEL).
+        let s = Settings {
+            backend: Backend::Ollama,
+            ollama_base_url: None,
+            ollama_model: None,
+            ..Settings::default()
+        };
+        let state = build_app_state(&s);
+        assert_eq!(state.backend.name(), "Ollama");
+    }
+
+    #[test]
+    fn explicit_llamacpp_overrides_platform_detect() {
+        // Users on a CUDA box who explicitly pick llama.cpp must get llama.cpp,
+        // even if auto-detect would have picked vLLM.
+        let s = Settings {
+            backend: Backend::LlamaCpp,
+            ..Settings::default()
+        };
+        let state = build_app_state(&s);
+        assert_eq!(state.backend.name(), "llama.cpp");
+    }
+
+    #[test]
+    fn explicit_vllm_overrides_platform_detect() {
+        let s = Settings {
+            backend: Backend::Vllm,
+            ..Settings::default()
+        };
+        let state = build_app_state(&s);
+        assert_eq!(state.backend.name(), "vLLM");
     }
 
     #[tokio::test]
