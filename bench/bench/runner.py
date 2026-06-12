@@ -213,6 +213,10 @@ def _execute_compose(
     out_dir: Path,
 ) -> RunResult:
     """Run docker-compose for one repeat. Production implementation hook."""
+    # Resolve to absolute so -f and cwd= don't double up when callers pass
+    # relative paths (e.g. 'bench/isolation/memory/...') and subprocess.run
+    # changes cwd to the same relative prefix.
+    sandbox_path = sandbox_path.resolve()
     try:
         proc = subprocess.run(
             ["docker", "compose", "-f", str(sandbox_path / "docker-compose.yml"),
