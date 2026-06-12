@@ -19,11 +19,21 @@ from pathlib import Path
 import pytest
 
 # ---------------------------------------------------------------------------
-# Skip guard for Python 3.12+ local runs (pyarrow / sentence-transformers crash)
+# Skip guard: these tests need mem0ai importable. A version gate was wrong twice
+# over — CI runs py3.11 WITHOUT mem0 installed (failed), and a future py3.12-
+# compatible mem0 would be skipped needlessly. Gate on availability, not version.
 # ---------------------------------------------------------------------------
+def _mem0_available() -> bool:
+    try:
+        import mem0  # noqa: F401
+        return True
+    except Exception:
+        return False
+
+
 _skip_py312 = pytest.mark.skipif(
-    sys.version_info >= (3, 12),
-    reason="mem0ai/sentence-transformers/pyarrow crash on Python 3.12+; run in Docker (py 3.11)",
+    not _mem0_available(),
+    reason="mem0ai not importable in this environment; the full path runs in the sandbox Docker (py 3.11 + pip install)",
 )
 
 
