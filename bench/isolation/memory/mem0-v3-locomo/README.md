@@ -74,4 +74,25 @@ Mem0 v3 release notes (April 2026), pinned in research note
 
 ## Verdicts
 
-_(none recorded yet — run the bench framework to produce the first verdict)_
+**Run 1 — 2026-06-11 (operator dev box, Windows/Docker, CPU)**
+
+| Field | Value |
+|---|---|
+| `locomo_recall_score` | **30.79** |
+| Verdict | **REFUTED** (contract: confirm ≥88 · refute <80) |
+| Per-conversation recall | 0.293 / 0.245 / 0.282 / 0.179 / 0.552 / 0.354 / 0.366 / 0.388 / 0.266 / 0.154 |
+| tokens_p50 | 254 |
+| Elapsed | 4,364s measurement (~73 min total incl. install) |
+| Config | mem0ai 2.0.5 · MiniLM-L6-v2 · faiss (BM25 hybrid DISABLED — faiss lacks keyword search) · no spaCy · `add(infer=False)` · top_k=10 |
+| Provenance | locomo10.json SHA-pinned `cbfbc1d…` · branch feat/mem0-v3-locomo-activation |
+
+**What this refutes — and what it does not.** This REFUTES "library-driven retrieval
+in the hermetic pure-vector config reaches published-Mem0 recall at LoCoMo scale."
+It does NOT refute the memory thesis (amnesia-ab: 94.2% at small scale) or Mem0's
+production config — which adds exactly what this config strips: BM25+entity tri-signal
+rank fusion and LLM fact extraction (`infer=True`). External evidence (Hindsight,
+arXiv 2512.12818) shows hybrid-fusion + a 22M cross-encoder reranker reaches ~89.6
+LoCoMo with open models. The decision rule's "investigate config tuning" branch fires:
+next iteration = BM25 sidecar + RRF + reranker + a 2026-class embedder, re-run this
+same contract. A REFUTED first verdict on a stripped config is the framework working.
+

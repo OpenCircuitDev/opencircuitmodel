@@ -8,17 +8,28 @@ services:
       - "host.docker.internal:host-gateway"
     volumes:
       - ./:/work
+      # First live run spent ~50 min re-downloading torch into a throwaway
+      # container and died with nothing persisted. The named cache volume
+      # makes repeat installs minutes, not most-of-an-hour.
+      - locomo-pip-cache:/root/.cache/pip
     working_dir: /work
     environment:
       # SHA-pinned download URL — fetched once per run, cached on repeat.
       - LOCOMO_URL=https://raw.githubusercontent.com/snap-research/locomo/cbfbc1dba6bc53d00625212a0f22d55ffee7c1fc/data/locomo10.json
       - OLLAMA_URL=http://host.docker.internal:11434
+      - PYTHONUNBUFFERED=1
     # mem0ai pulls pydantic + networking deps; sentence-transformers pulls
-    # torch (large, pip-cached on warm runs). faiss-cpu is Mem0's local
-    # vector store. python:3.11 full image provides build tools if needed.
+    # torch (large, pip-cached on warm runs via the named volume). faiss-cpu
+    # is Mem0's local vector store. NOTE: pip is NOT --quiet and python is
+    # unbuffered — the first live run was 50 silent minutes, indistinguishable
+    # from a hang. Logs are cheap; silence is not.
     command:
       - sh
       - -c
       - |
-        pip install --quiet mem0ai sentence-transformers faiss-cpu
-        python bench.py
+        pip install torch --index-url https://download.pytorch.org/whl/cpu
+        pip install mem0ai sentence-transformers faiss-cpu
+        python -u bench.py
+
+volumes:
+  locomo-pip-cache:
